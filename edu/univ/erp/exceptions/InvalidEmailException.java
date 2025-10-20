@@ -1,5 +1,5 @@
 package edu.univ.erp.exceptions;
-import java.lang.Exceptions;
+import java.lang.Exception;
 
 /**
 Thrown when email address is not valid.
