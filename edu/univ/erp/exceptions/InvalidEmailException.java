@@ -8,5 +8,5 @@ chaitanya24158iiitd.ac.in (missing @)
 */
 
 public class InvalidEmailException extends Exception{
-  public Exception(){};
+  Exception();
 }
