@@ -11,18 +11,18 @@ The static initialisation block is executed after the class is loaded.
 This can significantly reduce the time required to repeatedly connect to the database to read and write data.
 */
 
-public class HikariConnectionPool(){
+public class HikariConnectionPool{
   public static final HikariDataSource sourceOfData;
   
   static {
     HikariConfig conf = new HikariConfig();
     conf.setJdbcUrl("jdbc:h2:../../../../db/Auth_DB");
     conf.setUsername("iiitd");
-    conf.password("student");
+    conf.setPassword("student");
     sourceOfData =  new HikariDataSource(conf);
   }
 
-  public static DataSource getDataSource(){
+  public static HikariDataSource getDataSource(){
     return sourceOfData;
   }
 }
