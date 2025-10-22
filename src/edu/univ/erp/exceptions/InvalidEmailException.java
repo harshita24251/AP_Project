@@ -1,4 +1,4 @@
-package edu.univ.erp.exceptions;
+package src.edu.univ.erp.exceptions;
 import java.lang.Exception;
 
 /**
@@ -8,5 +8,7 @@ chaitanya24158iiitd.ac.in (missing @)
 */
 
 public class InvalidEmailException extends Exception{
-  Exception();
+  public InvalidEmailException(){
+	  super();
+  }
 }
