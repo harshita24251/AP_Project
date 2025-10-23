@@ -1,4 +1,4 @@
-package src.edu.univ.erp.exceptions;
+package edu.univ.erp.exceptions;
 import java.lang.Exception;
 
 /**

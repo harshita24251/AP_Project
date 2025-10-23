@@ -1,4 +1,4 @@
-package src.edu.univ.erp.auth.target.classes;
+package edu.univ.erp.auth.target.classes;
 import exceptions.*;
 import java.sql.*;
 import hash.*;
