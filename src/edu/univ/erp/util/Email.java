@@ -1,5 +1,5 @@
 package edu.univ.erp.util;
-import exceptions.*;
+import edu.univ.erp.exceptions.*;
 
 /**
 getUsername : to get username from email address

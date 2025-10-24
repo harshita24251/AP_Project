@@ -1,7 +1,8 @@
 package edu.univ.erp.auth.target.classes;
-import exceptions.*;
+import edu.univ.erp.exceptions.*;
 import java.sql.*;
-import hash.*;
+import edu.univ.erp.auth.hash.*;
+import edu.univ.erp.auth.*;
 
 /**
 This is the Login class, which handles login.
@@ -12,7 +13,7 @@ The isValid method takes two parameters, username and password and checks if it 
 */
 
 public class Login{
-  public static boolean isValid(String username, String password) throws UserAccountNotFoundException{
+  public static boolean isValid(String username, String password) throws UserAccountNotFoundException, SQLException{
     Connection connect = HikariConnectionPool.getDataSource().getConnection();
 
     Statement statement = connect.createStatement();
@@ -27,7 +28,7 @@ public class Login{
         return true;
       }
     }
-    catch (JdbcSQLNonTransientException e){
+    catch (SQLException e){
       throw new UserAccountNotFoundException();
     }
   }
