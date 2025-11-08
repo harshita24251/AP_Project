@@ -44,5 +44,8 @@ public class LeftNavPanel extends JPanel{
             btnPanel.add(putLabel);
             btnPanel.add(Box.createRigidArea(new Dimension(10, 10)));
         }
+
+        titlePanel.setBackground(Color.WHITE);
+        btnPanel.setBackground(Color.WHITE);
     }
 }
