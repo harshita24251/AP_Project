@@ -7,14 +7,14 @@ import javax.swing.*;
 import java.io.File;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.imageio.*;
+import java.image.io.*;
 import java.lang.Exception;
 import java.io.IOException;
 import java.util.Arrays;
 
 public class Header extends JPanel{
-    public Header(int width, int height){
-        this.setPreferredSize(new Dimension(width, height));
+    public Header(float width, float height){
+        this.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
 
         //-------------------Putting IIITD Logo--------------
         Icon iiitLogo = new FlatSVGIcon("iiitd_logo.svg", 0.8f);

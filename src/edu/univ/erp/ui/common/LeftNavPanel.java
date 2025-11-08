@@ -7,14 +7,14 @@ import javax.swing.*;
 import java.io.File;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.imageio.*;
+import java.image.io.*;
 import java.lang.Exception;
 import java.io.IOException;
 import java.util.Arrays;
 
 public class LeftNavPanel extends JPanel{
-    public LeftNavPanel(String panelTitle, String[] selectables, int width, int height, int fontSize){
-        this.setPreferredSize(new Dimension(width, height));
+    public LeftNavPanel(String panelTitle, String[] selectables, float width, float height, int fontSize){
+        this.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         //-----------------------Loading Font--------------------
         GraphicsEnvironment ge;
         try{
