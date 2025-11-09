@@ -61,9 +61,9 @@ public class Dashboard extends JFrame{
         JPanel rightTopRightPanel = new JPanel();
         rightTopRightPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth * 0.5f), Math.round(rightPanelWidth * 0.5f)));
 
+        //---------------------------JFree CGPA Line graph--------------------
 
-
-        //-------------------------adding to frame--------------------------
+        //-------------------------adding to frame----------------------------
         leftPanel.add(academicSection);
         leftPanel.add(administrationSection);
         leftPanel.add(specialSection);
@@ -79,5 +79,6 @@ public class Dashboard extends JFrame{
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.EAST);
         
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 }
