@@ -34,7 +34,7 @@ public class LeftNavPanel extends JPanel{
 
         //-------------------------Labels-------------------------
         JLabel title = new JLabel(panelTitle);
-        title.setFont("Roboto Mono", Font.PLAIN, fontSize-4);
+        title.setFont(new Font("Roboto Mono", Font.PLAIN, fontSize-4));
 
         //-----------------------Adding Labels---------------------
         titlePanel.add(title);
@@ -42,7 +42,7 @@ public class LeftNavPanel extends JPanel{
         for (String s : selectables){
             JLabel putLabel = new JLabel(s, bullet, JLabel.LEFT);
             putLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            putLabel.setFont("Roboto Mono", Font.PLAIN, fontSize);
+            putLabel.setFont(new Font("Roboto Mono", Font.PLAIN, fontSize));
             btnPanel.add(putLabel);
             btnPanel.add(Box.createRigidArea(new Dimension(10, 10)));
         }
