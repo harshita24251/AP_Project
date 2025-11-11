@@ -1,4 +1,4 @@
-package edu.univ.erp.ui.student;
+package edu.univ.erp.ui.faculty;
 
 import edu.univ.erp.ui.assets.*;
 import edu.univ.erp.ui.common.*;
@@ -42,8 +42,6 @@ public class Dashboard extends JFrame{
 
         //-------------------------adding to frame----------------------------
         leftPanel.add(academicSection);
-        leftPanel.add(administrationSection);
-        leftPanel.add(specialSection);
         
         setLayout(new BorderLayout());
         add(header, BorderLayout.NORTH);
