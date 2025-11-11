@@ -23,7 +23,7 @@ public class LeftNavPanel extends JPanel{
         }
         catch (IOException | FontFormatException e){}
         //========================================================
-        JPanel titlePanel = new JPanel();
+        JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setPreferredSize(new Dimension(Math.round(width), 30));
         JPanel btnPanel = new JPanel();
         btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));
@@ -36,7 +36,7 @@ public class LeftNavPanel extends JPanel{
         title.setFont(new Font("Roboto Mono", Font.PLAIN, fontSize-4));
 
         //-----------------------Adding Labels---------------------
-        titlePanel.add(title);
+        titlePanel.add(title, BorderLayout.WEST);
 
         for (String s : selectables){
             JLabel putLabel = new JLabel(s, bullet, JLabel.LEFT);
@@ -52,5 +52,7 @@ public class LeftNavPanel extends JPanel{
         this.add(titlePanel);
         this.add(btnPanel);
         this.setBackground(Color.WHITE);
+        setMaximumSize(new Dimension(700, 200));
+        // System.out.println(getMaximumSize().getHeight());
     }
 }

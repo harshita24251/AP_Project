@@ -3,6 +3,7 @@ package edu.univ.erp.ui.common;
 import javax.swing.*;
 import java.awt.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import javax.swing.border.EmptyBorder;
 
 public class NameCard extends JPanel{
     public NameCard(String Name, String Designation, int namefontSize, int desigfontSize, float width, float height){
@@ -14,11 +15,12 @@ public class NameCard extends JPanel{
 
         //----------------------------------------------------------------------------------
         JPanel right = new JPanel(new BorderLayout());
+        right.setBorder(new EmptyBorder(10, 0, 0, 0));
         right.setPreferredSize(new Dimension(Math.round(width * 0.2f), Math.round(height)));
 
-        JPanel topright = new JPanel();
+        JPanel topright = new JPanel(new BorderLayout());
         topright.setPreferredSize(new Dimension(Math.round(width * 0.2f), Math.round(height * 0.5f)));
-        JPanel bottomright = new JPanel();
+        JPanel bottomright = new JPanel(new BorderLayout());
         bottomright.setPreferredSize(new Dimension(Math.round(width * 0.2f), Math.round(height * 0.5f)));
         //----------------------------------------------------------------------------------
 
@@ -41,10 +43,10 @@ public class NameCard extends JPanel{
         left.add(icon);
         left.setBackground(Color.WHITE);
 
-        topright.add(name);
+        topright.add(name, BorderLayout.WEST);
         topright.setBackground(Color.WHITE);
 
-        bottomright.add(designation);
+        bottomright.add(designation, BorderLayout.WEST);
         bottomright.setBackground(Color.WHITE);
 
         this.add(left, BorderLayout.WEST);
