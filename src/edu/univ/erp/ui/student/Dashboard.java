@@ -51,31 +51,50 @@ public class Dashboard extends JFrame{
         rightPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth), Math.round(rightPanelHeight)));
 
         //------------------------Sub Panels of Right Panel------------------
+        float rightTopPanelWidth = rightPanelWidth;
+        float rightTopPanelHeight = rightPanelHeight * 0.5f;
+
         JPanel rightTopPanel = new JPanel(new BorderLayout());
-        rightTopPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth * 0.5f), Math.round(rightPanelHeight * 0.5f)));
+        rightTopPanel.setPreferredSize(new Dimension(Math.round(rightTopPanelWidth), Math.round(rightTopPanelHeight)));
         JPanel rightBottomPanel = new JPanel(new BorderLayout());
         rightBottomPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth * 0.5f), Math.round(rightPanelHeight * 0.5f)));
 
         //------------------------Sub Panels of Right Top Panel--------------
+        float rightTopLeftPanelWidth = rightTopPanelWidth * 0.5f;
+        float rightTopLeftPanelHeight = rightTopPanelHeight;
+
         JPanel rightTopLeftPanel = new JPanel();
-        rightTopLeftPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth * 0.5f), Math.round(rightPanelWidth * 0.5f)));
-        JPanel rightTopRightPanel = new JPanel();
-        rightTopRightPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth * 0.5f), Math.round(rightPanelWidth * 0.5f)));
+        rightTopLeftPanel.setPreferredSize(new Dimension(Math.round(rightTopLeftPanelWidth), Math.round(rightTopLeftPanelHeight)));
+
+        JPanel rightTopRightPanel = new JPanel(new BorderLayout());
+        float rightTopRightPanelWidth = rightTopPanelWidth * 0.5f;
+        float rightTopRightPanelHeight = rightTopPanelHeight;
+        rightTopRightPanel.setPreferredSize(new Dimension(Math.round(rightTopRightPanelWidth), Math.round(rightTopRightPanelHeight)));
+
+        /**
+         * rightTopLeftPanel : Profile card
+         */
+        NameCard nameOfStudent = new NameCard("Lorem Ipsum", "Student", 15, 15, rightTopLeftPanelWidth, rightTopLeftPanelHeight * 0.15f);
+
 
         //---------------------------JFree CGPA Line graph--------------------
 
         //-------------------------adding to frame----------------------------
+        rightTopRightPanel.add(nameOfStudent, BorderLayout.NORTH);
+        rightTopRightPanel.add(Box.createRigidArea(new Dimension(10, 3)));
+        rightTopRightPanel.setBackground(Color.WHITE);
+
         leftPanel.add(Box.createRigidArea(new Dimension(10, 3)));
         leftPanel.add(academicSection);
         leftPanel.add(administrationSection);
         leftPanel.add(specialSection);
 
+        rightTopPanel.add(rightTopLeftPanel, BorderLayout.WEST);
+        rightTopPanel.add(rightTopRightPanel, BorderLayout.EAST);
+
         rightPanel.add(rightTopPanel, BorderLayout.NORTH);
         rightPanel.add(rightBottomPanel, BorderLayout.SOUTH);
 
-        rightTopPanel.add(rightTopLeftPanel, BorderLayout.WEST);
-        rightTopPanel.add(rightTopRightPanel, BorderLayout.EAST);
-        
         setLayout(new BorderLayout());
         add(header, BorderLayout.NORTH);
         add(leftPanel, BorderLayout.WEST);

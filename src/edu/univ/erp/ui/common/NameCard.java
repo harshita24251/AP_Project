@@ -5,7 +5,7 @@ import java.awt.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 public class NameCard extends JPanel{
-    public NameCard(String Name, String Designation, int fontSize, float width, float height){
+    public NameCard(String Name, String Designation, int namefontSize, int desigfontSize, float width, float height){
         setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         setLayout(new BorderLayout());
 
@@ -23,24 +23,31 @@ public class NameCard extends JPanel{
         //----------------------------------------------------------------------------------
 
 
-        Icon profile = new FlatSVGIcon("profile.svg", 0.25f);
+        Icon profile = new FlatSVGIcon("profile.svg");
         JLabel icon = new JLabel(profile);
 
         JLabel name = new JLabel(Name);
-        name.setFont(new Font("Roboto Mono", Font.PLAIN, fontSize));
+        name.setFont(new Font("Roboto Mono", Font.PLAIN, namefontSize));
 
         JLabel designation = new JLabel(Designation);
-        designation.setFont(new Font("Roboto Mono", Font.PLAIN, fontSize));
+        designation.setFont(new Font("Roboto Mono", Font.PLAIN, desigfontSize));
 
         //--------------------------------adding -------------------------------------------
-        add(right, BorderLayout.CENTER);
-        add(left, BorderLayout.WEST);
-
+        this.setBackground(Color.WHITE);
         right.add(topright, BorderLayout.NORTH);
         right.add(bottomright, BorderLayout.SOUTH);
+        right.setBackground(Color.WHITE);
 
         left.add(icon);
+        left.setBackground(Color.WHITE);
+
         topright.add(name);
+        topright.setBackground(Color.WHITE);
+
         bottomright.add(designation);
+        bottomright.setBackground(Color.WHITE);
+
+        this.add(left, BorderLayout.WEST);
+        this.add(right, BorderLayout.CENTER);
     }
 }
