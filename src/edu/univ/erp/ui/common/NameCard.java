@@ -1,6 +1,5 @@
 package edu.univ.erp.ui.common;
 
-import edu.univ.erp.ui.assets.*;
 import javax.swing.*;
 import java.awt.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;

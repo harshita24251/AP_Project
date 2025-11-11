@@ -1,6 +1,5 @@
 package edu.univ.erp.ui.faculty;
 
-import edu.univ.erp.ui.assets.*;
 import edu.univ.erp.ui.common.*;
 import java.awt.*;
 import java.awt.image.*;
@@ -41,6 +40,7 @@ public class Dashboard extends JFrame{
         LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth, navHeight, 16);
 
         //-------------------------adding to frame----------------------------
+        leftPanel.add(Box.createRigidArea(new Dimension(10, 3)));
         leftPanel.add(academicSection);
         
         setLayout(new BorderLayout());

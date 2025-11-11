@@ -1,6 +1,5 @@
 package edu.univ.erp.ui.common;
 
-import edu.univ.erp.ui.assets.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.Image.*;
@@ -9,14 +8,13 @@ import javax.swing.*;
 import java.io.File;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import java.image.io.*;
 import java.lang.Exception;
 import java.io.IOException;
 import java.util.Arrays;
 
 public class LeftNavPanel extends JPanel{
     public LeftNavPanel(String panelTitle, String[] selectables, float width, float height, int fontSize){
-        this.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
+        setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         //-----------------------Loading Font--------------------
         GraphicsEnvironment ge;
         try{
@@ -26,11 +24,12 @@ public class LeftNavPanel extends JPanel{
         catch (IOException | FontFormatException e){}
         //========================================================
         JPanel titlePanel = new JPanel();
-        titlePanel.setPreferredSize(new Dimension(width, 30));
+        titlePanel.setPreferredSize(new Dimension(Math.round(width), 30));
         JPanel btnPanel = new JPanel();
-        btnPanel.setPreferredSize(new Dimension(width, height - 30));
+        btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));
+        btnPanel.setPreferredSize(new Dimension(Math.round(width), Math.round(height - 30)));
         //-------------------------Icons--------------------------
-        Icon bullet = new FlatSVGIcon("bullet.svg", 0.25f);
+        Icon bullet = new FlatSVGIcon("bullets.svg", 0.25f);
 
         //-------------------------Labels-------------------------
         JLabel title = new JLabel(panelTitle);
@@ -49,5 +48,9 @@ public class LeftNavPanel extends JPanel{
 
         titlePanel.setBackground(Color.WHITE);
         btnPanel.setBackground(Color.WHITE);
+
+        this.add(titlePanel);
+        this.add(btnPanel);
+        this.setBackground(Color.WHITE);
     }
 }
