@@ -1,3 +1,5 @@
+package edu.univ.erp.ui.student;
+
 import edu.univ.erp.ui.assets.*;
 import edu.univ.erp.ui.common.*;
 import java.awt.*;
