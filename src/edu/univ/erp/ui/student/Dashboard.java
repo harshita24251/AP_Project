@@ -41,6 +41,7 @@ public class Dashboard extends JFrame{
         Icon icon = new FlatSVGIcon("dashboard.svg", 0.36f);
         JPanel dashboardLabel = new JPanel(new BorderLayout());
         JLabel dashboardName = new JLabel("Dashboard", icon, JLabel.LEFT);
+        dashboardName.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         dashboardName.setFont(new Font("Roboto Mono", Font.PLAIN, 16));
         dashboardLabel.setBorder(new EmptyBorder(15, 0, 0, 0));
         dashboardLabel.add(dashboardName, BorderLayout.WEST);
@@ -64,7 +65,7 @@ public class Dashboard extends JFrame{
 
         //------------------------Sub Panels of Right Panel------------------
         float rightTopPanelWidth = rightPanelWidth;
-        float rightTopPanelHeight = rightPanelHeight * 0.5f;
+        float rightTopPanelHeight = rightPanelHeight * 0.3f;
 
         JPanel rightTopPanel = new JPanel(new BorderLayout());
         rightTopPanel.setPreferredSize(new Dimension(Math.round(rightTopPanelWidth), Math.round(rightTopPanelHeight)));
@@ -79,23 +80,45 @@ public class Dashboard extends JFrame{
         rightTopLeftPanel.setPreferredSize(new Dimension(Math.round(rightTopLeftPanelWidth), Math.round(rightTopLeftPanelHeight)));
 
 
-        float rightTopRightPanelWidth = rightTopPanelWidth * 0.35f;
+        float rightTopRightPanelWidth = rightTopPanelWidth * 0.28f; //changed
         float rightTopRightPanelHeight = rightTopPanelHeight;
 
         JPanel rightTopRightPanel = new JPanel(new BorderLayout());
+        rightTopRightPanel.setBackground(Color.BLACK);
         rightTopRightPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
         rightTopRightPanel.setPreferredSize(new Dimension(Math.round(rightTopRightPanelWidth), Math.round(rightTopRightPanelHeight)));
 
         /**
          * rightTopLeftPanel : Profile card
          */
-        NameCard nameOfStudent = new NameCard("Chaitanya Satsangi", "Student", 20, 15, rightTopLeftPanelWidth, rightTopLeftPanelHeight * 0.15f);
+        NameCard nameOfStudent = new NameCard("Chaitanya Satsangi", "Student", 20, 15, rightTopLeftPanelWidth, rightTopLeftPanelHeight * 0.25f);
 
+        JPanel details = new JPanel(new GridLayout(2, 2, 0, 0));
+        details.setBackground(Color.WHITE);
+        details.setPreferredSize(new Dimension(Math.round(rightTopLeftPanelWidth), Math.round(rightTopLeftPanelHeight * 0.55f)));
+
+        /**
+         * Details
+         */
+
+        DetailCard rollNo = new DetailCard("Roll No.", "2024158", 10, 15, 100, 100);
+        DetailCard contact = new DetailCard("Contact", "9599583800", 10, 15, 100, 100);
+        DetailCard branch = new DetailCard("Branch", "B.Tech CSB", 10, 15, 100, 100);
+        DetailCard batch = new DetailCard("Batch", "2028", 10, 15, 100, 100);
+
+        // details.setBackground(Color.BLACK);
+        details.setBorder(new EmptyBorder(30, 0, 0, 30));
+        details.add(rollNo);
+        details.add(contact);
+        details.add(branch);
+        details.add(batch);
 
         //---------------------------JFree CGPA Line graph--------------------
 
         //-------------------------adding to frame----------------------------
+        // rightTopRightPanel.setBorder(new EmptyBorder(60, 0, 0, 0));
         rightTopRightPanel.add(nameOfStudent, BorderLayout.NORTH);
+        rightTopRightPanel.add(details, BorderLayout.CENTER);
         rightTopRightPanel.setBackground(Color.WHITE);
 
         // leftPanel.add(Box.createRigidArea(new Dimension(10, 3)));
