@@ -13,6 +13,13 @@ import java.lang.Exception;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.border.EmptyBorder;
+// import org.jfree.chart.*;
+// import org.jfree.data.*;
+// import org.jfree.chart.plot.*;
+import org.knowm.xchart.*;
+import org.knowm.xchart.style.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Dashboard extends JFrame{
     public Dashboard(){
@@ -73,10 +80,10 @@ public class Dashboard extends JFrame{
         rightBottomPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth), Math.round(rightPanelHeight * 0.5f)));
 
         //------------------------Sub Panels of Right Top Panel--------------
-        float rightTopLeftPanelWidth = rightTopPanelWidth * 0.5f;
+        float rightTopLeftPanelWidth = rightTopPanelWidth * 0.72f; //
         float rightTopLeftPanelHeight = rightTopPanelHeight;
 
-        JPanel rightTopLeftPanel = new JPanel();
+        JPanel rightTopLeftPanel = new JPanel(new BorderLayout());
         rightTopLeftPanel.setPreferredSize(new Dimension(Math.round(rightTopLeftPanelWidth), Math.round(rightTopLeftPanelHeight)));
 
 
@@ -91,11 +98,11 @@ public class Dashboard extends JFrame{
         /**
          * rightTopLeftPanel : Profile card
          */
-        NameCard nameOfStudent = new NameCard("Chaitanya Satsangi", "Student", 20, 15, rightTopLeftPanelWidth, rightTopLeftPanelHeight * 0.25f);
+        NameCard nameOfStudent = new NameCard("Chaitanya Satsangi", "Student", 20, 15, rightTopRightPanelWidth, rightTopRightPanelHeight * 0.25f);
 
         JPanel details = new JPanel(new GridLayout(2, 2, 0, 0));
         details.setBackground(Color.WHITE);
-        details.setPreferredSize(new Dimension(Math.round(rightTopLeftPanelWidth), Math.round(rightTopLeftPanelHeight * 0.55f)));
+        details.setPreferredSize(new Dimension(Math.round(rightTopRightPanelWidth), Math.round(rightTopRightPanelHeight * 0.55f)));
 
         /**
          * Details
@@ -114,8 +121,30 @@ public class Dashboard extends JFrame{
         details.add(batch);
 
         //---------------------------JFree CGPA Line graph--------------------
+        double[] xData = {1, 2};
+        double[] yData = {7.8, 7.9};
 
+        // XYChart cgpaChart = QuickChart.getChart("CGPA vs Semester", "Semester", "CGPA", " ", xData, yData)
+        XYChartBuilder cgpaChart = new XYChartBuilder();
+        cgpaChart.xAxisTitle("Semester");
+        cgpaChart.yAxisTitle("SGPA");
+        cgpaChart.width(Math.round(rightTopLeftPanelWidth));
+        cgpaChart.height(Math.round(rightTopLeftPanelHeight));
+
+        XYChart converted = cgpaChart.build(); // converting XYChartBuilder object to XYChart
+        converted.getStyler().setLegendVisible(false);
+        converted.getStyler().setXAxisMin(1.0);
+        converted.getStyler().setXAxisMax(10.0);
+        converted.getStyler().setYAxisMin(0.0);
+        converted.getStyler().setYAxisMax(10.0);
+        converted.getStyler().setChartBackgroundColor(Color.WHITE);
+        converted.getStyler().setBaseFont(new Font("Roboto Mono", Font.PLAIN, 16));
+        // converted.getStyler().setPlotBorderVisible(false);
+        converted.addSeries(" ", xData, yData);
+
+        JPanel chart = new XChartPanel<XYChart>(converted);
         //-------------------------adding to frame----------------------------
+        rightTopLeftPanel.add(chart);
         // rightTopRightPanel.setBorder(new EmptyBorder(60, 0, 0, 0));
         rightTopRightPanel.add(nameOfStudent, BorderLayout.NORTH);
         rightTopRightPanel.add(details, BorderLayout.CENTER);

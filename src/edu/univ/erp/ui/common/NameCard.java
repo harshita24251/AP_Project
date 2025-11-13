@@ -9,13 +9,14 @@ public class NameCard extends JPanel{
     public NameCard(String Name, String Designation, int namefontSize, int desigfontSize, float width, float height){
         setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(0, 30, 0, 0));
 
         JPanel left = new JPanel();
         left.setPreferredSize(new Dimension(Math.round(width * 0.2f), Math.round(height)));
 
         //----------------------------------------------------------------------------------
         JPanel right = new JPanel(new BorderLayout());
-        right.setBorder(new EmptyBorder(10, 0, 0, 0));
+        // right.setBorder(new EmptyBorder(10, 0, 0, 0));
         right.setPreferredSize(new Dimension(Math.round(width * 0.2f), Math.round(height)));
 
         JPanel topright = new JPanel(new BorderLayout());
