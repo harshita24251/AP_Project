@@ -21,7 +21,7 @@ public class DetailCard extends JPanel{
 
         top.add(topLabel);
         top.setBackground(Color.WHITE);
-        top.setBorder(new EmptyBorder(0, 0, -8, 0));
+        top.setBorder(new EmptyBorder(0, 0, -6, 0));
         bottom.add(bottomLabel);
         bottom.setBackground(Color.WHITE);
         bottom.setBorder(new EmptyBorder(-3, 0, 0, 0));

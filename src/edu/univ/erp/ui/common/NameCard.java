@@ -44,10 +44,10 @@ public class NameCard extends JPanel{
         left.add(icon);
         left.setBackground(Color.WHITE);
 
-        topright.add(name, BorderLayout.WEST);
+        topright.add(name, BorderLayout.CENTER);
         topright.setBackground(Color.WHITE);
 
-        bottomright.add(designation, BorderLayout.WEST);
+        bottomright.add(designation, BorderLayout.CENTER);
         bottomright.setBackground(Color.WHITE);
 
         this.add(left, BorderLayout.WEST);

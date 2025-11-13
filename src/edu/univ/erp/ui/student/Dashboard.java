@@ -98,7 +98,7 @@ public class Dashboard extends JFrame{
         /**
          * rightTopLeftPanel : Profile card
          */
-        NameCard nameOfStudent = new NameCard("Chaitanya Satsangi", "Student", 20, 15, rightTopRightPanelWidth, rightTopRightPanelHeight * 0.25f);
+        JPanel nameOfStudent = new NameCard("Chaitanya Satsangi", "Student", 20, 15, rightTopRightPanelWidth, rightTopRightPanelHeight * 0.25f);
 
         JPanel details = new JPanel(new GridLayout(2, 2, 0, 0));
         details.setBackground(Color.WHITE);
@@ -128,8 +128,8 @@ public class Dashboard extends JFrame{
         XYChartBuilder cgpaChart = new XYChartBuilder();
         cgpaChart.xAxisTitle("Semester");
         cgpaChart.yAxisTitle("SGPA");
-        cgpaChart.width(Math.round(rightTopLeftPanelWidth));
-        cgpaChart.height(Math.round(rightTopLeftPanelHeight));
+        // cgpaChart.width(Math.round(rightTopLeftPanelWidth));
+        // cgpaChart.height(Math.round(rightTopLeftPanelHeight));
 
         XYChart converted = cgpaChart.build(); // converting XYChartBuilder object to XYChart
         converted.getStyler().setLegendVisible(false);
@@ -144,11 +144,20 @@ public class Dashboard extends JFrame{
 
         JPanel chart = new XChartPanel<XYChart>(converted);
         //-------------------------adding to frame----------------------------
-        rightTopLeftPanel.add(chart);
+
+        rightTopLeftPanel.add(chart, BorderLayout.CENTER);
         // rightTopRightPanel.setBorder(new EmptyBorder(60, 0, 0, 0));
         rightTopRightPanel.add(nameOfStudent, BorderLayout.NORTH);
         rightTopRightPanel.add(details, BorderLayout.CENTER);
         rightTopRightPanel.setBackground(Color.WHITE);
+        
+        JSplitPane split = new JSplitPane(
+            JSplitPane.HORIZONTAL_SPLIT,
+            rightTopLeftPanel,
+            rightTopRightPanel
+        );
+        split.setResizeWeight(0.9);
+        split.setDividerSize(0);
 
         // leftPanel.add(Box.createRigidArea(new Dimension(10, 3)));
         leftPanel.add(dashboardLabel);
@@ -156,20 +165,21 @@ public class Dashboard extends JFrame{
         leftPanel.add(administrationSection);
         leftPanel.add(specialSection);
 
-        rightTopPanel.add(rightTopLeftPanel, BorderLayout.WEST);
-        rightTopPanel.add(rightTopRightPanel, BorderLayout.EAST);
+        // rightTopPanel.add(rightTopLeftPanel, BorderLayout.WEST);
+        // rightTopPanel.add(rightTopRightPanel, BorderLayout.CENTER);
+        rightTopPanel.add(split, BorderLayout.CENTER);
 
         rightPanel.add(Box.createRigidArea(new Dimension(10, 3)));
         rightPanel.add(rightTopPanel, BorderLayout.NORTH);
         rightPanel.add(rightBottomPanel, BorderLayout.CENTER );
         rightPanel.setBackground(Color.WHITE);
 
-        changerPanel.add(rightPanel);
+        changerPanel.add(rightPanel, BorderLayout.CENTER);
         setLayout(new BorderLayout());
         add(header, BorderLayout.NORTH);
         add(leftPanel, BorderLayout.WEST);
         add(changerPanel, BorderLayout.CENTER);
-        
+
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension((int)size.getWidth(), (int) size.getHeight()));
 
