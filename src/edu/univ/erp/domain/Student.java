@@ -7,11 +7,19 @@ public class Student{
     private int year;
     private String email_id;
 
+    public Student(String user_ID, int roll_no, String program, int year, String email_id){
+        this.user_ID = user_ID;
+        this.roll_no = roll_no;
+        this.program = program;
+        this.year = year;
+        this.email_id = email_id;
+    }
+
     public String getUser_ID(){
         return user_ID;
     }
 
-    public String getRollNo(){
+    public int getRollNo(){
         return roll_no;
     }
 

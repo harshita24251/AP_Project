@@ -13,9 +13,6 @@ import java.lang.Exception;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.border.EmptyBorder;
-// import org.jfree.chart.*;
-// import org.jfree.data.*;
-// import org.jfree.chart.plot.*;
 import org.knowm.xchart.*;
 import org.knowm.xchart.style.*;
 import java.util.ArrayList;
@@ -66,6 +63,9 @@ public class Dashboard extends JFrame{
         //--------------------------Right Panel-----------------------------
         float rightPanelWidth = width * 0.85f;
         float rightPanelHeight = height * 0.92f; //0.92f
+
+        JPanel changerPanel = new CenterChangerPanel(rightPanelWidth, rightPanelHeight);
+        changerPanel.setBackground(Color.BLACK);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth), Math.round(rightPanelHeight)));
@@ -164,10 +164,11 @@ public class Dashboard extends JFrame{
         rightPanel.add(rightBottomPanel, BorderLayout.CENTER );
         rightPanel.setBackground(Color.WHITE);
 
+        changerPanel.add(rightPanel);
         setLayout(new BorderLayout());
         add(header, BorderLayout.NORTH);
         add(leftPanel, BorderLayout.WEST);
-        add(rightPanel, BorderLayout.EAST);
+        add(changerPanel, BorderLayout.CENTER);
         
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension((int)size.getWidth(), (int) size.getHeight()));

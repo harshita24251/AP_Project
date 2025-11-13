@@ -2,20 +2,15 @@ package edu.univ.erp.domain;
 
 public class Instructor{
     private String user_ID;
-    private String program;
-    private int year;
+    private String department;
     private String email_id;
+
+    public Instructor(){
+
+    }
 
     public String getUser_ID(){
         return user_ID;
-    }
-
-    public String getProgram(){
-        return program;
-    }
-
-    public int getYear(){
-        return year;
     }
 
     public String getEmailId(){

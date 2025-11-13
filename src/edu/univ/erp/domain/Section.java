@@ -12,6 +12,16 @@ public class Section{
     private int semester;
     private int year; 
 
+    public Section(String course_id, String instructor_id, DayTime day_time, String room, int capacity, int semester, int year){
+        this.course_id = course_id;
+        this.instructor_id = instructor_id;
+        this.day_time = day_time;
+        this.room = room;
+        this.capacity = capacity;
+        this.semester = semester;
+        this.year = year;
+    }
+
     public String course_id(){
         return course_id;
     }
