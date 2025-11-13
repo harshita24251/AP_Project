@@ -1,6 +1,7 @@
 package edu.univ.erp.ui.student;
 
 import edu.univ.erp.ui.common.*;
+import edu.univ.erp.ui.common.events.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.Image.*;
@@ -51,6 +52,7 @@ public class Dashboard extends JFrame{
         dashboardLabel.add(dashboardName, BorderLayout.WEST);
         dashboardLabel.setBackground(Color.WHITE);
         dashboardLabel.setMaximumSize(new Dimension(198, 35));
+        dashboardName.addMouseListener(new changeForeground(dashboardName));
 
         String[] academic = {"Grades", "Manage Course", "Dual Degree"};
         String[] administration = {"Fee Details", "Student Requests", "Hostel Requests"};
@@ -143,6 +145,9 @@ public class Dashboard extends JFrame{
         converted.addSeries(" ", xData, yData);
 
         JPanel chart = new XChartPanel<XYChart>(converted);
+
+        //-------------------------event handling-----------------------------
+
         //-------------------------adding to frame----------------------------
 
         rightTopLeftPanel.add(chart, BorderLayout.CENTER);

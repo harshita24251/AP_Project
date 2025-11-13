@@ -11,6 +11,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.lang.Exception;
 import java.io.IOException;
 import java.util.Arrays;
+import edu.univ.erp.ui.common.events.*;
 
 public class LeftNavPanel extends JPanel{
     public LeftNavPanel(String panelTitle, String[] selectables, float width, float height, int fontSize){
@@ -42,8 +43,9 @@ public class LeftNavPanel extends JPanel{
             JLabel putLabel = new JLabel(s, bullet, JLabel.LEFT);
             putLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             putLabel.setFont(new Font("Roboto Mono", Font.PLAIN, fontSize));
+            putLabel.addMouseListener(new changeForeground(putLabel));
             btnPanel.add(putLabel);
-            btnPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+            btnPanel.add(Box.createRigidArea(new Dimension(30, 10)));
         }
 
         titlePanel.setBackground(Color.WHITE);
