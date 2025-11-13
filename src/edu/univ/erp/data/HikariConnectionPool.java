@@ -1,4 +1,4 @@
-package edu.univ.erp.auth;
+package edu.univ.erp.data;
 
 import java.sql.*;
 import com.zaxxer.hikari.*;
@@ -16,9 +16,9 @@ public class HikariConnectionPool{
   
   static {
     HikariConfig conf = new HikariConfig();
-    conf.setJdbcUrl("jdbc:h2:Auth_DB");
-    conf.setUsername("iiitd");
-    conf.setPassword("student");
+    conf.setJdbcUrl("jdbc:h2:ERP_DB");
+    conf.setUsername("sa");
+    conf.setPassword("");
     sourceOfData =  new HikariDataSource(conf);
   }
 
