@@ -1,4 +1,5 @@
-package edu.univ.erp.auth.target.classes;
+package edu.univ.erp.auth;
+
 import edu.univ.erp.exceptions.*;
 import java.sql.*;
 import edu.univ.erp.auth.hash.*;
@@ -20,11 +21,16 @@ public class Login{
     
     try{
       ResultSet result = statement.executeQuery(String.format("select password_hash from users_auth where username = %s", username));
+      ResultSet User_id = statement.executeQuery(String.format("select user_id from users_auth where username = %s", username));
+      ResultSet role = statement.executeQuery(String.format("select role from users_auth where username = %s", username));
+
       result.next();
       if (!BCrypt.checkpw(password, result.getString(1))){
         return false;
       }
       else{
+        Session.setCurrentUser_ID(User_id.getString(1));
+        Session.setCurrentRole(Role.valueOf(role.getString(1)));
         return true;
       }
     }
