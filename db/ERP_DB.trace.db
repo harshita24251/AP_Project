@@ -1,34 +1,3 @@
-2025-11-15 02:13:49.135911+05:30 jdbc[4]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "show [*]table sections"; SQL statement:
-show table sections [42000-240]
-2025-11-15 02:21:42.409132+05:30 jdbc[4]: exception
-org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "STRING"; SQL statement:
-alter table grades add column course_id string [50004-240]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
-	at org.h2.message.DbException.get(DbException.java:223)
-	at org.h2.message.DbException.get(DbException.java:199)
-	at org.h2.command.Parser.readIfDataType1(Parser.java:5908)
-	at org.h2.command.Parser.readIfDataType(Parser.java:5739)
-	at org.h2.command.Parser.parseColumnWithType(Parser.java:5721)
-	at org.h2.command.Parser.parseColumnForTable(Parser.java:5600)
-	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:8983)
-	at org.h2.command.Parser.parseAlterTableAddColumn(Parser.java:8653)
-	at org.h2.command.Parser.parseAlterTable(Parser.java:8134)
-	at org.h2.command.Parser.parseAlter(Parser.java:7163)
-	at org.h2.command.Parser.parsePrepared(Parser.java:632)
-	at org.h2.command.Parser.parse(Parser.java:584)
-	at org.h2.command.Parser.parse(Parser.java:559)
-	at org.h2.command.Parser.prepareCommand(Parser.java:487)
-	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:647)
-	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:563)
-	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1160)
-	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
-	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
-	at org.h2.server.web.WebApp.getResult(WebApp.java:1344)
-	at org.h2.server.web.WebApp.query(WebApp.java:1142)
-	at org.h2.server.web.WebApp$1.next(WebApp.java:1108)
-	at org.h2.server.web.WebApp$1.next(WebApp.java:1095)
-	at org.h2.server.web.WebThread.process(WebThread.java:190)
-	at org.h2.server.web.WebThread.run(WebThread.java:103)
-	at java.base/java.lang.Thread.run(Thread.java:1474)
+2025-11-15 16:57:44.458565+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "alter table grades [*]delete column course_id"; expected "., ADD, SET, RENAME, DROP, ALTER"; SQL statement:
+alter table grades delete column course_id [42001-240]
