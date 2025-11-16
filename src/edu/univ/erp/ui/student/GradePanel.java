@@ -11,14 +11,18 @@ import javax.swing.*;
 import java.sql.*;
 
 public class GradePanel extends JPanel{
-    public GradePanel() throws SQLException{
+    public GradePanel(){
         setLayout(new BorderLayout());
 
         HashMap<Integer, String> semesterCGPA = CGPAPerSemester.fetch();
+        System.out.println(semesterCGPA.size());
 
-        for (int i = 1; i < semesterCGPA.size() + 1; i++){
-            JTabbedPane pane = new JTabbedPane();
-            pane.add(String.format("Semester %s", i), new JLabel("works!!"));
+        JTabbedPane pane = new JTabbedPane();
+        for (int i = 1; i < 5; i++){ // semesterCGPA.size() + 1
+            pane.addTab(String.format("Semester %s", i), new JButton("works!!"));
+            pane.setVisible(true);
         }
+
+        add(pane);
     }
 } //#4eb2a5

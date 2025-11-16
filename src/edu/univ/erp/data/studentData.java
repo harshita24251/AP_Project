@@ -47,9 +47,11 @@ public class StudentData{
         " join grades on grades.section_id = sections.section_id" + 
         " where grades.component = 'Endsem' and enrollments.student_id = '%s'", Session.getCurrentUser_ID());
 
-        ResultSet result = runQuery(SQLQuery);
-        HashMap<Integer, String> temp = new HashMap<>();
+        ResultSet result = null;
+        result = runQuery(SQLQuery);
 
+        HashMap<Integer, String> temp = new HashMap<>();
+        
         while (result.next() != false){
             temp.put(result.getInt(1), result.getString(2));
         }

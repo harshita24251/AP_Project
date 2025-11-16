@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class CenterChangerPanel extends JPanel{
     public CenterChangerPanel(float width, float height){
-        setLayout(new BorderLayout());
+        // setLayout(new CardLayout());
         setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
     }
 }

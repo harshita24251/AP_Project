@@ -23,8 +23,9 @@ import java.sql.*;
 
 public class Dashboard extends JFrame{
     private JPanel changerPanel; //Panel which changes when button is clicked
-
+    private CardLayout changingLayout;
     public Dashboard(){
+        FlatLightLaf.setup();
         //-----------------------getting dimensions------------------------
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension size = kit.getScreenSize();
@@ -35,6 +36,9 @@ public class Dashboard extends JFrame{
         float headerHeight = height * 0.08f;
         float headerWidth = width;
         Header header = new Header(headerWidth, headerHeight);
+
+        //changing panels-------------------------------------------------
+        JPanel gradesPanel = new GradePanel();
 
         //------------------------Left Panel-------------------------------
         float navHeight = height * 0.225f;
@@ -63,7 +67,7 @@ public class Dashboard extends JFrame{
         String[] special = {"TA Details", "Project Registration"};
 
         HashMap<String, MouseAdapter> registerListener = new HashMap<>();
-        registerListener.put("Grades", new goToGrades());
+        registerListener.put("Grades", new goToGrades(gradesPanel));
 
         LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener);
         LeftNavPanel administrationSection = new LeftNavPanel("Administration", administration, navWidth-30, navHeight, 16, registerListener);
@@ -73,7 +77,9 @@ public class Dashboard extends JFrame{
         float rightPanelWidth = width * 0.85f;
         float rightPanelHeight = height * 0.92f; //0.92f
 
+        changingLayout = new CardLayout();
         changerPanel = new CenterChangerPanel(rightPanelWidth, rightPanelHeight);
+        changerPanel.setLayout(changingLayout);
         changerPanel.setBackground(Color.BLACK);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -153,6 +159,9 @@ public class Dashboard extends JFrame{
 
         JPanel chart = new XChartPanel<XYChart>(converted);
 
+        //-----------------------Different Panels-----------------------------
+
+
         //-------------------------event handling-----------------------------
 
         //-------------------------adding to frame----------------------------
@@ -186,7 +195,14 @@ public class Dashboard extends JFrame{
         rightPanel.add(rightBottomPanel, BorderLayout.CENTER );
         rightPanel.setBackground(Color.WHITE);
 
+        //-----------------adding panels to cardlayout changingLayout----------------
         changerPanel.add(rightPanel, BorderLayout.CENTER);
+        changerPanel.add(gradesPanel, BorderLayout.CENTER);
+
+        changingLayout.addLayoutComponent(rightPanel, "rightPanel");
+        changingLayout.addLayoutComponent(gradesPanel, "gradesPanel");
+        //---------------------------------------------------------------------------
+
         setLayout(new BorderLayout());
         add(header, BorderLayout.NORTH);
         add(leftPanel, BorderLayout.WEST);
@@ -198,11 +214,14 @@ public class Dashboard extends JFrame{
     }
 
     private class goToGrades extends MouseAdapter{
+        JPanel toGo;
+        public goToGrades(JPanel toGo){
+            this.toGo = toGo;
+        }
         public void mouseClicked(MouseEvent e){
-            try{
-                changerPanel.add(new GradePanel(), BorderLayout.CENTER);
-            }
-            catch (SQLException exception){}
+            changingLayout.show(changerPanel, "gradesPanel");
+            changerPanel.revalidate();
+            toGo.revalidate();
         }
     }
 }
