@@ -4,15 +4,16 @@ import java.sql.*;
 import edu.univ.erp.auth;
 
 public class StudentData{
-    private static Connection connect = HikariConnectionPool.getDataSource().getConnection();
+    private static Connection connect;
 
     private static ResultSet runQuery(String query) throws SQLException{
+        connect = HikariConnectionPool.getDataSource().getConnection();
         Statement statement = connect.createStatement();
         try{
             ResultSet result = statement.executeQuery(query);
         }
         catch(SQLException e){
-            System.out.println("Excpetion occured in file data\\")
+            System.out.println("Excpetion occured in file data/Student\n");
         }
         return result;
     }
@@ -30,6 +31,6 @@ public class StudentData{
     }
 
     public static String fetchEmailId() throws SQLException{
-        return runQuery(String.format("select emain_id from students where user_id = %s", Session.getCurrentUser_ID())).getString(1);
+        return runQuery(String.format("select email_id from students where user_id = %s", Session.getCurrentUser_ID())).getString(1);
     }
 }

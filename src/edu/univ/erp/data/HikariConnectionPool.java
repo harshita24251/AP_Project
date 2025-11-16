@@ -16,7 +16,7 @@ public class HikariConnectionPool{
   
   static {
     HikariConfig conf = new HikariConfig();
-    conf.setJdbcUrl("jdbc:h2:ERP_DB");
+    conf.setJdbcUrl("jdbc:h2:./db/ERP_DB");
     conf.setUsername("sa");
     conf.setPassword("");
     sourceOfData =  new HikariDataSource(conf);

@@ -4,15 +4,16 @@ import java.sql.*;
 import edu.univ.erp.auth;
 
 public class Section{
-    private static Connection connect = HikariConnectionPool.getDataSource().getConnection();
+    private static Connection connect;
 
     private static ResultSet runQuery(String query) throws SQLException{
+        connect = HikariConnectionPool.getDataSource().getConnection();
         Statement statement = connect.createStatement();
         try{
             ResultSet result = statement.executeQuery(query);
         }
         catch(SQLException e){
-            System.out.println("Exception occured at data\\Section\n") //for prototyping may change later
+            System.out.println("Exception occured at data/Section\n"); //for prototyping may change later
         }
         return result;
     }
