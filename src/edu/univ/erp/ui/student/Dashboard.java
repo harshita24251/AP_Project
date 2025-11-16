@@ -18,8 +18,12 @@ import org.knowm.xchart.*;
 import org.knowm.xchart.style.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.sql.*;
 
 public class Dashboard extends JFrame{
+    private JPanel changerPanel; //Panel which changes when button is clicked
+
     public Dashboard(){
         //-----------------------getting dimensions------------------------
         Toolkit kit = Toolkit.getDefaultToolkit();
@@ -58,15 +62,18 @@ public class Dashboard extends JFrame{
         String[] administration = {"Fee Details", "Student Requests", "Hostel Requests"};
         String[] special = {"TA Details", "Project Registration"};
 
-        LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16);
-        LeftNavPanel administrationSection = new LeftNavPanel("Administration", administration, navWidth-30, navHeight, 16);
-        LeftNavPanel specialSection = new LeftNavPanel("Special", special, navWidth-30, navHeight, 16);
+        HashMap<String, MouseAdapter> registerListener = new HashMap<>();
+        registerListener.put("Grades", new goToGrades());
+
+        LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener);
+        LeftNavPanel administrationSection = new LeftNavPanel("Administration", administration, navWidth-30, navHeight, 16, registerListener);
+        LeftNavPanel specialSection = new LeftNavPanel("Special", special, navWidth-30, navHeight, 16, registerListener);
 
         //--------------------------Right Panel-----------------------------
         float rightPanelWidth = width * 0.85f;
         float rightPanelHeight = height * 0.92f; //0.92f
 
-        JPanel changerPanel = new CenterChangerPanel(rightPanelWidth, rightPanelHeight);
+        changerPanel = new CenterChangerPanel(rightPanelWidth, rightPanelHeight);
         changerPanel.setBackground(Color.BLACK);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -190,9 +197,12 @@ public class Dashboard extends JFrame{
 
     }
 
-    private class GradesBtnListener extends MouseAdapter{
-        public void MouseClicked(MouseEvent e){
-            changerPanel.add(new GradePanel(), BorderLayout.CENTER);
+    private class goToGrades extends MouseAdapter{
+        public void mouseClicked(MouseEvent e){
+            try{
+                changerPanel.add(new GradePanel(), BorderLayout.CENTER);
+            }
+            catch (SQLException exception){}
         }
     }
 }

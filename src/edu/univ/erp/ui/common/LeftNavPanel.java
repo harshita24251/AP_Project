@@ -12,9 +12,10 @@ import java.lang.Exception;
 import java.io.IOException;
 import java.util.Arrays;
 import edu.univ.erp.ui.common.events.*;
+import java.util.HashMap;
 
 public class LeftNavPanel extends JPanel{
-    public LeftNavPanel(String panelTitle, String[] selectables, float width, float height, int fontSize){
+    public LeftNavPanel(String panelTitle, String[] selectables, float width, float height, int fontSize, HashMap<String, MouseAdapter> registerMouseClicked){
         setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         //-----------------------Loading Font--------------------
         GraphicsEnvironment ge;
@@ -44,6 +45,7 @@ public class LeftNavPanel extends JPanel{
             putLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             putLabel.setFont(new Font("Roboto Mono", Font.PLAIN, fontSize));
             putLabel.addMouseListener(new changeForeground(putLabel));
+            putLabel.addMouseListener(registerMouseClicked.get(s));
             btnPanel.add(putLabel);
             btnPanel.add(Box.createRigidArea(new Dimension(30, 10)));
         }

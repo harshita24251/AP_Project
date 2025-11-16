@@ -1,7 +1,7 @@
 package edu.univ.erp.data;
 
 import java.sql.*;
-import edu.univ.erp.auth;
+import edu.univ.erp.auth.*;
 import java.util.HashMap;
 
 public class StudentData{
@@ -10,10 +10,12 @@ public class StudentData{
     private static ResultSet runQuery(String query) throws SQLException{
         connect = HikariConnectionPool.getDataSource().getConnection();
         Statement statement = connect.createStatement();
+        ResultSet result = null;
         try{
-            ResultSet result = statement.executeQuery(query);
+            result = statement.executeQuery(query);
         }
         catch(SQLException e){
+            e.printStackTrace();
             System.out.println("Excpetion occured in file data/Student\n");
         }
         return result;
@@ -35,15 +37,15 @@ public class StudentData{
         return runQuery(String.format("select email_id from students where user_id = %s", Session.getCurrentUser_ID())).getString(1);
     }
 
-    public static HashMap<Integer, String> getCGPAPerSemester(){
+    public static HashMap<Integer, String> getCGPAPerSemester() throws SQLException{
         /**
          * Method to retrieve semester and its grade in a HashTable as it allows access in constant time
          */
-        String SQLQuery = String.format("select grades.final_grade,sections.semester from enrollments 
-        join students on students.%s = enrollments.%s 
-        join sections on sections.section_id = enrollments.section_id 
-        join grades on grades.section_id = sections.section_id 
-        where grades.component = 'Endsem'", Session.getCurrentUser_ID());
+        String SQLQuery = String.format("select grades.final_grade,sections.semester from enrollments" +  
+        " join students on students.user_id = enrollments.student_id" +  
+        " join sections on sections.section_id = enrollments.section_id"+ 
+        " join grades on grades.section_id = sections.section_id" + 
+        " where grades.component = 'Endsem' and enrollments.student_id = '%s'", Session.getCurrentUser_ID());
 
         ResultSet result = runQuery(SQLQuery);
         HashMap<Integer, String> temp = new HashMap<>();

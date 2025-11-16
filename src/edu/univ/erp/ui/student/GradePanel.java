@@ -2,15 +2,16 @@ package edu.univ.erp.ui.student;
 
 import edu.univ.erp.api.catalog.*;
 import java.awt.*;
-import java.swing.*;
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import javax.swing.*;
+import java.sql.*;
 
 public class GradePanel extends JPanel{
-    public GradePanel(){
+    public GradePanel() throws SQLException{
         setLayout(new BorderLayout());
 
         HashMap<Integer, String> semesterCGPA = CGPAPerSemester.fetch();
