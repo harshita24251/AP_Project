@@ -51,6 +51,9 @@ public class Dashboard extends JFrame{
         leftPanel.setPreferredSize(new Dimension(Math.round(navWidth), Math.round(height * 0.92f)));
         leftPanel.setBackground(Color.WHITE);
 
+        
+        HashMap<JLabel, Boolean> highlighter = new HashMap<>(); //Used to highlight the clicked label
+        
         Icon icon = new FlatSVGIcon("dashboard.svg", 0.36f);
         JPanel dashboardLabel = new JPanel(new BorderLayout());
         JLabel dashboardName = new JLabel("Dashboard", icon, JLabel.LEFT);
@@ -60,7 +63,13 @@ public class Dashboard extends JFrame{
         dashboardLabel.add(dashboardName, BorderLayout.WEST);
         dashboardLabel.setBackground(Color.WHITE);
         dashboardLabel.setMaximumSize(new Dimension(198, 35));
-        dashboardName.addMouseListener(new changeForeground(dashboardName));
+        highlighter.put(dashboardName, false);
+        dashboardName.addMouseListener(new changeForeground(dashboardName, highlighter));
+        dashboardName.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                changingLayout.show(changerPanel, "rightPanel");
+            }
+        });
 
         String[] academic = {"Grades", "Manage Course", "Dual Degree"};
         String[] administration = {"Fee Details", "Student Requests", "Hostel Requests"};
@@ -69,9 +78,9 @@ public class Dashboard extends JFrame{
         HashMap<String, MouseAdapter> registerListener = new HashMap<>();
         registerListener.put("Grades", new goToGrades(gradesPanel));
 
-        LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener);
-        LeftNavPanel administrationSection = new LeftNavPanel("Administration", administration, navWidth-30, navHeight, 16, registerListener);
-        LeftNavPanel specialSection = new LeftNavPanel("Special", special, navWidth-30, navHeight, 16, registerListener);
+        LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
+        LeftNavPanel administrationSection = new LeftNavPanel("Administration", administration, navWidth-30, navHeight, 16, registerListener, highlighter);
+        LeftNavPanel specialSection = new LeftNavPanel("Special", special, navWidth-30, navHeight, 16, registerListener, highlighter);
 
         //--------------------------Right Panel-----------------------------
         float rightPanelWidth = width * 0.85f;
@@ -79,8 +88,9 @@ public class Dashboard extends JFrame{
 
         changingLayout = new CardLayout();
         changerPanel = new CenterChangerPanel(rightPanelWidth, rightPanelHeight);
+        changerPanel.setBorder(new EmptyBorder(12, 0, 0, 0));
         changerPanel.setLayout(changingLayout);
-        changerPanel.setBackground(Color.BLACK);
+        changerPanel.setBackground(Color.WHITE);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth), Math.round(rightPanelHeight)));
@@ -159,9 +169,6 @@ public class Dashboard extends JFrame{
 
         JPanel chart = new XChartPanel<XYChart>(converted);
 
-        //-----------------------Different Panels-----------------------------
-
-
         //-------------------------event handling-----------------------------
 
         //-------------------------adding to frame----------------------------
@@ -220,8 +227,6 @@ public class Dashboard extends JFrame{
         }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "gradesPanel");
-            changerPanel.revalidate();
-            toGo.revalidate();
         }
     }
 }

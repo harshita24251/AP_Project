@@ -10,12 +10,13 @@ import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.lang.Exception;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.HashMap;
 import edu.univ.erp.ui.common.events.*;
 import java.util.HashMap;
 
 public class LeftNavPanel extends JPanel{
-    public LeftNavPanel(String panelTitle, String[] selectables, float width, float height, int fontSize, HashMap<String, MouseAdapter> registerMouseClicked){
+    public LeftNavPanel(String panelTitle, String[] selectables, float width, float height, int fontSize, HashMap<String, MouseAdapter> registerMouseClicked,HashMap<JLabel, Boolean> highlighter){
+
         setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         //-----------------------Loading Font--------------------
         GraphicsEnvironment ge;
@@ -44,8 +45,10 @@ public class LeftNavPanel extends JPanel{
             JLabel putLabel = new JLabel(s, bullet, JLabel.LEFT);
             putLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             putLabel.setFont(new Font("Roboto Mono", Font.PLAIN, fontSize));
-            putLabel.addMouseListener(new changeForeground(putLabel));
+            putLabel.addMouseListener(new changeForeground(putLabel, highlighter));
             putLabel.addMouseListener(registerMouseClicked.get(s));
+            putLabel.addMouseListener(new SetForeground(putLabel));
+            highlighter.put(putLabel, false);
             btnPanel.add(putLabel);
             btnPanel.add(Box.createRigidArea(new Dimension(30, 10)));
         }
