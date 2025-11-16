@@ -189,4 +189,10 @@ public class Dashboard extends JFrame{
         setMinimumSize(new Dimension((int)size.getWidth(), (int) size.getHeight()));
 
     }
+
+    private class GradesBtnListener extends MouseAdapter{
+        public void MouseClicked(MouseEvent e){
+            changerPanel.add(new GradePanel(), BorderLayout.CENTER);
+        }
+    }
 }
