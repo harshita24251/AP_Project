@@ -1,36 +1,126 @@
-2025-11-16 10:10:29.076072+05:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-240]
-2025-11-16 10:10:56.976448+05:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Invalid value "0" for parameter "columnIndex" [90008-240]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+2025-11-16 12:07:23.785997+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select courses.title sections[*].semester from enrollments\000d\000ajoin sections on sections.section_id = enrollments.section_id\000d\000ajoin courses on courses.course_id = sections.course_id\000d\000awhere enrollments.student_id = 'A1'"; SQL statement:
+select courses.title sections.semester from enrollments
+join sections on sections.section_id = enrollments.section_id
+join courses on courses.course_id = sections.course_id
+where enrollments.student_id = 'A1' [42000-240]
+2025-11-16 12:07:45.741474+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select * from students\000d\000a\000d\000a[*]select courses.title from enrollments\000d\000ajoin sections on sections.section_id = enrollments.section_id\000d\000ajoin courses on courses.course_id = sections.course_id\000d\000awhere enrollments.student_id = 'A1'"; SQL statement:
+select * from students
+
+select courses.title from enrollments
+join sections on sections.section_id = enrollments.section_id
+join courses on courses.course_id = sections.course_id
+where enrollments.student_id = 'A1' [42000-240]
+2025-11-16 12:08:18.694462+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "insert into enrollments values('AE1', 'A1', 'A', 'studying')\000d\000a\000d\000a[*]select courses.title from enrollments\000d\000ajoin sections on sections.section_id = enrollments.section_id\000d\000ajoin courses on courses.course_id = sections.course_id\000d\000awhere enrollments.student_id = 'A1'"; SQL statement:
+insert into enrollments values('AE1', 'A1', 'A', 'studying')
+
+select courses.title from enrollments
+join sections on sections.section_id = enrollments.section_id
+join courses on courses.course_id = sections.course_id
+where enrollments.student_id = 'A1' [42000-240]
+2025-11-16 12:08:44.749543+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select courses.title sections[*].semester from enrollments\000d\000ajoin sections on sections.section_id = enrollments.section_id\000d\000ajoin courses on courses.course_id = sections.course_id\000d\000awhere enrollments.student_id = 'A1'"; SQL statement:
+select courses.title sections.semester from enrollments
+join sections on sections.section_id = enrollments.section_id
+join courses on courses.course_id = sections.course_id
+where enrollments.student_id = 'A1' [42000-240]
+2025-11-16 13:16:46.992743+05:30 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "alter table grades\000d\000aset [*]column final_grade = 'A'\000d\000awhere component = 'endsem'"; expected "REFERENTIAL_INTEGRITY"; SQL statement:
+alter table grades
+set column final_grade = 'A'
+where component = 'endsem' [42001-240]
+2025-11-16 13:18:27.869383+05:30 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]tpdate table grades\000d\000aset column final_grade = 'A'\000d\000awhere component = 'endsem'"; expected "TRUNCATE"; SQL statement:
+tpdate table grades
+set column final_grade = 'A'
+where component = 'endsem' [42001-240]
+2025-11-16 13:18:35.831050+05:30 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "COLUMN" not found; SQL statement:
+update grades
+set column final_grade = 'A'
+where component = 'endsem' [42122-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	at org.h2.message.DbException.get(DbException.java:223)
-	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
-	at org.h2.jdbc.JdbcResultSet.checkColumnIndex(JdbcResultSet.java:3524)
-	at org.h2.jdbc.JdbcResultSet.getString(JdbcResultSet.java:283)
-	at com.zaxxer.hikari.pool.HikariProxyResultSet.getString(HikariProxyResultSet.java)
-	at edu.univ.erp.data.test.main(test.java:24)
-2025-11-16 10:10:59.171129+05:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Invalid value "0" for parameter "columnIndex" [90008-240]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:658)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.table.Table.getColumn(Table.java:778)
+	at org.h2.command.Parser.readTableColumn(Parser.java:966)
+	at org.h2.command.Parser.readUpdateSetClause(Parser.java:1053)
+	at org.h2.command.Parser.parseUpdate(Parser.java:1006)
+	at org.h2.command.Parser.parsePrepared(Parser.java:747)
+	at org.h2.command.Parser.parse(Parser.java:584)
+	at org.h2.command.Parser.parse(Parser.java:559)
+	at org.h2.command.Parser.prepareCommand(Parser.java:487)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:647)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:563)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1160)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1344)
+	at org.h2.server.web.WebApp.query(WebApp.java:1142)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1108)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1095)
+	at org.h2.server.web.WebThread.process(WebThread.java:190)
+	at org.h2.server.web.WebThread.run(WebThread.java:103)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2025-11-16 13:18:45.373836+05:30 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "update [*]table grades\000d\000aset column final_grade = 'A'\000d\000awhere component = 'endsem'"; expected "identifier"; SQL statement:
+update table grades
+set column final_grade = 'A'
+where component = 'endsem' [42001-240]
+2025-11-16 13:18:52.152647+05:30 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "COLUMN" not found; SQL statement:
+update grades
+set column final_grade = 'A'
+where component = 'endsem' [42122-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	at org.h2.message.DbException.get(DbException.java:223)
-	at org.h2.message.DbException.getInvalidValueException(DbException.java:298)
-	at org.h2.jdbc.JdbcResultSet.checkColumnIndex(JdbcResultSet.java:3524)
-	at org.h2.jdbc.JdbcResultSet.getString(JdbcResultSet.java:283)
-	at com.zaxxer.hikari.pool.HikariProxyResultSet.getString(HikariProxyResultSet.java)
-	at edu.univ.erp.data.test.main(test.java:24)
-2025-11-16 10:12:02.597661+05:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "show [*]* from courses"; SQL statement:
-show * from courses [42000-240]
-2025-11-16 10:12:13.595979+05:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "show [*]* from courses"; SQL statement:
-show * from courses [42000-240]
-2025-11-16 10:12:16.814714+05:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "show [*]* from courses"; SQL statement:
-show * from courses [42000-240]
-2025-11-16 10:12:46.312660+05:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "show [*]* from courses"; SQL statement:
-show * from courses [42000-240]
-2025-11-16 10:13:26.984929+05:30 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-240]
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.table.Table.getColumn(Table.java:778)
+	at org.h2.command.Parser.readTableColumn(Parser.java:966)
+	at org.h2.command.Parser.readUpdateSetClause(Parser.java:1053)
+	at org.h2.command.Parser.parseUpdate(Parser.java:1006)
+	at org.h2.command.Parser.parsePrepared(Parser.java:747)
+	at org.h2.command.Parser.parse(Parser.java:584)
+	at org.h2.command.Parser.parse(Parser.java:559)
+	at org.h2.command.Parser.prepareCommand(Parser.java:487)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:647)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:563)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1160)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1344)
+	at org.h2.server.web.WebApp.query(WebApp.java:1142)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1108)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1095)
+	at org.h2.server.web.WebThread.process(WebThread.java:190)
+	at org.h2.server.web.WebThread.run(WebThread.java:103)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+2025-11-16 13:25:08.476261+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "STUDYING" not found; SQL statement:
+insert into enrollments values('AE1', 'A1', 'B', studying) [42122-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.command.dml.Insert.doPrepare(Insert.java:299)
+	at org.h2.command.dml.DataChangeStatement.prepare(DataChangeStatement.java:40)
+	at org.h2.command.Parser.prepareCommand(Parser.java:492)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:647)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:563)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1160)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:245)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:231)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1344)
+	at org.h2.server.web.WebApp.query(WebApp.java:1142)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1108)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1095)
+	at org.h2.server.web.WebThread.process(WebThread.java:190)
+	at org.h2.server.web.WebThread.run(WebThread.java:103)
+	at java.base/java.lang.Thread.run(Thread.java:1474)

@@ -2,6 +2,7 @@ package edu.univ.erp.data;
 
 import java.sql.*;
 import edu.univ.erp.auth;
+import java.util.HashMap;
 
 public class StudentData{
     private static Connection connect;
@@ -33,4 +34,31 @@ public class StudentData{
     public static String fetchEmailId() throws SQLException{
         return runQuery(String.format("select email_id from students where user_id = %s", Session.getCurrentUser_ID())).getString(1);
     }
+
+    public static HashMap<Integer, String> getCGPAPerSemester(){
+        /**
+         * Method to retrieve semester and its grade in a HashTable as it allows access in constant time
+         */
+        String SQLQuery = String.format("select grades.final_grade,sections.semester from enrollments 
+        join students on students.%s = enrollments.%s 
+        join sections on sections.section_id = enrollments.section_id 
+        join grades on grades.section_id = sections.section_id 
+        where grades.component = 'Endsem'", Session.getCurrentUser_ID());
+
+        ResultSet result = runQuery(SQLQuery);
+        HashMap<Integer, String> temp = new HashMap<>();
+
+        while (result.next() != false){
+            temp.put(result.getInt(1), result.getString(2));
+        }
+        return temp;
+    }
 }
+
+/**
+ * select grades.final_grade from enrollments
+join students on students.user_id = enrollments.student_id
+join sections on sections.section_id = enrollments.section_id
+join grades on grades.section_id = sections.section_id
+where grades.component = 'Endsem'
+ */
