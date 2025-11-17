@@ -14,15 +14,14 @@ public class GradePanel extends JPanel{
     public GradePanel(){
         setLayout(new BorderLayout());
 
-        //--------------------------coloring tabs-----------------------------------
+        //--------------------------styling tabs-----------------------------------
         UIManager.put("TabbedPane.underlineColor", new Color(78, 178, 165));
-        UIManager.put("TabbedPane.underlineHeight", 1);
         UIManager.put("TabbedPane.inactiveUnderlineColor", new Color(78, 178, 165));
         //---------------------------------------------------------------------------
 
         JTabbedPane pane = new JTabbedPane();
         for (int i = 1; i < totalSemesters.fetch() + 1; i++){ // semesterCGPA.size() + 1
-            pane.addTab(String.format("Semester %s", i), new JButton("works!!"));
+            pane.addTab(String.format("Semester %s", i), new JLabel("works!!"));
             pane.setVisible(true);
         }
         

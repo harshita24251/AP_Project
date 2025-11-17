@@ -67,17 +67,33 @@ public class StudentData{
         return temp;
     }
 
-    public static HashMap<String, String> getRegisteredCourseIDAndGrade(int semester) throws SQLException{
-        String query = String.format("select sections.course_id, grades.final_grade from enrollments, grades" + 
-        " join students on students.user_id = enrollments.student_id" +
-        " join sections on sections.section_id = grades.section_id" +
-        " where grades.component = 'Endsem' and students.user_id = %s and sections.semester = %d;", Session.getCurrentUser_ID(), semester);
+    public static ArrayList<String> getRegisteredCourseID(int semester) throws SQLException{
+        String query = String.format("select distinct sections.course_id from enrollments, grades join students on students user_id = enrollments.student_id join sections on sections.section_id = grades.section_id where grades.component = 'Endsem' and students.user_id = '%s' and sections.semester = %d;", Session.getCurrentUser_ID(), semester);
 
-        HashMap<String, String> tmp = new HashMap<>();
+        ArrayList<String> tmp = new ArrayList<>();
         ResultSet result = runQuery(query);
 
         while (result.next() != false){
-            tmp.put(result.getString(1), result.getString(2));
+            tmp.add(result.getString(1));
+        }
+
+        return tmp;
+    }
+
+    public static HashMap<String, Double> getCourseComponentGrades(String Course_ID) throws SQLException{
+        /**
+         * score
+         */
+        String query = String.format("select distinct grades.component, grades.score, grades.total_score, grade.weightage from grades, enrollments join sections on sections.section_id = grades.section_id where enrollments.student_id = '%s' and sections.course_id = '%s';", Session.getCurrentUser_ID(), Course_ID);
+
+        HashMap<String, Double> tmp = new HashMap<>();
+        ResultSet result = runQuery(query);
+
+        while (result.next() != false){
+            Integer weightage = new Integer(result.getInt(4));
+            Integer obtained_score = new Integer(result.getInt(2));
+            Integer total_score = new Integer(result.getInt(3));
+            tmp.put(result.getString(1), (obtained_score / total_score) * weightage);
         }
 
         return tmp;

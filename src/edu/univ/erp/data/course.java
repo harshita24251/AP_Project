@@ -2,6 +2,7 @@ package edu.univ.erp.data;
 
 import java.sql.*;
 import edu.univ.erp.auth;
+import java.util.HashMap;
 
 public class Course{
     private static Connection connect;
@@ -28,5 +29,21 @@ public class Course{
         return result.getInt(1); 
     }
 
-    
+    public static HashMap<String, Integer> getCourseComponents(String Course_ID){
+        /**
+         * Name, total_score
+         */
+        String query = String.format("select distinct grades.component, grades.total_score from grades, enrollments 
+        join sections on sections.section_id = grades.section_id 
+        where enrollments.student_id = %s and sections.course_id = %s", Session.getCurrentUser_ID(), Course_ID);
+
+        HashMap<String, Integer> tmp = new HashMap<>(); 
+        ResultSet result = runQuery(query);
+
+        while (result.next() != false){
+            tmp.put(result.getString(1), result.getInt(2));
+        }
+
+        return tmp;
+    }
 }
