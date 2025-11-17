@@ -71,7 +71,7 @@ public class StudentData{
         String query = String.format("select sections.course_id, grades.final_grade from enrollments, grades" + 
         " join students on students.user_id = enrollments.student_id" +
         " join sections on sections.section_id = grades.section_id" +
-        " where grades.component = 'Endsem' and students.student_id = %s and sections.semester = %d;", Session.getCurrentUser_ID(), semester);
+        " where grades.component = 'Endsem' and students.user_id = %s and sections.semester = %d;", Session.getCurrentUser_ID(), semester);
 
         HashMap<String, String> tmp = new HashMap<>();
         ResultSet result = runQuery(query);
