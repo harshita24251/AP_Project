@@ -93,7 +93,7 @@ public class StudentData{
             double marks_obtained = result.getInt(4) * result.getInt(2) / result.getInt(3);
             tmp.put(result.getString(1), marks_obtained);
         }
-
+        
         return tmp;
     }
 }

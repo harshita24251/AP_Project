@@ -9,17 +9,40 @@ import java.util.ArrayList;
 import java.util.Map;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
-import java.sql.*;
-
+import edu.univ.erp.ui.common.events.*;
 /**
  * for getting components of courses as a JPanel
  */
 
 public class CourseGradePanel extends JPanel{
-    public CourseGradePanel(String  Course_ID, float width, float height){
-        // ArrayList<String> courses = registeredCourses.fetch(i);
-        setText(Course_ID);
-        setPreferredSize(Math.round(width), Math.round(height));
-        add(ComponentGradeCard(Course_ID));
+    public CourseGradePanel(int semesterNo, float width, float height){
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        //------------------------------------Loading Icon--------------------------------------------
+        Icon right_Arrow = new FlatSVGIcon("right-arrow.svg", 0.25f);
+        //--------------------------------------------------------------------------------------------
+        HashMap<JLabel, Boolean> highlighter = new HashMap<>();
+
+        for (String s : registeredCourses.fetch(semesterNo)){
+            JPanel coursePanel = new JPanel(new BorderLayout());
+            coursePanel.setPreferredSize(new Dimension(Math.round(width), 80));
+            JPanel courseTitle = new JPanel(new BorderLayout());
+            courseTitle.setBackground(Color.WHITE);
+            courseTitle.setPreferredSize(new Dimension(Math.round(width), 30));
+
+            JLabel semesterLabels = new JLabel(s + " : " + courseName.fetch(s), right_Arrow, JLabel.LEFT);
+            semesterLabels.addMouseListener(new changeForegroundCourse(semesterLabels, highlighter, coursePanel, s));
+            semesterLabels.setFont(new Font("Roboto Mono", Font.PLAIN, 16));
+            semesterLabels.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            courseTitle.add(semesterLabels, BorderLayout.WEST);
+
+            highlighter.put(semesterLabels, false);
+            coursePanel.setBackground(Color.WHITE);
+            coursePanel.add(courseTitle, BorderLayout.NORTH);
+            coursePanel.setMaximumSize(new Dimension(Math.round(width), 30)); //warning: height hardcoded here
+            // coursePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            
+            add(coursePanel);
+        }
+        setBackground(Color.WHITE);
     }
 }

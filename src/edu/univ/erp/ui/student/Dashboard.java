@@ -19,7 +19,6 @@ import org.knowm.xchart.style.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
-import java.sql.*;
 
 public class Dashboard extends JFrame{
     private JPanel changerPanel; //Panel which changes when button is clicked
@@ -37,8 +36,15 @@ public class Dashboard extends JFrame{
         float headerWidth = width;
         Header header = new Header(headerWidth, headerHeight);
 
-        //changing panels-------------------------------------------------
-        JPanel gradesPanel = new GradePanel();
+        //--------------------------Right Panel-----------------------------
+        float rightPanelWidth = width * 0.85f;
+        float rightPanelHeight = height * 0.92f; //0.92f
+
+        //changing panels---------------------------------------------------
+        JPanel gradesPanel = new GradePanel(rightPanelWidth, rightPanelHeight);
+        
+        HashMap<String, MouseAdapter> registerListener = new HashMap<>();
+        registerListener.put("Grades", new goToGrades(gradesPanel));
 
         //------------------------Left Panel-------------------------------
         float navHeight = height * 0.225f;
@@ -75,16 +81,12 @@ public class Dashboard extends JFrame{
         String[] administration = {"Fee Details", "Student Requests", "Hostel Requests"};
         String[] special = {"TA Details", "Project Registration"};
 
-        HashMap<String, MouseAdapter> registerListener = new HashMap<>();
-        registerListener.put("Grades", new goToGrades(gradesPanel));
 
         LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
         LeftNavPanel administrationSection = new LeftNavPanel("Administration", administration, navWidth-30, navHeight, 16, registerListener, highlighter);
         LeftNavPanel specialSection = new LeftNavPanel("Special", special, navWidth-30, navHeight, 16, registerListener, highlighter);
 
-        //--------------------------Right Panel-----------------------------
-        float rightPanelWidth = width * 0.85f;
-        float rightPanelHeight = height * 0.92f; //0.92f
+        //-------------------------------------------------------------------
 
         changingLayout = new CardLayout();
         changerPanel = new CenterChangerPanel(rightPanelWidth, rightPanelHeight);
