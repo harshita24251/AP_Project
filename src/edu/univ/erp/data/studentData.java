@@ -3,6 +3,7 @@ package edu.univ.erp.data;
 import java.sql.*;
 import edu.univ.erp.auth.*;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class StudentData{
     private static Connection connect;
@@ -37,11 +38,19 @@ public class StudentData{
         return runQuery(String.format("select email_id from students where user_id = %s", Session.getCurrentUser_ID())).getString(1);
     }
 
+    public static int getTotalSemesters() throws  SQLException{
+        ResultSet result = runQuery("select MAX(semester) from sections");
+        result.next();
+        return result.getInt(1);
+    }
+
     public static HashMap<Integer, String> getCGPAPerSemester() throws SQLException{
         /**
+         * METHOD CURRENTLY NOT IN USE
+         * 
          * Method to retrieve semester and its grade in a HashTable as it allows access in constant time
          */
-        String SQLQuery = String.format("select grades.final_grade,sections.semester from enrollments" +  
+        String SQLQuery = String.format("select sections.semester, grades.final_grade from enrollments" +  
         " join students on students.user_id = enrollments.student_id" +  
         " join sections on sections.section_id = enrollments.section_id"+ 
         " join grades on grades.section_id = sections.section_id" + 
@@ -56,6 +65,22 @@ public class StudentData{
             temp.put(result.getInt(1), result.getString(2));
         }
         return temp;
+    }
+
+    public static HashMap<String, String> getRegisteredCourseIDAndGrade(int semester) throws SQLException{
+        String query = String.format("select sections.course_id, grades.final_grade from enrollments, grades" + 
+        " join students on students.user_id = enrollments.student_id" +
+        " join sections on sections.section_id = grades.section_id" +
+        " where grades.component = 'Endsem' and students.student_id = %s and sections.semester = %d;", Session.getCurrentUser_ID(), semester);
+
+        HashMap<String, String> tmp = new HashMap<>();
+        ResultSet result = runQuery(query);
+
+        while (result.next() != false){
+            tmp.put(result.getString(1), result.getString(2));
+        }
+
+        return tmp;
     }
 }
 

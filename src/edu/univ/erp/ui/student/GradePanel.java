@@ -14,15 +14,18 @@ public class GradePanel extends JPanel{
     public GradePanel(){
         setLayout(new BorderLayout());
 
-        HashMap<Integer, String> semesterCGPA = CGPAPerSemester.fetch();
-        System.out.println(semesterCGPA.size());
+        //--------------------------coloring tabs-----------------------------------
+        UIManager.put("TabbedPane.underlineColor", new Color(78, 178, 165));
+        UIManager.put("TabbedPane.underlineHeight", 1);
+        UIManager.put("TabbedPane.inactiveUnderlineColor", new Color(78, 178, 165));
+        //---------------------------------------------------------------------------
 
         JTabbedPane pane = new JTabbedPane();
-        for (int i = 1; i < 5; i++){ // semesterCGPA.size() + 1
+        for (int i = 1; i < totalSemesters.fetch() + 1; i++){ // semesterCGPA.size() + 1
             pane.addTab(String.format("Semester %s", i), new JButton("works!!"));
             pane.setVisible(true);
         }
-
+        
         add(pane);
     }
 } //#4eb2a5

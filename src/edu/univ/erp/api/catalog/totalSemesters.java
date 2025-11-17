@@ -6,11 +6,11 @@ import java.sql.*;
 /**
  * Class to return the semester and its sgpa and HashMap format
  */
-public class CGPAPerSemester{
-    public static HashMap<Integer, String> fetch(){
-        HashMap<Integer, String> tmp = null;
+public class totalSemesters{
+    public static int fetch(){
+        int tmp = 0;
         try{
-            tmp = StudentData.getCGPAPerSemester();
+            tmp = StudentData.getTotalSemesters();
         }
         catch (SQLException e){
             e.printStackTrace();
