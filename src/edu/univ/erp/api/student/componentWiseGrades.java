@@ -9,7 +9,7 @@ public class componentWiseGrades{
         HashMap<String, Double> tmp = null;
         
         try{
-            tmp = StudentData.getCourseComponentGrades();
+            tmp = StudentData.getCourseComponentGrades(Course_ID);
         }
         catch (SQLException e){
             e.printStackTrace();

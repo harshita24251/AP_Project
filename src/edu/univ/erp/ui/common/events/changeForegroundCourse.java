@@ -4,17 +4,20 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.HashMap;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 /**
  * highlighter HashMap is to group labels so that only one is shown selected at a time
  */
 
-public class changeForeground extends MouseAdapter{
+public class changeForegroundCourse extends MouseAdapter{
     JLabel label;
     Color oldForeground;
     HashMap<JLabel, Boolean> highlighter = new HashMap<>();
+    Icon right_arrow = new FlatSVGIcon("right-arrow.svg", 0.25f);
+    Icon down_arrow = new FlatSVGIcon("down-arrow.svg", 0.25f);
 
-    public changeForeground(JLabel label, HashMap<JLabel, Boolean> highlighter){
+    public changeForegroundCourse(JLabel label, HashMap<JLabel, Boolean> highlighter){
         this.label = label;
         oldForeground = this.label.getForeground();
         this.highlighter = highlighter;
@@ -34,8 +37,10 @@ public class changeForeground extends MouseAdapter{
             if (e.getComponent() != label){
                 label.setForeground(oldForeground);
                 highlighter.put(label, false);
+                label.setIcon(right_arrow);
             }
         }
+        label.setIcon(down_arrow);
         label.setForeground(new Color(78, 178, 165));
         highlighter.put(label, true);
     }

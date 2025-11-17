@@ -170,3 +170,48 @@ where enrollments.student_id = 'A1' and grades.course_id = 'CSE101' [42122-240]
 	at org.h2.server.web.WebThread.process(WebThread.java:190)
 	at org.h2.server.web.WebThread.run(WebThread.java:103)
 	at java.base/java.lang.Thread.run(Thread.java:1474)
+2025-11-17 22:59:51.014633+05:30 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select distinct sections.course_id from enrollments, grades join students on students [*]user_id = enrollments.student_id join sections on sections.section_id = grades.section_id where grades.component = 'Endsem' and students.user_id = 'A1' and sections.semester = 1;"; SQL statement:
+select distinct sections.course_id from enrollments, grades join students on students user_id = enrollments.student_id join sections on sections.section_id = grades.section_id where grades.component = 'Endsem' and students.user_id = 'A1' and sections.semester = 1; [42000-240]
+2025-11-17 23:17:47.754871+05:30 jdbc[5]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "GRADE.WEIGHTAGE" not found; SQL statement:
+select distinct grades.component, grades.score, grades.total_score, grade.weightage from grades, enrollments join sections on sections.section_id = grades.section_id where enrollments.student_id = 'A1' and sections.course_id = 'MTH100'; [42122-240]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.command.query.Select.lambda$prepareExpressions$2(Select.java:1209)
+	at java.base/java.util.ArrayList.replaceAllRange(ArrayList.java:1803)
+	at java.base/java.util.ArrayList.replaceAll(ArrayList.java:1793)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1209)
+	at org.h2.command.query.Query.prepare(Query.java:235)
+	at org.h2.command.Parser.prepareCommand(Parser.java:492)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:647)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:563)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1160)
+	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:94)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
+	at edu.univ.erp.data.StudentData.runQuery(StudentData.java:16)
+	at edu.univ.erp.data.StudentData.getCourseComponentGrades(StudentData.java:90)
+	at edu.univ.erp.api.student.componentWiseGrades.fetch(componentWiseGrades.java:12)
+	at edu.univ.erp.ui.student.CourseGradeCard.<init>(CourseGradeCard.java:13)
+	at edu.univ.erp.ui.student.GradePanel.<init>(GradePanel.java:26)
+	at edu.univ.erp.ui.student.Dashboard.<init>(Dashboard.java:41)
+	at edu.univ.erp.ui.student.tmp.lambda$main$0(tmp.java:30)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:323)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+2025-11-18 02:18:02.460866+05:30 jdbc[7]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-240]
+2025-11-18 02:18:02.489425+05:30 jdbc[8]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-240]

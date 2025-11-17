@@ -88,7 +88,7 @@ public class Dashboard extends JFrame{
 
         changingLayout = new CardLayout();
         changerPanel = new CenterChangerPanel(rightPanelWidth, rightPanelHeight);
-        changerPanel.setBorder(new EmptyBorder(12, 0, 0, 0));
+        changerPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
         changerPanel.setLayout(changingLayout);
         changerPanel.setBackground(Color.WHITE);
 
