@@ -60,7 +60,7 @@ public class GradePanel extends JPanel{
             cgpaSGPA.add(cgsgLabel, BorderLayout.CENTER);
 
             //-----------------------------------Adding-------------------------------------
-            Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2, true);
+            Border lineBorder = BorderFactory.createLineBorder(new Color(181, 179, 179), 1, true);
             bottomBar.setBorder(new EmptyBorder(0, 20, 20, 20));
             cgpaSGPA.setBorder(lineBorder);
             // cgpaSGPA.setBorder(new EmptyBorder(0, 10, 0, 10));

@@ -3,6 +3,7 @@ package edu.univ.erp.data;
 import java.sql.*;
 import edu.univ.erp.auth.*;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.lang.Exception;
 
 public class Course{
@@ -67,6 +68,34 @@ public class Course{
         }
         catch(SQLException e){
             System.out.println("Exception occured at data/Section\n"); //for prototyping may change later
+        }
+
+        return tmp;
+    }
+
+    public static ArrayList<ArrayList<String>> getAllCourseDetails() throws SQLException{
+
+        ArrayList<ArrayList<String>> tmp = new ArrayList<>();
+
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery("select * from courses");
+            )
+        {
+            while (result.next() != false){
+                ArrayList<String> temp = new ArrayList<>();
+                temp.add(result.getString(1)); //course_id
+                temp.add(result.getString(2)); //acronym
+                temp.add(String.format("%d", result.getInt(3))); //credits
+                temp.add(result.getString(4)); //title
+
+                tmp.add(temp);
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/Course\n"); //for prototyping may change later
         }
 
         return tmp;
