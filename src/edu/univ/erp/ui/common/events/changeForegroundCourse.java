@@ -31,7 +31,7 @@ public class changeForegroundCourse extends MouseAdapter{
         this.coursePanel = coursePanel;
         this.arrow = true;
         this.Course_ID = Course_ID;
-        componentPanel = new ComponentGradeCard(Course_ID);
+        componentPanel = new ComponentGradeCard(Course_ID); //creating layout in event class doesn't makes sense, so keep it  in mind
         coursePanel.add(componentPanel, BorderLayout.CENTER);
         componentPanel.setVisible(false);
     }
@@ -46,11 +46,18 @@ public class changeForegroundCourse extends MouseAdapter{
     }
 
     public void mouseClicked(MouseEvent e){
+        for (JLabel label : highlighter.keySet()){
+            if (e.getComponent() != label){
+                label.setForeground(oldForeground);
+                highlighter.put(label, false);
+            }
+        }
         if (arrow == false){
             coursePanel.setMaximumSize(oldMaxSize);
             componentPanel.setVisible(false);
             coursePanel.revalidate();
             label.setIcon(right_arrow);
+            label.setForeground(oldForeground);
             arrow = true;
         }
         else{
@@ -59,12 +66,6 @@ public class changeForegroundCourse extends MouseAdapter{
             coursePanel.revalidate();
             label.setIcon(down_arrow);
             arrow = false;
-        }
-        for (JLabel label : highlighter.keySet()){
-            if (e.getComponent() != label){
-                label.setForeground(oldForeground);
-                highlighter.put(label, false);
-            }
         }
         label.setForeground(new Color(78, 178, 165));
         highlighter.put(label, true);

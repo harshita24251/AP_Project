@@ -10,6 +10,7 @@ import java.util.Map;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
 import edu.univ.erp.ui.common.events.*;
+import javax.swing.border.EmptyBorder;
 /**
  * for getting components of courses as a JPanel
  */
@@ -24,7 +25,7 @@ public class CourseGradePanel extends JPanel{
 
         for (String s : registeredCourses.fetch(semesterNo)){
             JPanel coursePanel = new JPanel(new BorderLayout());
-            coursePanel.setPreferredSize(new Dimension(Math.round(width), 80));
+            coursePanel.setPreferredSize(new Dimension(Math.round(width), 170));
             JPanel courseTitle = new JPanel(new BorderLayout());
             courseTitle.setBackground(Color.WHITE);
             courseTitle.setPreferredSize(new Dimension(Math.round(width), 30));
@@ -43,6 +44,7 @@ public class CourseGradePanel extends JPanel{
             
             add(coursePanel);
         }
+
         setBackground(Color.WHITE);
     }
 }

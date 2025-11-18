@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 public class ComponentGradeCard extends JPanel{
     public ComponentGradeCard(String Course_ID){
+        setLayout(new BorderLayout());
 
         HashMap<String, Double> grade = componentWiseGrades.fetch(Course_ID); //fetching how much obtained in component
         HashMap<String, Integer> components = courseComponents.fetch(Course_ID); //fetching components e.g. quiz, midsem etc
@@ -38,6 +39,6 @@ public class ComponentGradeCard extends JPanel{
         setBackground(Color.WHITE);
         JScrollPane master = new JScrollPane(courseComponents);
         master.setEnabled(false);
-        add(master);
+        add(master, BorderLayout.CENTER);
     }
 }

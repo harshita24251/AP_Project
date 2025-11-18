@@ -42,9 +42,12 @@ public class Dashboard extends JFrame{
 
         //changing panels---------------------------------------------------
         JPanel gradesPanel = new GradePanel(rightPanelWidth, rightPanelHeight);
+        JPanel manageCoursesPanel = new ManageCoursesPanel(rightPanelWidth, rightPanelHeight);
         
         HashMap<String, MouseAdapter> registerListener = new HashMap<>();
         registerListener.put("Grades", new goToGrades(gradesPanel));
+        registerListener.put("Manage Courses", new goToMangeCourses(manageCoursesPanel));
+
 
         //------------------------Left Panel-------------------------------
         float navHeight = height * 0.225f;
@@ -77,7 +80,7 @@ public class Dashboard extends JFrame{
             }
         });
 
-        String[] academic = {"Grades", "Manage Course", "Dual Degree"};
+        String[] academic = {"Grades", "Manage Courses", "Dual Degree"};
         String[] administration = {"Fee Details", "Student Requests", "Hostel Requests"};
         String[] special = {"TA Details", "Project Registration"};
 
@@ -207,9 +210,11 @@ public class Dashboard extends JFrame{
         //-----------------adding panels to cardlayout changingLayout----------------
         changerPanel.add(rightPanel, BorderLayout.CENTER);
         changerPanel.add(gradesPanel, BorderLayout.CENTER);
+        changerPanel.add(manageCoursesPanel, BorderLayout.CENTER);
 
         changingLayout.addLayoutComponent(rightPanel, "rightPanel");
         changingLayout.addLayoutComponent(gradesPanel, "gradesPanel");
+        changingLayout.addLayoutComponent(manageCoursesPanel, "manageCoursesPanel");
         //---------------------------------------------------------------------------
 
         setLayout(new BorderLayout());
@@ -229,6 +234,16 @@ public class Dashboard extends JFrame{
         }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "gradesPanel");
+        }
+    }
+
+    private class goToMangeCourses extends MouseAdapter{
+        JPanel toGo;
+        public goToMangeCourses(JPanel toGo){
+            this.toGo = toGo;
+        }
+        public void mouseClicked(MouseEvent e){
+            changingLayout.show(changerPanel, "manageCoursesPanel");
         }
     }
 }
