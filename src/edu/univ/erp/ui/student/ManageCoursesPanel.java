@@ -43,28 +43,46 @@ public class ManageCoursesPanel extends JPanel{
 
         JPanel ofScrollPane = new JPanel();
         ofScrollPane.setLayout(new BoxLayout(ofScrollPane, BoxLayout.Y_AXIS));
+        ofScrollPane.setBackground(Color.WHITE);
 
         for (ArrayList<String> arr : allCourseDetails.fetch()){
             ofScrollPane.add(new CoursePalette(width, height * 0.1f, arr.get(3), arr.get(1), arr.get(0), arr.get(2), 16, false));
-            ofScrollPane.setBorder(new EmptyBorder(10, 0, 0, 0));
-        }
-        for (ArrayList<String> arr : allCourseDetails.fetch()){
-            ofScrollPane.add(new CoursePalette(width, height * 0.1f, arr.get(3), arr.get(1), arr.get(0), arr.get(2), 16, false));
-            ofScrollPane.setBorder(new EmptyBorder(10, 0, 0, 0));
-        }
-        for (ArrayList<String> arr : allCourseDetails.fetch()){
-            ofScrollPane.add(new CoursePalette(width, height * 0.1f, arr.get(3), arr.get(1), arr.get(0), arr.get(2), 16, false));
-            ofScrollPane.setBorder(new EmptyBorder(10, 0, 0, 0));
         }
 
         JScrollPane insideCoursePalettePanel = new JScrollPane(ofScrollPane);
         insideCoursePalettePanel.getVerticalScrollBar().setUnitIncrement(9);
+        insideCoursePalettePanel.getViewport().setBackground(Color.WHITE);
         coursePalettePanel.add(insideCoursePalettePanel);
 
-        //---------------------------------------Sub navBar panels---------------------------------------
-        JPanel searchBar = new JPanel(new BorderLayout());
+        //---------------------------------------Search Panel--------------------------------------------
+        JPanel searchBar = new JPanel(new FlowLayout());
         searchBar.setPreferredSize(new Dimension(Math.round(width), Math.round(navBarHeight * 0.3f)));
         searchBar.setBackground(Color.WHITE);
+
+        JCheckBox cse = new JCheckBox("CSE");
+        searchBar.add(cse);
+
+        JCheckBox ece = new JCheckBox("ECE");
+        searchBar.add(ece);
+        
+        JCheckBox mth = new JCheckBox("MTH");
+        searchBar.add(mth);
+        
+        JCheckBox bio = new JCheckBox("BIO");
+        searchBar.add(bio);
+        
+        JCheckBox des = new JCheckBox("DES");
+        searchBar.add(des);
+        
+        JCheckBox ssh = new JCheckBox("SSH");
+        searchBar.add(ssh);
+        
+        JCheckBox others = new JCheckBox("OTHERS");
+        searchBar.add(others);
+
+
+
+        //---------------------------------------Sub navBar panels---------------------------------------
 
 
         navBar.add(searchBar, BorderLayout.NORTH);
