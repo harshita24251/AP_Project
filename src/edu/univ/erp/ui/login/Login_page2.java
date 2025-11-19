@@ -16,6 +16,7 @@ import java.awt.EventQueue;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.border.*;
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -32,16 +33,17 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 public class Login_page2 extends JFrame{
     public Login_page2() {
         FlatLightLaf.setup();
-        setTitle("dashBoard login");
+        setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit krne pe close
         
 
 
         // ------full size screen--------------//
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = screensize.width;
-        int screenHeight = screensize.height;
-        setSize(screenWidth,screenHeight); // size of frame
+        int screenWidth = Math.round(screensize.width * 0.75f);
+        int screenHeight = Math.round(screensize.height * 0.75f);
+        setSize(screenWidth, screenHeight); // size of frame
+        setResizable(false);
         // frame.setResizable(false); // cant cahnge size of frame
         setLocationRelativeTo(null);
    ///     frame.setLayout(new GridLayout(1,2)); // 2 sections m divide 1 row 2 ocloumns
@@ -49,7 +51,7 @@ public class Login_page2 extends JFrame{
           //-----outer main panel------//
           JPanel outpanel = new JPanel();
           outpanel.setBackground(new Color(245,245,245));///light grey balc
-          outpanel.setBorder(BorderFactory.createEmptyBorder(45,45,45,45));
+          outpanel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
           
           JPanel mainpanel = new JPanel(new GridLayout(1,2,0,0));
           mainpanel.setOpaque(false); // transparent background to see guy
@@ -61,7 +63,7 @@ public class Login_page2 extends JFrame{
 
        // ImageIcon image = new ImageIcon("image.png");
         ImageIcon iimage = new ImageIcon("lib/assets/iiitdrndblock.jpeg");
-        Image scaledicon = iimage.getImage().getScaledInstance(screenWidth/2-80,screenHeight-170 ,Image.SCALE_SMOOTH);
+        Image scaledicon = iimage.getImage().getScaledInstance(screenWidth/2-30,screenHeight-80 ,Image.SCALE_SMOOTH);
         ImageIcon scaleimage = new ImageIcon(scaledicon);  /// ab in sabse image ka size fix kr diyaImage 
         JLabel imageLabel = new JLabel(scaleimage);
          imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -87,17 +89,17 @@ public class Login_page2 extends JFrame{
          JTextField username = new JTextField();
          username.setMaximumSize(new Dimension(450,40));
          username.setFont(new Font("SansSerif",Font.PLAIN,16));
-         username.setBorder(BorderFactory.createTitledBorder("username"));
+         username.setBorder(BorderFactory.createTitledBorder("Username"));
 
          JPasswordField password = new JPasswordField();
          password.setMaximumSize(new Dimension(450,40));
          password.setFont(new Font("SansSerif",Font.PLAIN,16));
          password.setBorder((BorderFactory.createTitledBorder("Password")));
 
-        JButton loginbuttton = new JButton("login");
+        JButton loginbuttton = new JButton("Login");
         loginbuttton.setBackground(new Color(0,153,153));
         loginbuttton.setForeground(Color.WHITE);
-        loginbuttton.setFont(new Font("SansSerif",Font.BOLD,16));
+        loginbuttton.setFont(new Font("Roboto Mono",Font.BOLD,16));
         loginbuttton.setFocusPainted(false);
         loginbuttton.setBorder(BorderFactory.createEmptyBorder(10, 10,10,10));
         loginbuttton.setMaximumSize(new Dimension(400,45));
@@ -108,6 +110,12 @@ public class Login_page2 extends JFrame{
         forgot.setFont(new Font("SansSerif",Font.PLAIN,14));
         forgot.setForeground(Color.GRAY);
         
+        //---------------------------------logo Panel-----------------------------------
+        JPanel logoPanel = new JPanel(new BorderLayout());
+        logoPanel.add(final_logo, BorderLayout.CENTER);
+        logoPanel.setPreferredSize(new Dimension(300, 140));
+        logoPanel.setBackground(Color.WHITE);
+
        // wrapper panel to align bottom-right
 JPanel forgotPanel = new JPanel(new BorderLayout());
 forgotPanel.setOpaque(false);
@@ -116,12 +124,12 @@ forgotPanel.setMaximumSize(new Dimension(400, 40));
 
        JPanel loginCard = new JPanel();
        loginCard.setLayout(new BoxLayout(loginCard, BoxLayout.Y_AXIS));
-       loginCard.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60)); //
+       loginCard.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, 20)); //
 
        loginCard.setBackground(Color.WHITE);
 
        loginCard.add(Box.createVerticalGlue());
-       loginCard.add(final_logo);
+       loginCard.add(logoPanel);
        loginCard.add(Box.createRigidArea(new Dimension(0,40))); //
        loginCard.add(username);
        loginCard.add(Box.createRigidArea(new Dimension(0,20)));
