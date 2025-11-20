@@ -123,7 +123,7 @@ public class CoursePalette extends JPanel{
 
         public void mouseEntered(MouseEvent e){
             for (JPanel panel : subPanels){
-                panel.setBackground(new Color(210, 240, 235));
+                panel.setBackground(new Color(200, 236, 231));
             }
         }
 

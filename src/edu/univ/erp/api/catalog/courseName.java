@@ -2,7 +2,7 @@ package edu.univ.erp.api.catalog;
 
 import edu.univ.erp.data.*;
 import java.util.HashMap;
-import java.sql.*;
+import java.sql.*;// for catching the exception and not talking to db
 
 public class courseName{
     public static String fetch(String Course_ID){

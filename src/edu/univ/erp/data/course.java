@@ -24,7 +24,7 @@ public class Course{
             }
         }
         catch(SQLException e){
-            System.out.println("Exception occured at data/Section\n"); //for prototyping may change later
+            System.out.println("Exception occured at data/Course\n"); //for prototyping may change later
         }
         return tmp;
     }

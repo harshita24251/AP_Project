@@ -16,7 +16,7 @@ public class HikariConnectionPool{
   
   static {
     HikariConfig conf = new HikariConfig();
-    conf.setJdbcUrl("jdbc:h2:Auth_DB");
+    conf.setJdbcUrl("jdbc:h2:./db/Auth_DB");
     conf.setUsername("iiitd");
     conf.setPassword("student");
     sourceOfData =  new HikariDataSource(conf);

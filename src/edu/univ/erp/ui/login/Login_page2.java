@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.EventQueue;
+import java.awt.event.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,8 +30,12 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import edu.univ.erp.api.auth.*;
 
 public class Login_page2 extends JFrame{
+    JTextField usernameTextField;
+    JPasswordField passwordTextField;
+
     public Login_page2() {
         FlatLightLaf.setup();
         setTitle("Login");
@@ -66,7 +71,7 @@ public class Login_page2 extends JFrame{
         Image scaledicon = iimage.getImage().getScaledInstance(screenWidth/2-30,screenHeight-80 ,Image.SCALE_SMOOTH);
         ImageIcon scaleimage = new ImageIcon(scaledicon);  /// ab in sabse image ka size fix kr diyaImage 
         JLabel imageLabel = new JLabel(scaleimage);
-         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         imageLabel.setVerticalAlignment(SwingConstants.CENTER);
         leftpanel.add(imageLabel,BorderLayout.CENTER);//center me bcz tabhi pura 500*600 ka area cover ho jayega
 
@@ -86,15 +91,18 @@ public class Login_page2 extends JFrame{
         JLabel final_logo = new JLabel(logo); 
 
 
-         JTextField username = new JTextField();
-         username.setMaximumSize(new Dimension(450,40));
-         username.setFont(new Font("SansSerif",Font.PLAIN,16));
-         username.setBorder(BorderFactory.createTitledBorder("Username"));
+        JTextField username = new JTextField();
+        username.setMaximumSize(new Dimension(450,40));
+        username.setFont(new Font("SansSerif",Font.PLAIN,16));
+        username.setBorder(BorderFactory.createTitledBorder("Email"));
 
-         JPasswordField password = new JPasswordField();
-         password.setMaximumSize(new Dimension(450,40));
-         password.setFont(new Font("SansSerif",Font.PLAIN,16));
-         password.setBorder((BorderFactory.createTitledBorder("Password")));
+        JPasswordField password = new JPasswordField();
+        password.setMaximumSize(new Dimension(450,40));
+        password.setFont(new Font("SansSerif",Font.PLAIN,16));
+        password.setBorder((BorderFactory.createTitledBorder("Password")));
+
+        usernameTextField = username;
+        passwordTextField = password;
 
         JButton loginbuttton = new JButton("Login");
         loginbuttton.setBackground(new Color(0,153,153));
@@ -104,6 +112,7 @@ public class Login_page2 extends JFrame{
         loginbuttton.setBorder(BorderFactory.createEmptyBorder(10, 10,10,10));
         loginbuttton.setMaximumSize(new Dimension(400,45));
         loginbuttton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        loginbuttton.addActionListener(new loginButtonAction());
        
         JLabel forgot = new JLabel("Forgot password?");
         // forgot.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -117,41 +126,61 @@ public class Login_page2 extends JFrame{
         logoPanel.setBackground(Color.WHITE);
 
        // wrapper panel to align bottom-right
-JPanel forgotPanel = new JPanel(new BorderLayout());
-forgotPanel.setOpaque(false);
-forgotPanel.add(forgot, BorderLayout.EAST);
-forgotPanel.setMaximumSize(new Dimension(400, 40));
+        JPanel forgotPanel = new JPanel(new BorderLayout());
+        forgotPanel.setOpaque(false);
+        forgotPanel.add(forgot, BorderLayout.EAST);
+        forgotPanel.setMaximumSize(new Dimension(400, 40));
 
-       JPanel loginCard = new JPanel();
-       loginCard.setLayout(new BoxLayout(loginCard, BoxLayout.Y_AXIS));
-       loginCard.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, 20)); //
+        JPanel loginCard = new JPanel();
+        loginCard.setLayout(new BoxLayout(loginCard, BoxLayout.Y_AXIS));
+        loginCard.setBorder(BorderFactory.createEmptyBorder(40, 20, 40, 20)); //
 
-       loginCard.setBackground(Color.WHITE);
+        loginCard.setBackground(Color.WHITE);
 
-       loginCard.add(Box.createVerticalGlue());
-       loginCard.add(logoPanel);
-       loginCard.add(Box.createRigidArea(new Dimension(0,40))); //
-       loginCard.add(username);
-       loginCard.add(Box.createRigidArea(new Dimension(0,20)));
-       loginCard.add(password);
-       loginCard.add(Box.createRigidArea(new Dimension(0,30)));
-       loginCard.add(loginbuttton);
+        loginCard.add(Box.createVerticalGlue());
+        loginCard.add(logoPanel);
+        loginCard.add(Box.createRigidArea(new Dimension(0,40))); //
+        loginCard.add(username);
+        loginCard.add(Box.createRigidArea(new Dimension(0,20)));
+        loginCard.add(password);
+        loginCard.add(Box.createRigidArea(new Dimension(0,30)));
+        loginCard.add(loginbuttton);
         loginCard.add(Box.createRigidArea(new Dimension(0,5)));
-       loginCard.add(forgotPanel);
-    loginCard.add(Box.createVerticalGlue());
+        loginCard.add(forgotPanel);
+        loginCard.add(Box.createVerticalGlue());
 
         rightpanel.add(loginCard);
 
- mainpanel.add(rightpanel);
+        mainpanel.add(rightpanel);
         outpanel.add(mainpanel,BorderLayout.CENTER);
         add(outpanel);
         setVisible(true);
 
-
-
-
-
-
+        getRootPane().setDefaultButton(loginbuttton);
     }
-    
+
+    class loginButtonAction implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            String Username = usernameTextField.getText();
+            char[] Password = passwordTextField.getPassword();
+
+            System.out.println(Username);
+            System.out.println(Password);
+
+            String role = " ";
+
+            if (!IsUsernamePresent.check(Username) || !IsPasswordValid.check(Username, Password)){
+                System.out.println("something went wrong with credentials");
+            }
+            else{
+                System.out.println("Login Successful");
+                role = Role.fetch(Username);
+            }
+        }
+    }
+
+    /**
+     * username : c@iiitd.ac.in
+     * password : student
+     */
 }
