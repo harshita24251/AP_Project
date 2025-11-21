@@ -93,12 +93,12 @@ public class Login_page2 extends JFrame{
 
         JTextField username = new JTextField();
         username.setMaximumSize(new Dimension(450,40));
-        username.setFont(new Font("SansSerif",Font.PLAIN,16));
+        username.setFont(new Font("Roboto Mono",Font.PLAIN,16));
         username.setBorder(BorderFactory.createTitledBorder("Email"));
 
         JPasswordField password = new JPasswordField();
         password.setMaximumSize(new Dimension(450,40));
-        password.setFont(new Font("SansSerif",Font.PLAIN,16));
+        password.setFont(new Font("Roboto Mono",Font.PLAIN,16));
         password.setBorder((BorderFactory.createTitledBorder("Password")));
 
         usernameTextField = username;
@@ -116,7 +116,7 @@ public class Login_page2 extends JFrame{
        
         JLabel forgot = new JLabel("Forgot password?");
         // forgot.setAlignmentX(Component.CENTER_ALIGNMENT);
-        forgot.setFont(new Font("SansSerif",Font.PLAIN,14));
+        forgot.setFont(new Font("Roboto Mono",Font.PLAIN,14));
         forgot.setForeground(Color.GRAY);
         
         //---------------------------------logo Panel-----------------------------------

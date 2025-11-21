@@ -73,14 +73,14 @@ public class ManageCoursesPanel extends JPanel{
 
         //---------------------------------------Search Panel--------------------------------------------
         JPanel searchBar = new JPanel(new FlowLayout());
-        searchBar.setPreferredSize(new Dimension(Math.round(width), Math.round(navBarHeight * 0.3f)));
+        searchBar.setPreferredSize(new Dimension(Math.round(width), Math.round(navBarHeight * 0.4f)));
         searchBar.setBackground(Color.WHITE);
 
         searchBar.add(courseCount);
 
             //------------------------------checkbox icon-------------------------------------
-            Icon ticked = new FlatSVGIcon("checkbox-ticked.svg", 0.3f);
-            Icon unticked = new FlatSVGIcon("checkbox-unticked.svg", 0.3f);
+            Icon ticked = new FlatSVGIcon("checkbox-ticked.svg", 0.32f);
+            Icon unticked = new FlatSVGIcon("checkbox-unticked.svg", 0.32f);
 
         JCheckBox cse = new JCheckBox("CSE");
         cse.setSelectedIcon(ticked);
@@ -130,6 +130,16 @@ public class ManageCoursesPanel extends JPanel{
         others.setIcon(unticked);
         checkBoxStatus.put("OTH", false);
         others.addItemListener(new showCatergories("OTH", checkBoxStatus));
+
+        JTextField searchCourse = new JTextField();
+        searchCourse.setPreferredSize(new Dimension(110, 20));
+        searchCourse.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        searchBar.add(searchCourse);
+
+        JLabel searchLabel = new JLabel("Search");
+        // System.out.println(searchLabel.getFont());
+        searchLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        searchBar.add(searchLabel);
 
         //---------------------------------------Sub navBar panels---------------------------------------
 

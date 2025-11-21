@@ -122,7 +122,7 @@ public class Dashboard extends JFrame{
 
         JPanel rightTopRightPanel = new JPanel(new BorderLayout());
         rightTopRightPanel.setBackground(Color.BLACK);
-        rightTopRightPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
+        // rightTopRightPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
         rightTopRightPanel.setPreferredSize(new Dimension(Math.round(rightTopRightPanelWidth), Math.round(rightTopRightPanelHeight)));
 
         /**
