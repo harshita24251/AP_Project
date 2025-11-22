@@ -79,8 +79,14 @@ public class Dashboard extends JFrame{
                 changingLayout.show(changerPanel, "rightPanel");
             }
         });
+        //----------------------------------Changing Panels-----------------------------
+        JPanel studentsPanel = new StudentsPanel(rightPanelWidth, rightPanelHeight);
+        registerListener.put("Students", new goToStudents());
 
-        String[] academic = {"Students", "Faculty", "Courses"};
+        JPanel coursesPanel = new CoursesPanel(rightPanelWidth, rightPanelHeight);
+        registerListener.put("Courses", new goToCourses());
+
+        String[] academic = {"Students", "Assessments", "My Courses"};
 
         LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
 
@@ -104,6 +110,8 @@ public class Dashboard extends JFrame{
         JPanel rightBottomPanel = new JPanel(new BorderLayout());
         rightBottomPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth), Math.round(rightPanelHeight * 0.5f)));
 
+
+
         //-------------------------event handling-----------------------------
 
         //-------------------------adding to frame----------------------------
@@ -123,11 +131,13 @@ public class Dashboard extends JFrame{
 
         //-----------------adding panels to cardlayout changingLayout----------------
         changerPanel.add(rightPanel, BorderLayout.CENTER);
-        // changerPanel.add(gradesPanel, BorderLayout.CENTER);
+        changerPanel.add(studentsPanel, BorderLayout.CENTER);
+        changerPanel.add(coursesPanel, BorderLayout.CENTER);
         // changerPanel.add(manageCoursesPanel, BorderLayout.CENTER);
 
         changingLayout.addLayoutComponent(rightPanel, "rightPanel");
-        // changingLayout.addLayoutComponent(gradesPanel, "gradesPanel");
+        changingLayout.addLayoutComponent(studentsPanel, "studentsPanel");
+        changingLayout.addLayoutComponent(coursesPanel, "coursesPanel");
         // changingLayout.addLayoutComponent(manageCoursesPanel, "manageCoursesPanel");
         //---------------------------------------------------------------------------
 
@@ -141,15 +151,17 @@ public class Dashboard extends JFrame{
 
     }
 
-    // private class goToGrades extends MouseAdapter{
-    //     JPanel toGo;
-    //     public goToGrades(JPanel toGo){
-    //         this.toGo = toGo;
-    //     }
-    //     public void mouseClicked(MouseEvent e){
-    //         changingLayout.show(changerPanel, "gradesPanel");
-    //     }
-    // }
+    private class goToStudents extends MouseAdapter{
+        public void mouseClicked(MouseEvent e){
+            changingLayout.show(changerPanel, "studentsPanel");
+        }
+    }
+
+    private class goToCourses extends MouseAdapter{
+        public void mouseClicked(MouseEvent e){
+            changingLayout.show(changerPanel, "coursesPanel");
+        }
+    }
 
     // private class goToMangeCourses extends MouseAdapter{
     //     JPanel toGo;

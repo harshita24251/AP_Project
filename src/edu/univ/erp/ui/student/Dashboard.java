@@ -45,8 +45,8 @@ public class Dashboard extends JFrame{
         JPanel manageCoursesPanel = new ManageCoursesPanel(rightPanelWidth, rightPanelHeight);
         
         HashMap<String, MouseAdapter> registerListener = new HashMap<>();
-        registerListener.put("Grades", new goToGrades(gradesPanel));
-        registerListener.put("Manage Courses", new goToMangeCourses(manageCoursesPanel));
+        registerListener.put("Grades", new goToGrades());
+        registerListener.put("Manage Courses", new goToMangeCourses());
 
 
         //------------------------Left Panel-------------------------------
@@ -228,20 +228,12 @@ public class Dashboard extends JFrame{
     }
 
     private class goToGrades extends MouseAdapter{
-        JPanel toGo;
-        public goToGrades(JPanel toGo){
-            this.toGo = toGo;
-        }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "gradesPanel");
         }
     }
 
     private class goToMangeCourses extends MouseAdapter{
-        JPanel toGo;
-        public goToMangeCourses(JPanel toGo){
-            this.toGo = toGo;
-        }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "manageCoursesPanel");
         }

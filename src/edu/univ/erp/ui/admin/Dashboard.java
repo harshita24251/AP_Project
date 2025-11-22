@@ -45,10 +45,6 @@ public class Dashboard extends JFrame{
         // JPanel manageCoursesPanel = new ManageCoursesPanel(rightPanelWidth, rightPanelHeight);
         
         HashMap<String, MouseAdapter> registerListener = new HashMap<>();
-        registerListener.put("Students", new goToGrades(studentsPanel));
-        registerListener.put("Faculty", new goToMangeCourses(facultyPanel));
-        registerListener.put("Courses", new goToMangeCourses(coursesPanel));
-        registerListener.put("Sections", new goToMangeCourses(sectionsPanel));
 
 
         //------------------------Left Panel-------------------------------
@@ -112,6 +108,10 @@ public class Dashboard extends JFrame{
         JPanel coursesPanel = new CoursesPanel(rightPanelWidth, rightPanelHeight);
         JPanel sectionsPanel = new SectionsPanel(rightPanelWidth, rightPanelHeight);
 
+        registerListener.put("Students", new goToStudents(studentsPanel));
+        registerListener.put("Faculty", new goToFaculty(facultyPanel));
+        registerListener.put("Courses", new goToCourses(coursesPanel));
+        registerListener.put("Sections", new goToSections(sectionsPanel));
         //-------------------------event handling-----------------------------
 
         //-------------------------adding to frame----------------------------
@@ -155,7 +155,7 @@ public class Dashboard extends JFrame{
 
     private class goToStudents extends MouseAdapter{
         JPanel toGo;
-        public goToGrades(JPanel toGo){
+        public goToStudents(JPanel toGo){
             this.toGo = toGo;
         }
         public void mouseClicked(MouseEvent e){
@@ -165,7 +165,7 @@ public class Dashboard extends JFrame{
 
     private class goToFaculty extends MouseAdapter{
         JPanel toGo;
-        public goToGrades(JPanel toGo){
+        public goToFaculty(JPanel toGo){
             this.toGo = toGo;
         }
         public void mouseClicked(MouseEvent e){
@@ -175,7 +175,7 @@ public class Dashboard extends JFrame{
 
     private class goToCourses extends MouseAdapter{
         JPanel toGo;
-        public goToGrades(JPanel toGo){
+        public goToCourses(JPanel toGo){
             this.toGo = toGo;
         }
         public void mouseClicked(MouseEvent e){
@@ -185,21 +185,11 @@ public class Dashboard extends JFrame{
 
     private class goToSections extends MouseAdapter{
         JPanel toGo;
-        public goToGrades(JPanel toGo){
+        public goToSections(JPanel toGo){
             this.toGo = toGo;
         }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "sectionsPanel");
         }
     }
-
-    // private class goToMangeCourses extends MouseAdapter{
-    //     JPanel toGo;
-    //     public goToMangeCourses(JPanel toGo){
-    //         this.toGo = toGo;
-    //     }
-    //     public void mouseClicked(MouseEvent e){
-    //         changingLayout.show(changerPanel, "manageCoursesPanel");
-    //     }
-    // }
 }
