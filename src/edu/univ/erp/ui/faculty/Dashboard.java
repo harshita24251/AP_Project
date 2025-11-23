@@ -86,7 +86,10 @@ public class Dashboard extends JFrame{
         JPanel coursesPanel = new CoursesPanel(rightPanelWidth, rightPanelHeight);
         registerListener.put("Courses", new goToCourses());
 
-        String[] academic = {"Students", "Assessments", "My Courses"};
+        JPanel assessmentsPanel = new Assessments(rightPanelWidth, rightPanelHeight);
+        registerListener.put("Assessments", new goToAssessments());
+
+        String[] academic = {"My Sections", "Assessments"};
 
         LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
 
@@ -132,11 +135,13 @@ public class Dashboard extends JFrame{
         //-----------------adding panels to cardlayout changingLayout----------------
         changerPanel.add(rightPanel, BorderLayout.CENTER);
         changerPanel.add(studentsPanel, BorderLayout.CENTER);
+        changerPanel.add(assessmentsPanel, BorderLayout.CENTER);
         changerPanel.add(coursesPanel, BorderLayout.CENTER);
         // changerPanel.add(manageCoursesPanel, BorderLayout.CENTER);
 
         changingLayout.addLayoutComponent(rightPanel, "rightPanel");
         changingLayout.addLayoutComponent(studentsPanel, "studentsPanel");
+        changingLayout.addLayoutComponent(assessmentsPanel, "assessmentsPanel");
         changingLayout.addLayoutComponent(coursesPanel, "coursesPanel");
         // changingLayout.addLayoutComponent(manageCoursesPanel, "manageCoursesPanel");
         //---------------------------------------------------------------------------
@@ -160,6 +165,12 @@ public class Dashboard extends JFrame{
     private class goToCourses extends MouseAdapter{
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "coursesPanel");
+        }
+    }
+
+    private class goToAssessments extends MouseAdapter{
+        public void mouseClicked(MouseEvent e){
+            changingLayout.show(changerPanel, "assessmentsPanel");
         }
     }
 

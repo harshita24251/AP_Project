@@ -15,26 +15,27 @@ public class InstructorData{
             (
                 Connection connect = HikariConnectionPool.getDataSource().getConnection();
                 Statement statement = connect.createStatement();
-                ResultSet result = statement.executeQuery(String.format("select * from sections where instructor_id = %s", Session.getCurrentUser_ID()));
+                ResultSet result = statement.executeQuery(String.format("select * from sections where instructor_id = '%s'", Session.getCurrentUser_ID()));
             )
         {
             while (result.next()){
                 ArrayList<String> temp = new ArrayList<>();
-                tmp.add(result.getString(1)); //section_id
-                tmp.add(result.getString(2)); //course_id
-                tmp.add(result.getString(3)); //instructor_id
-                tmp.add(result.getDate(4).toString()); //day_time
-                tmp.add(result.getString(5)); //room 
-                tmp.add(String.valueOf(result.getInt(6))); // capacity
-                tmp.add(String.valueOf(result.getInt(7))); // semester
-                tmp.add(String.valueOf(result.getInt(8))); // year
-                tmp.add(String.valueOf(result.getFloat(9))); // duration
+                temp.add(result.getString(1)); //section_id
+                temp.add(result.getString(2)); //course_id
+                temp.add(result.getString(3)); //instructor_id
+                temp.add(result.getTime(4).toString()); //day_time
+                temp.add(result.getString(5)); //room 
+                temp.add(String.valueOf(result.getInt(6))); // capacity
+                temp.add(String.valueOf(result.getInt(7))); // semester
+                temp.add(String.valueOf(result.getInt(8))); // year
+                temp.add(String.valueOf(result.getFloat(9))); // duration
 
                 tmp.add(temp);
             }
         }
         catch(SQLException e){
-            System.out.println("Exception occured at data/Section\n"); //for prototyping may change later
+            System.out.println("Exception occured at data/InstructorData\n"); //for prototyping may change later
+            e.printStackTrace();
         }
 
         return tmp;
