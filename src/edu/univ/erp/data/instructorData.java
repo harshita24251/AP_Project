@@ -61,9 +61,9 @@ public class InstructorData{
                 temp.add(String.valueOf(count++));
                 temp.add(result.getString(2)); //title
                 temp.add(String.valueOf(result.getInt(4))); //total score
-                temp.add(String.valueOf(7)); //weightage
-                temp.add(String.valueOf(8)); //start_date
-                temp.add(String.valueOf(9)); //end_date
+                temp.add(String.valueOf(result.getInt(7))); //weightage
+                temp.add(String.valueOf(result.getTimestamp(8))); //start_date
+                temp.add(String.valueOf(result.getTimestamp(9))); //end_date
                 temp.add(String.valueOf(10)); //attachments
                 tmp.add(temp);
             }

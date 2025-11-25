@@ -1,13 +1,13 @@
 package edu.univ.erp.ui.faculty;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import edu.univ.erp.api.instructor.*;
 import edu.univ.erp.domain.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
@@ -16,7 +16,8 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
  */
 
 public class AssessmentsListPanel extends JPanel{
-    public ArrayList<ArrayList<Object>> listOfAssessments;
+    private ArrayList<ArrayList<Object>> listOfAssessments;
+    private HashMap<JCheckBox, JPanel> checkboxes= new HashMap<>();
 
     public AssessmentsListPanel(float width, float height_, String Course_ID){
         FlatLightLaf.setup();
@@ -29,72 +30,193 @@ public class AssessmentsListPanel extends JPanel{
         setBackground(Color.WHITE);
 
         listOfAssessments = getComponents.fetch(Course_ID);
+        ArrayList<Object> columnNames = new ArrayList<>();
+        columnNames.add("");
+        columnNames.add("");
+        columnNames.add("Title");
+        columnNames.add("Start_time");
+        columnNames.add("End_time");
+        columnNames.add("Files");
+        columnNames.add("Max Marks");
+        columnNames.add("Weightage");
 
+//        listOfAssessments.add(0, columnNames);
         //--------------------------------------Icons-----------------------------------------
         Icon clip = new FlatSVGIcon("clip.svg", 0.25f);
-        Icon editIcon = new FlatSVGIcon("edit.svg", 0.25f);
+        Icon  clipLight = new FlatSVGIcon("clipLight.svg", 0.25f);
 
-        int x = Math.round(0.06f * width);   // number, checkbox, etc.
-        int y = Math.round(0.15f * width);   // date columns
-        int t = Math.round(0.30f * width);   // title column
-        float height = height_ * 0.06f;      // slightly taller rows
+        Icon editIcon = new FlatSVGIcon("edit.svg", 0.25f);
+        Icon editIconLight = new FlatSVGIcon("editLight.svg", 0.25f);
+
+        Icon ticked = new FlatSVGIcon("checkbox-ticked.svg", 0.32f);
+        Icon tickedLight = new FlatSVGIcon("tickedLight.svg", 0.32f);
+
+        Icon unticked = new FlatSVGIcon("checkbox-unticked.svg", 0.32f);
+        Icon untickedLight = new FlatSVGIcon("untickedLight.svg", 0.32f);
+
+        //---------------------------------for table title-----------------------------------
+
+        //-----------------------------------------------------------------------------------
+
+
+        int x = Math.round(0.06f * width);
+        int y = Math.round(0.15f * width);
+        int t = Math.round(0.30f * width);
+        float height = height_ * 0.06f;
+
+        boolean columnHeading = true;
 
         for (ArrayList<Object> arr : listOfAssessments) {
+            ArrayList<JPanel> forHoverEffect = new ArrayList<>();
+
+            // -------------------------------------------------------------
+
+
+            // -------------------------------------------------------------
+            if (columnHeading){
+                JPanel main = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+                main.setMaximumSize(new Dimension(Math.round(width), Math.round(height)));
+                main.setBackground(Color.WHITE);
+
+                JPanel no = new JPanel(new BorderLayout());
+                no.setPreferredSize(new Dimension(x - 20, Math.round(height)));
+                no.setBackground(Color.WHITE);
+
+                JPanel delete = new JPanel(new BorderLayout());
+                delete.setPreferredSize(new Dimension(x - 10, Math.round(height)));
+                delete.setBackground(Color.WHITE);
+
+                JPanel edit = new JPanel(new BorderLayout());
+                edit.setPreferredSize(new Dimension(x - 20, Math.round(height)));
+                edit.setBackground(Color.WHITE);
+
+                JPanel title = new JPanel(new BorderLayout());
+                title.setPreferredSize(new Dimension(t, Math.round(height)));
+                title.setBackground(Color.WHITE);
+
+                JPanel start_date = new JPanel(new BorderLayout());
+                start_date.setPreferredSize(new Dimension(y, Math.round(height)));
+                start_date.setBackground(Color.WHITE);
+
+                JPanel end_date = new JPanel(new BorderLayout());
+                end_date.setPreferredSize(new Dimension(y, Math.round(height)));
+                end_date.setBackground(Color.WHITE);
+
+                JPanel attachments = new JPanel(new BorderLayout());
+                attachments.setPreferredSize(new Dimension(x - 30, Math.round(height)));
+                attachments.setBackground(Color.WHITE);
+
+                JPanel maxMarks = new JPanel(new BorderLayout());
+                maxMarks.setPreferredSize(new Dimension(x, Math.round(height)));
+                maxMarks.setBackground(Color.WHITE);
+
+                JPanel weightage = new JPanel(new BorderLayout());
+                weightage.setPreferredSize(new Dimension(x, Math.round(height)));
+                weightage.setBackground(Color.WHITE);
+
+                JLabel a = new JLabel("");
+                JLabel b = new JLabel("");
+                JLabel k = new JLabel("");
+                JLabel c = new JLabel("Title");
+                JLabel d = new JLabel("Start_time");
+                JLabel e = new JLabel("End_time");
+                JLabel f = new JLabel("Files");
+                JLabel g = new JLabel("Max. Marks");
+                JLabel h = new JLabel("Weightage");
+
+                no.add(a);
+                delete.add(b);
+                edit.add(k);
+                title.add(c);
+                start_date.add(d);
+                end_date.add(e);
+                attachments.add(f);
+                maxMarks.add(g);
+                weightage.add(h);
+
+                columnHeading = false;
+
+                main.add(no);
+                main.add(delete);
+                main.add(edit);
+                main.add(title);
+                main.add(start_date);
+                main.add(end_date);
+                main.add(attachments);
+                main.add(maxMarks);
+                main.add(weightage);
+
+                add(main);
+            }
 
             JPanel main = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
             main.setMaximumSize(new Dimension(Math.round(width), Math.round(height)));
             main.setBackground(Color.WHITE);
+            forHoverEffect.add(main);
 
-            //-----------------------------------------------------------------------------
             JPanel no = new JPanel(new BorderLayout());
             no.setPreferredSize(new Dimension(x - 20, Math.round(height)));
             no.setBackground(Color.WHITE);
+            forHoverEffect.add(no);
 
             JPanel delete = new JPanel(new BorderLayout());
             delete.setPreferredSize(new Dimension(x - 10, Math.round(height)));
             delete.setBackground(Color.WHITE);
+            forHoverEffect.add(delete);
 
             JPanel edit = new JPanel(new BorderLayout());
             edit.setPreferredSize(new Dimension(x - 20, Math.round(height)));
             edit.setBackground(Color.WHITE);
+            forHoverEffect.add(edit);
 
             JPanel title = new JPanel(new BorderLayout());
             title.setPreferredSize(new Dimension(t, Math.round(height)));
             title.setBackground(Color.WHITE);
+            forHoverEffect.add(title);
 
             JPanel start_date = new JPanel(new BorderLayout());
             start_date.setPreferredSize(new Dimension(y, Math.round(height)));
             start_date.setBackground(Color.WHITE);
+            forHoverEffect.add(start_date);
 
             JPanel end_date = new JPanel(new BorderLayout());
             end_date.setPreferredSize(new Dimension(y, Math.round(height)));
             end_date.setBackground(Color.WHITE);
+            forHoverEffect.add(end_date);
 
             JPanel attachments = new JPanel(new BorderLayout());
             attachments.setPreferredSize(new Dimension(x - 30, Math.round(height)));
             attachments.setBackground(Color.WHITE);
+            forHoverEffect.add(attachments);
 
             JPanel maxMarks = new JPanel(new BorderLayout());
             maxMarks.setPreferredSize(new Dimension(x, Math.round(height)));
             maxMarks.setBackground(Color.WHITE);
+            forHoverEffect.add(maxMarks);
 
             JPanel weightage = new JPanel(new BorderLayout());
             weightage.setPreferredSize(new Dimension(x, Math.round(height)));
             weightage.setBackground(Color.WHITE);
+            forHoverEffect.add(weightage);
 
-            //-----------------------------------InsidePanels------------------------------------
             JLabel noLabel = new JLabel((String) arr.get(0), SwingConstants.CENTER);
             no.add(noLabel, BorderLayout.CENTER);
 
             JCheckBox check = new JCheckBox();
+            check.setIcon(unticked);
+            check.setSelectedIcon(ticked);
             check.setOpaque(false);
+            checkboxes.put(check, main);
+//            check.addMouseListener(new hoverEffect(forHoverEffect));
             delete.add(check, BorderLayout.CENTER);
+
 
             JButton editButton = new JButton(editIcon);
             editButton.setFocusPainted(false);
             editButton.setBorderPainted(false);
             editButton.setContentAreaFilled(false);
             edit.add(editButton, BorderLayout.CENTER);
+            editButton.addMouseListener(new buttonHover(editButton, editIconLight));
 
             JLabel assessmentTitle = new JLabel((String) arr.get(1));
             title.add(assessmentTitle, BorderLayout.CENTER);
@@ -110,6 +232,7 @@ public class AssessmentsListPanel extends JPanel{
             attachmentButton.setBorderPainted(false);
             attachmentButton.setContentAreaFilled(false);
             attachments.add(attachmentButton, BorderLayout.CENTER);
+            attachmentButton.addMouseListener(new buttonHover(attachmentButton, clipLight));
 
             JLabel maxMarksLabel = new JLabel((String) arr.get(2), SwingConstants.CENTER);
             maxMarks.add(maxMarksLabel, BorderLayout.CENTER);
@@ -127,6 +250,7 @@ public class AssessmentsListPanel extends JPanel{
             main.add(maxMarks);
             main.add(weightage);
 
+            main.addMouseListener(new hoverEffect(forHoverEffect));
             add(main);
         }
 
@@ -192,5 +316,51 @@ public class AssessmentsListPanel extends JPanel{
 //            }
 //            return Object.class;
 //        }
+    }
+
+    public HashMap<JCheckBox, JPanel> getCheckBoxObject(){
+        return checkboxes;
+    }
+
+    private class hoverEffect extends MouseAdapter{
+        ArrayList<JPanel> subPanels = null;
+        Color oldBackground;
+
+        public hoverEffect(ArrayList<JPanel> subPanels){
+            oldBackground = subPanels.get(0).getBackground();
+            this.subPanels = subPanels;
+        }
+
+        public void mouseEntered(MouseEvent e){
+            for (JPanel panel : subPanels){
+                panel.setBackground(new Color(200, 236, 231));
+            }
+        }
+
+        public void mouseExited(MouseEvent e){
+            for (JPanel panel : subPanels){
+                panel.setBackground(oldBackground);
+            }
+        }
+    }
+
+    private class buttonHover extends MouseAdapter{
+        JButton button = null;
+        Icon icon = null;
+        Icon originalIcon = null;
+
+        public buttonHover(JButton tmp, Icon icon){
+            this.button = tmp;
+            this.originalIcon = tmp.getIcon();
+            this.icon = icon;
+        }
+
+        public void mouseEntered(MouseEvent e){
+            button.setIcon(icon);
+        }
+
+        public void mouseExited(MouseEvent e){
+            button.setIcon(originalIcon);
+        }
     }
 }
