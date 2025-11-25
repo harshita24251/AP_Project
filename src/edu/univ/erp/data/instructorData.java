@@ -4,7 +4,6 @@ import java.sql.*;
 import edu.univ.erp.auth.*;
 import java.util.ArrayList;
 import edu.univ.erp.domain.*;
-import java.util.Date;
 
 public class InstructorData{
     private static Connection connect;
@@ -65,6 +64,37 @@ public class InstructorData{
                 temp.add(String.valueOf(result.getTimestamp(8))); //start_date
                 temp.add(String.valueOf(result.getTimestamp(9))); //end_date
                 temp.add(String.valueOf(10)); //attachments
+                tmp.add(temp);
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/InstructorData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+
+        return tmp;
+    }
+
+    public static ArrayList<ArrayList<Object>> getStudentsEnrolled(String Course_ID){
+        ArrayList<ArrayList<Object>> tmp = new ArrayList<>();
+
+        try
+                (
+                        Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                        Statement statement = connect.createStatement();
+                        ResultSet result = statement.executeQuery(String.format("select students.user_id, students.roll_no, students.name, students.program, students.semester, students.email_id from students join enrollments on students.user_id = enrollments.student_id join sections on enrollments.section_id = sections.section_id join courses on sections.course_id = courses.course_id where courses.course_id = '%s' and sections.instructor_id = '%s';\n", Course_ID, Session.getCurrentUser_ID()));
+                )
+        {
+            int count = 1;
+            while (result.next()){
+                ArrayList<Object> temp = new ArrayList<>();
+                temp.add(String.valueOf(count++));
+                temp.add(result.getString(1)); //student id
+                temp.add(String.valueOf(result.getInt(2))); //roll no
+                temp.add(result.getString(3)); //name
+                temp.add(result.getString(4)); //program
+                temp.add(String.valueOf(result.getInt(5))); //semester
+                temp.add(result.getString(6)); //email
                 tmp.add(temp);
             }
         }

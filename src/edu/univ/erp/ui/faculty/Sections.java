@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
-public class Assessments extends JPanel{
-    public Assessments(float width, float height){
+public class Sections extends JPanel{
+    public Sections(float width, float height){
         setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-         //--------------------------styling tabs-----------------------------------
+        //--------------------------styling tabs-----------------------------------
         UIManager.put("TabbedPane.underlineColor", new Color(78, 178, 165));
         UIManager.put("TabbedPane.inactiveUnderlineColor", new Color(78, 178, 165));
 
@@ -24,21 +24,7 @@ public class Assessments extends JPanel{
         widgets.setBackground(Color.WHITE);
 
         //---------------------------------------widgets------------------------------------------
-        Icon plus = new FlatSVGIcon("plus.svg", 0.25f);
-        Icon  cross = new FlatSVGIcon("cross.svg", 0.25f);
 
-        JButton createAssessment = new JButton("New Assessment", plus);
-        widgets.add(createAssessment, BorderLayout.WEST);
-
-        widgets.remove(createAssessment);
-
-        JButton deleteAssessment = new JButton("Remove", cross);
-        widgets.add(deleteAssessment, BorderLayout.WEST);
-//        deleteAssessment.setVisible(false);
-
-//        widgets.add(createAssessment, BorderLayout.WEST);
-        createAssessment.revalidate();
-        createAssessment.repaint();
         //----------------------------------------------------------------------------------------
 
         JPanel MainPanel = new JPanel();
@@ -52,17 +38,11 @@ public class Assessments extends JPanel{
         MainPanel.add(widgets);
 
         for (ArrayList<String> arr: sections){
-            MainPanel.add(new AssessmentsListPanel(width, height, arr.get(1)));
+            MainPanel.add(new StudentsListPanel(width, height, "CSE101"));
             mainPane.add(arr.get(1), MainPanel);
         }
 
         add(mainPane);
         setBackground(Color.WHITE);
-    }
-
-    private class listenCheckbox implements ItemListener{
-        public void itemStateChanged(ItemEvent e){
-
-        }
     }
 }

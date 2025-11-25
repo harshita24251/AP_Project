@@ -30,17 +30,7 @@ public class AssessmentsListPanel extends JPanel{
         setBackground(Color.WHITE);
 
         listOfAssessments = getComponents.fetch(Course_ID);
-        ArrayList<Object> columnNames = new ArrayList<>();
-        columnNames.add("");
-        columnNames.add("");
-        columnNames.add("Title");
-        columnNames.add("Start_time");
-        columnNames.add("End_time");
-        columnNames.add("Files");
-        columnNames.add("Max Marks");
-        columnNames.add("Weightage");
 
-//        listOfAssessments.add(0, columnNames);
         //--------------------------------------Icons-----------------------------------------
         Icon clip = new FlatSVGIcon("clip.svg", 0.25f);
         Icon  clipLight = new FlatSVGIcon("clipLight.svg", 0.25f);
@@ -62,7 +52,7 @@ public class AssessmentsListPanel extends JPanel{
         int x = Math.round(0.06f * width);
         int y = Math.round(0.15f * width);
         int t = Math.round(0.30f * width);
-        float height = height_ * 0.06f;
+        float height = height_ * 0.04f;
 
         boolean columnHeading = true;
 
@@ -318,7 +308,7 @@ public class AssessmentsListPanel extends JPanel{
 //        }
     }
 
-    public HashMap<JCheckBox, JPanel> getCheckBoxObject(){
+    public HashMap<JCheckBox, JPanel> getCheckBoxObjects(){
         return checkboxes;
     }
 
@@ -361,6 +351,12 @@ public class AssessmentsListPanel extends JPanel{
 
         public void mouseExited(MouseEvent e){
             button.setIcon(originalIcon);
+        }
+    }
+
+    private class createAssessmentEvent implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            // will be used to add new assessments
         }
     }
 }

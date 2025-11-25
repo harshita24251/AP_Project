@@ -89,6 +89,9 @@ public class Dashboard extends JFrame{
         JPanel assessmentsPanel = new Assessments(rightPanelWidth, rightPanelHeight);
         registerListener.put("Assessments", new goToAssessments());
 
+        JPanel sectionsPanel = new Sections(rightPanelWidth, rightPanelHeight);
+        registerListener.put("My Sections", new goToSections());
+
         String[] academic = {"My Sections", "Assessments"};
 
         LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
@@ -135,13 +138,19 @@ public class Dashboard extends JFrame{
         //-----------------adding panels to cardlayout changingLayout----------------
         changerPanel.add(rightPanel, BorderLayout.CENTER);
         changerPanel.add(studentsPanel, BorderLayout.CENTER);
+
         changerPanel.add(assessmentsPanel, BorderLayout.CENTER);
+        changerPanel.add(sectionsPanel, BorderLayout.CENTER);
+
         changerPanel.add(coursesPanel, BorderLayout.CENTER);
         // changerPanel.add(manageCoursesPanel, BorderLayout.CENTER);
 
         changingLayout.addLayoutComponent(rightPanel, "rightPanel");
         changingLayout.addLayoutComponent(studentsPanel, "studentsPanel");
+
         changingLayout.addLayoutComponent(assessmentsPanel, "assessmentsPanel");
+        changingLayout.addLayoutComponent(sectionsPanel, "sectionsPanel");
+
         changingLayout.addLayoutComponent(coursesPanel, "coursesPanel");
         // changingLayout.addLayoutComponent(manageCoursesPanel, "manageCoursesPanel");
         //---------------------------------------------------------------------------
@@ -171,6 +180,12 @@ public class Dashboard extends JFrame{
     private class goToAssessments extends MouseAdapter{
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "assessmentsPanel");
+        }
+    }
+
+    private class goToSections extends MouseAdapter{
+        public void mouseClicked(MouseEvent e){
+            changingLayout.show(changerPanel, "sectionsPanel");
         }
     }
 
