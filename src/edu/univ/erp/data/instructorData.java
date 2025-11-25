@@ -42,11 +42,11 @@ public class InstructorData{
         return tmp;
     } 
 
-    public static ArrayList<ArrayList<String>> getMyCourseComponents(String Course_ID){
+    public static ArrayList<ArrayList<Object>> getMyCourseComponents(String Course_ID){
         /**
          * Pair<Integer, Integer> : marks obtained, total marks
          */
-        ArrayList<ArrayList<String>> tmp = new ArrayList<>();
+        ArrayList<ArrayList<Object>> tmp = new ArrayList<>();
 
         try
             (
@@ -55,15 +55,16 @@ public class InstructorData{
                 ResultSet result = statement.executeQuery(String.format("select * from grades join sections on sections.section_id = grades.section_id where instructor_id = '%s'", Session.getCurrentUser_ID()));
             )
         {
+            int count = 1;
             while (result.next()){
-                ArrayList<String> temp = new ArrayList<>();
+                ArrayList<Object> temp = new ArrayList<>();
+                temp.add(String.valueOf(count++));
                 temp.add(result.getString(2)); //title
-                temp.add(String.valueOf(getInt(3))); //score obtained
-                temp.add(String.valueOf(getInt(4))); //total score
-                temp.add(result.getString(5)); //final_grade
+                temp.add(String.valueOf(result.getInt(4))); //total score
                 temp.add(String.valueOf(7)); //weightage
                 temp.add(String.valueOf(8)); //start_date
                 temp.add(String.valueOf(9)); //end_date
+                temp.add(String.valueOf(10)); //attachments
                 tmp.add(temp);
             }
         }

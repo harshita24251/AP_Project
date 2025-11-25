@@ -19,7 +19,7 @@ public class Assessments extends JPanel{
 
         JTabbedPane mainPane = new JTabbedPane();
         for (ArrayList<String> arr: sections){
-            mainPane.add(arr.get(1), new JLabel("yes"));
+            mainPane.add(arr.get(1), new AssessmentsListPanel(width, height, arr.get(1)));
         }
 
         add(mainPane);
