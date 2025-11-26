@@ -16,6 +16,14 @@ import edu.univ.erp.ui.faculty.popup.CreateAssessment;
 
 public class Assessments extends JPanel implements ListenOnSave {
     private HashMap<String, JPanel> revalidations;
+    private HashMap<String, HashMap<JCheckBox, JPanel>> checkBoxes = new HashMap<>();
+    private ArrayList<JButton> showHideButton = new ArrayList<>();
+    private HashMap<String, JPanel> widgetMap = new HashMap<>();
+    private HashMap<String, HashMap<JPanel, String>> removeByTitles = new HashMap<>();
+
+    private HashMap<String, JButton> addButton = new HashMap<>();
+    private HashMap<String, JButton> removeButton = new HashMap<>();
+
     private float width;
     private float height;
 
@@ -30,17 +38,10 @@ public class Assessments extends JPanel implements ListenOnSave {
         UIManager.put("TabbedPane.underlineColor", new Color(78, 178, 165));
         UIManager.put("TabbedPane.inactiveUnderlineColor", new Color(78, 178, 165));
 
-        JPanel widgets = new JPanel(new BorderLayout());
-        widgets.setPreferredSize(new Dimension(Math.round(width), Math.round(height * 0.05f)));
-        widgets.setBorder(new EmptyBorder(10, 20, 0, 20));
-        widgets.setBackground(Color.WHITE);
-
         //---------------------------------------widgets------------------------------------------
         Icon plus = new FlatSVGIcon("plus.svg", 0.25f);
         Icon  cross = new FlatSVGIcon("cross.svg", 0.25f);
 
-        JButton createAssessment = new JButton("New Assessment", plus);
-        widgets.add(createAssessment, BorderLayout.WEST);
 
 //        widgets.remove(createAssessment);
 
@@ -50,25 +51,52 @@ public class Assessments extends JPanel implements ListenOnSave {
 //        deleteAssessment.setVisible(false);
 
 //        widgets.add(createAssessment, BorderLayout.WEST);
-        createAssessment.revalidate();
-        createAssessment.repaint();
+//        createAssessment.revalidate();
+//        createAssessment.repaint();
         //----------------------------------------------------------------------------------------
 
-        JPanel MainPanel = new JPanel();
-        MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
-        MainPanel.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
 //        widgets.setBackground(Color.GRAY);
 
         ArrayList<ArrayList<String>> sections = SectionDetails.fetch();
 
         JTabbedPane mainPane = new JTabbedPane();
-        MainPanel.add(widgets);
 
         for (ArrayList<String> arr: sections){
-            JPanel tmp = new AssessmentsListPanel(width, height, arr.get(1));
+            JPanel widgets = new JPanel(new BorderLayout());
+            widgets.setPreferredSize(new Dimension(Math.round(width), Math.round(height * 0.05f)));
+            widgets.setBorder(new EmptyBorder(10, 20, 0, 20));
+            widgets.setBackground(Color.WHITE);
+            widgetMap.put(arr.get(1), widgets);
+
+            JButton createAssessment = new JButton("New Assessment", plus);
+            createAssessment.addActionListener(new createAssessmentEvent(arr.get(1)));
+
+            JButton deleteAssessment = new JButton("Remove", cross);
+            deleteAssessment.addActionListener(new removeAssessmentEvent(arr.get(1), widgetMap.get(arr.get(1)), createAssessment, deleteAssessment));
+
+            addButton.put(arr.get(1), createAssessment);
+            removeButton.put(arr.get(1), deleteAssessment);
+
+            widgets.add(createAssessment, BorderLayout.WEST);
+
+            JPanel MainPanel = new JPanel();
+            MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
+            MainPanel.setBackground(Color.WHITE);
+            MainPanel.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
+            MainPanel.add(widgets);
+
+            AssessmentsListPanel tmp = new AssessmentsListPanel(width, height, arr.get(1));
+
+            removeByTitles.put(arr.get(1), tmp.getTitleMap());
+
+            HashMap<JCheckBox, JPanel> hs = tmp.getCheckBoxObjects();
+            checkBoxes.put(arr.get(1), hs);
+            for (JCheckBox check : hs.keySet()){
+                check.addItemListener(new listenCheckbox(arr.get(1), widgetMap.get(arr.get(1)), createAssessment, deleteAssessment));
+            }
+
             revalidations.put(arr.get(1), tmp);
             MainPanel.add(tmp);
-            createAssessment.addActionListener(new createAssessmentEvent(arr.get(1)));
             mainPane.add(arr.get(1), MainPanel);
         }
 
@@ -83,7 +111,13 @@ public class Assessments extends JPanel implements ListenOnSave {
         Container parentPanel = oldPanel.getParent();
         parentPanel.remove(oldPanel);
 
-        JPanel newPanel = new AssessmentsListPanel(width, height, Course_ID);
+        AssessmentsListPanel newPanel = new AssessmentsListPanel(width, height, Course_ID);
+        HashMap<JCheckBox, JPanel> hs = newPanel.getCheckBoxObjects();
+        checkBoxes.put(Course_ID, hs);
+        for (JCheckBox check : hs.keySet()){
+            check.addItemListener(new listenCheckbox(Course_ID, widgetMap.get(Course_ID), addButton.get(Course_ID), removeButton.get(Course_ID)));
+        }
+        removeByTitles.put(Course_ID, newPanel.getTitleMap());
 
         revalidations.put(Course_ID, newPanel);
         parentPanel.add(newPanel);
@@ -93,8 +127,38 @@ public class Assessments extends JPanel implements ListenOnSave {
     }
 
     private class listenCheckbox implements ItemListener{
-        public void itemStateChanged(ItemEvent e){
+        JButton adder;
+        JButton remover;
+        JPanel widget;
+        String Course_ID;
 
+        public listenCheckbox(String Course_ID, JPanel widget, JButton adder, JButton remover){
+            this.widget = widget;
+            this.adder = adder;
+            this.remover = remover;
+            this.Course_ID = Course_ID;
+        }
+
+        public void itemStateChanged(ItemEvent e){
+            boolean allDisabled = true;
+            for (JCheckBox checkbox : checkBoxes.get(Course_ID).keySet()){
+                if (checkbox.isSelected()){
+                    allDisabled = false;
+                    break;
+                }
+            }
+
+            if (allDisabled == true){
+                widget.remove(remover);
+                widget.add(adder, BorderLayout.WEST);
+            }
+            else{
+                widget.remove(adder);
+                widget.add(remover, BorderLayout.WEST);
+            }
+
+            widget.revalidate();
+            widget.repaint();
         }
     }
 
@@ -106,9 +170,38 @@ public class Assessments extends JPanel implements ListenOnSave {
         }
 
         public void actionPerformed(ActionEvent e){
-            // will be used to add new assessments
             JDialog openDialog = new CreateAssessment(Course_ID);
             openDialog.setVisible(true);
+        }
+    }
+
+    private class removeAssessmentEvent implements ActionListener{
+        JButton adder;
+        JButton remover;
+        JPanel widget;
+        String Course_ID;
+
+
+        public removeAssessmentEvent(String Course_ID, JPanel widget, JButton adder, JButton remover){
+            this.widget = widget;
+            this.adder = adder;
+            this.remover = remover;
+            this.Course_ID = Course_ID;
+        }
+
+        public void actionPerformed(ActionEvent e){
+            for (JCheckBox chk : checkBoxes.get(Course_ID).keySet()){
+                if (chk.isSelected()){
+                    RemoveAssessment.remove(Course_ID, removeByTitles.get(Course_ID).get(checkBoxes.get(Course_ID).get(chk)));
+                    checkBoxes.get(Course_ID).get(chk).setVisible(false);
+                }
+            }
+
+            widget.remove(remover);
+            widget.add(adder, BorderLayout.WEST);
+
+            widget.revalidate();
+            widget.repaint();
         }
     }
 }

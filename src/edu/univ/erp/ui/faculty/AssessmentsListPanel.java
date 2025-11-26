@@ -20,6 +20,7 @@ import edu.univ.erp.ui.faculty.popup.CreateAssessment;
 public class AssessmentsListPanel extends JPanel{
     private ArrayList<ArrayList<Object>> listOfAssessments;
     private HashMap<JCheckBox, JPanel> checkboxes= new HashMap<>();
+    private HashMap<JPanel, String> titles = new HashMap<>();
 
     public AssessmentsListPanel(float width, float height_, String Course_ID){
         FlatLightLaf.setup();
@@ -199,6 +200,7 @@ public class AssessmentsListPanel extends JPanel{
             check.setSelectedIcon(ticked);
             check.setOpaque(false);
             checkboxes.put(check, main);
+            titles.put(main, (String) arr.get(1));
 //            check.addMouseListener(new hoverEffect(forHoverEffect));
             delete.add(check, BorderLayout.CENTER);
 
@@ -312,5 +314,9 @@ public class AssessmentsListPanel extends JPanel{
 
     public HashMap<JCheckBox, JPanel> getCheckBoxObjects(){
         return checkboxes;
+    }
+
+    public HashMap<JPanel, String> getTitleMap(){
+        return titles;
     }
 }

@@ -148,6 +148,8 @@ public class CreateAssessment extends JDialog{
             System.out.println(title);
 
             RefreshScreen.broadcast(Course_ID);
+
+            dispose();
         }
     }
 }

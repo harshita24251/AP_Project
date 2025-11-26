@@ -53,7 +53,7 @@ public class InstructorData{
             (
                 Connection connect = HikariConnectionPool.getDataSource().getConnection();
                 Statement statement = connect.createStatement();
-                ResultSet result = statement.executeQuery(String.format("select distinct on (grades.component) * from grades join sections on sections.section_id = grades.section_id where instructor_id = '%s'", Session.getCurrentUser_ID()));
+                ResultSet result = statement.executeQuery(String.format("select distinct on (grades.component) * from grades join sections on sections.section_id = grades.section_id where instructor_id = '%s' and sections.course_id = '%s'", Session.getCurrentUser_ID(), Course_ID));
             )
         {
             int count = 1;
@@ -112,8 +112,8 @@ public class InstructorData{
         try{
                 Connection connect = HikariConnectionPool.getDataSource().getConnection();
                 Statement statement = connect.createStatement();
-                ResultSet isExists = statement.executeQuery(String.format("select * from grades where grades.component = '%s'", title));
-                if (isExists == null){
+                ResultSet isExists = statement.executeQuery(String.format("select * from grades join sections on grades.section_id = sections.section_id join instructors on instructors.user_id = sections.instructor_id where grades.component = '%s' and instructors.user_id = '%s' and sections.course_id = '%s';", title, Session.getCurrentUser_ID(), Course_ID));
+                if (isExists.next() == false){
                     statement.executeUpdate(String.format("insert into grades select enrollments.enrollment_id, '%s', 0, %d, null, enrollments.section_id, %d, '%s', '%s', 'not found' from enrollments join sections on enrollments.section_id = sections.section_id where sections.instructor_id = '%s' and sections.course_id = '%s'", title, maxMarks, weightage, start, end, Session.getCurrentUser_ID(), Course_ID));
                 }
                 else{
@@ -122,6 +122,24 @@ public class InstructorData{
         }
         catch(SQLException e){
             System.out.println("Exception occured at data/InstructorData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeAssessment(String Course_ID, String title){
+        try{
+            Connection connect = HikariConnectionPool.getDataSource().getConnection();
+            Statement statement = connect.createStatement();
+            ResultSet isExists = statement.executeQuery(String.format("select * from grades join sections on grades.section_id = sections.section_id join instructors on instructors.user_id = sections.instructor_id where grades.component = '%s' and instructors.user_id = '%s' and sections.course_id = '%s';", title, Session.getCurrentUser_ID(), Course_ID));
+            if (isExists.next() == true){
+                statement.executeUpdate(String.format("delete from grades where component = '%s' and section_id in (select section_id from sections where instructor_id = '%s' and course_id = '%s');", title, Session.getCurrentUser_ID(), Course_ID));
+            }
+            else{
+                System.out.println("Couldn't remove, Assessment not found");
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/InstructorData\n");
             e.printStackTrace();
         }
     }
