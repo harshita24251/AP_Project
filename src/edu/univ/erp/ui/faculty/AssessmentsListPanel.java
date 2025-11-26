@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import edu.univ.erp.ui.common.events.*;
 
 /**
  * serial no | checkbox(for deletion) | edit | title | start_date | end_date(deadline) | attachments | max. marks
@@ -206,7 +207,7 @@ public class AssessmentsListPanel extends JPanel{
             editButton.setBorderPainted(false);
             editButton.setContentAreaFilled(false);
             edit.add(editButton, BorderLayout.CENTER);
-            editButton.addMouseListener(new buttonHover(editButton, editIconLight));
+            editButton.addMouseListener(new ButtonHover(editButton, editIconLight));
 
             JLabel assessmentTitle = new JLabel((String) arr.get(1));
             title.add(assessmentTitle, BorderLayout.CENTER);
@@ -222,7 +223,7 @@ public class AssessmentsListPanel extends JPanel{
             attachmentButton.setBorderPainted(false);
             attachmentButton.setContentAreaFilled(false);
             attachments.add(attachmentButton, BorderLayout.CENTER);
-            attachmentButton.addMouseListener(new buttonHover(attachmentButton, clipLight));
+            attachmentButton.addMouseListener(new ButtonHover(attachmentButton, clipLight));
 
             JLabel maxMarksLabel = new JLabel((String) arr.get(2), SwingConstants.CENTER);
             maxMarks.add(maxMarksLabel, BorderLayout.CENTER);
@@ -240,7 +241,7 @@ public class AssessmentsListPanel extends JPanel{
             main.add(maxMarks);
             main.add(weightage);
 
-            main.addMouseListener(new hoverEffect(forHoverEffect));
+            main.addMouseListener(new HoverEffect(forHoverEffect));
             add(main);
         }
 
@@ -310,48 +311,6 @@ public class AssessmentsListPanel extends JPanel{
 
     public HashMap<JCheckBox, JPanel> getCheckBoxObjects(){
         return checkboxes;
-    }
-
-    private class hoverEffect extends MouseAdapter{
-        ArrayList<JPanel> subPanels = null;
-        Color oldBackground;
-
-        public hoverEffect(ArrayList<JPanel> subPanels){
-            oldBackground = subPanels.get(0).getBackground();
-            this.subPanels = subPanels;
-        }
-
-        public void mouseEntered(MouseEvent e){
-            for (JPanel panel : subPanels){
-                panel.setBackground(new Color(200, 236, 231));
-            }
-        }
-
-        public void mouseExited(MouseEvent e){
-            for (JPanel panel : subPanels){
-                panel.setBackground(oldBackground);
-            }
-        }
-    }
-
-    private class buttonHover extends MouseAdapter{
-        JButton button = null;
-        Icon icon = null;
-        Icon originalIcon = null;
-
-        public buttonHover(JButton tmp, Icon icon){
-            this.button = tmp;
-            this.originalIcon = tmp.getIcon();
-            this.icon = icon;
-        }
-
-        public void mouseEntered(MouseEvent e){
-            button.setIcon(icon);
-        }
-
-        public void mouseExited(MouseEvent e){
-            button.setIcon(originalIcon);
-        }
     }
 
     private class createAssessmentEvent implements ActionListener{

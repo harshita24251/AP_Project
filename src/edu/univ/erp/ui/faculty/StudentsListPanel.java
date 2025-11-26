@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import edu.univ.erp.ui.common.events.*;
 
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -28,6 +29,10 @@ public class StudentsListPanel extends JPanel{
 
         float height = height_ * 0.04f;
 
+        //--------------------------------------Icons-----------------------------------------
+        Icon eye = new FlatSVGIcon("eye.svg", 0.25f);
+        Icon  eyeLight = new FlatSVGIcon("eye_light.svg", 0.25f);
+
         //-----------------------------column Heading----------------------------------
         {
             JPanel main = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -37,14 +42,13 @@ public class StudentsListPanel extends JPanel{
 
             JPanel leftMargin = createList(Math.round(0.02f * width), Math.round(height));
             leftMargin.setBackground(Color.WHITE);
-
             JPanel no = createList(Math.round(0.04f * width), Math.round(height));
-            JPanel roll = createList(Math.round(0.06f * width), Math.round(height));
-            JPanel name = createList(Math.round(0.12f * width), Math.round(height));
-            JPanel program = createList(Math.round(0.30f * width), Math.round(height));
+            JPanel roll = createList(Math.round(0.08f * width), Math.round(height));
+            JPanel name = createList(Math.round(0.18f * width), Math.round(height));
+            JPanel program = createList(Math.round(0.10f * width), Math.round(height));
             JPanel semester = createList(Math.round(0.08f * width), Math.round(height));
-            JPanel email = createList(Math.round(0.25f * width), Math.round(height));
-            JPanel viewgrades = createList(Math.round(0.15f * width), Math.round(height));
+            JPanel email = createList(Math.round(0.22f * width), Math.round(height));
+            JPanel viewgrades = createList(Math.round(0.07f * width), Math.round(height));
 
             JLabel noLabel = createLabel("");
             JLabel rollLabel = createLabel("Roll No.");
@@ -52,6 +56,7 @@ public class StudentsListPanel extends JPanel{
             JLabel programLabel = createLabel("Program");
             JLabel semesterLabel = createLabel("Semester");
             JLabel emailLabel = createLabel("Email");
+            JLabel viewLabel = createLabel("View Grades");
 
             no.add(noLabel, BorderLayout.CENTER);
             roll.add(rollLabel, BorderLayout.CENTER);
@@ -59,6 +64,7 @@ public class StudentsListPanel extends JPanel{
             program.add(programLabel, BorderLayout.CENTER);
             semester.add(semesterLabel, BorderLayout.CENTER);
             email.add(emailLabel, BorderLayout.CENTER);
+            viewgrades.add(viewLabel, BorderLayout.CENTER);
 
             main.add(leftMargin);
             main.add(no);
@@ -87,17 +93,17 @@ public class StudentsListPanel extends JPanel{
 
             JPanel no = createList(Math.round(0.04f * width), Math.round(height));
             forHoverEffect.add(no);
-            JPanel roll = createList(Math.round(0.06f * width), Math.round(height));
+            JPanel roll = createList(Math.round(0.08f * width), Math.round(height));
             forHoverEffect.add(roll);
-            JPanel name = createList(Math.round(0.12f * width), Math.round(height));
+            JPanel name = createList(Math.round(0.18f * width), Math.round(height));
             forHoverEffect.add(name);
-            JPanel program = createList(Math.round(0.30f * width), Math.round(height));
+            JPanel program = createList(Math.round(0.10f * width), Math.round(height));
             forHoverEffect.add(program);
             JPanel semester = createList(Math.round(0.08f * width), Math.round(height));
             forHoverEffect.add(semester);
-            JPanel email = createList(Math.round(0.25f * width), Math.round(height));
+            JPanel email = createList(Math.round(0.22f * width), Math.round(height));
             forHoverEffect.add(email);
-            JPanel viewgrades = createList(Math.round(0.15f * width), Math.round(height));
+            JPanel viewgrades = createList(Math.round(0.05f * width), Math.round(height));
             forHoverEffect.add(viewgrades);
 
             JLabel noLabel = createLabel(arr.get(0));
@@ -107,12 +113,19 @@ public class StudentsListPanel extends JPanel{
             JLabel semesterLabel = createLabel(arr.get(5));
             JLabel emailLabel = createLabel(arr.get(6));
 
+            JButton viewButton = new JButton(eye);
+            viewButton.setFocusPainted(false);
+            viewButton.setBorderPainted(false);
+            viewButton.setContentAreaFilled(false);
+            viewButton.addMouseListener(new ButtonHover(viewButton, eyeLight));
+
             no.add(noLabel, BorderLayout.CENTER);
             roll.add(rollLabel, BorderLayout.CENTER);
             name.add(nameLabel, BorderLayout.CENTER);
             program.add(programLabel, BorderLayout.CENTER);
             semester.add(semesterLabel, BorderLayout.CENTER);
             email.add(emailLabel, BorderLayout.CENTER);
+            viewgrades.add(viewButton, BorderLayout.CENTER);
 
             main.add(leftMargin);
             main.add(no);
@@ -123,9 +136,11 @@ public class StudentsListPanel extends JPanel{
             main.add(email);
             main.add(viewgrades);
 
-            main.addMouseListener(new hoverEffect(forHoverEffect));
+            main.addMouseListener(new HoverEffect(forHoverEffect));
             add(main);
         }
+
+
 
     }
 
@@ -140,27 +155,5 @@ public class StudentsListPanel extends JPanel{
     public static JLabel createLabel(Object content){
         JLabel label = new JLabel((String) content);
         return label;
-    }
-
-    private class hoverEffect extends MouseAdapter {
-        ArrayList<JPanel> subPanels = null;
-        Color oldBackground;
-
-        public hoverEffect(ArrayList<JPanel> subPanels){
-            oldBackground = subPanels.get(0).getBackground();
-            this.subPanels = subPanels;
-        }
-
-        public void mouseEntered(MouseEvent e){
-            for (JPanel panel : subPanels){
-                panel.setBackground(new Color(200, 236, 231));
-            }
-        }
-
-        public void mouseExited(MouseEvent e){
-            for (JPanel panel : subPanels){
-                panel.setBackground(oldBackground);
-            }
-        }
     }
 }
