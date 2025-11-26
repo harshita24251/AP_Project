@@ -14,10 +14,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.util.HashMap;
 import java.time.*;
 import java.util.Date;
 import java.util.Calendar;
 import edu.univ.erp.api.instructor.*;
+import edu.univ.erp.events.*;
 
 public class CreateAssessment extends JDialog{
     private static int width = 400;
@@ -27,6 +29,7 @@ public class CreateAssessment extends JDialog{
         FlatLightLaf.setup();
 
         setSize(new Dimension(width, height));
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBackground(Color.WHITE);
@@ -143,6 +146,8 @@ public class CreateAssessment extends JDialog{
 
             NewAssessments.create(Course_ID, title.getText(), (int) maxMarks.getValue() , (int)weightage.getValue(), Timestamp.valueOf(time), new Timestamp(forEndDateTimestamp.getTime()));
             System.out.println(title);
+
+            RefreshScreen.broadcast(Course_ID);
         }
     }
 }

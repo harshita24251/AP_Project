@@ -11,6 +11,7 @@ import java.util.HashMap;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.ui.common.events.*;
+import edu.univ.erp.ui.faculty.popup.CreateAssessment;
 
 /**
  * serial no | checkbox(for deletion) | edit | title | start_date | end_date(deadline) | attachments | max. marks
@@ -311,11 +312,5 @@ public class AssessmentsListPanel extends JPanel{
 
     public HashMap<JCheckBox, JPanel> getCheckBoxObjects(){
         return checkboxes;
-    }
-
-    private class createAssessmentEvent implements ActionListener{
-        public void actionPerformed(ActionEvent e){
-            // will be used to add new assessments
-        }
     }
 }

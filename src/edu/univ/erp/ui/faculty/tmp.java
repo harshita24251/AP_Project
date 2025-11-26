@@ -29,13 +29,13 @@ public class tmp{
         // }
 
         EventQueue.invokeLater(() -> {
-//            JFrame dash = new CreateAssessment();
-//            dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            dash.setVisible(true);
-
-            JDialog dash = new CreateAssessment("CSE101");
-            dash.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            JFrame dash = new Dashboard();
+            dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             dash.setVisible(true);
+
+//            JDialog dash = new CreateAssessment("CSE101");
+//            dash.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//            dash.setVisible(true);
 
         });
 
