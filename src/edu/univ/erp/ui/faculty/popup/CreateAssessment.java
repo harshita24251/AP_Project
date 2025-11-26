@@ -33,9 +33,9 @@ public class CreateAssessment extends JDialog{
 
         //-----------------------------Inputs-------------------------------
         JTextField forTitle = new JTextField();
-        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
-        JTextField forStartDate = new JTextField(LocalDateTime.now().format(formatDate));
+        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        JFormattedTextField forStartDate = new JFormattedTextField(LocalDateTime.now().format(formatDate));
         forStartDate.setEditable(false);
 
         JSpinner forEndDate = new JSpinner(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH));
@@ -57,7 +57,7 @@ public class CreateAssessment extends JDialog{
         weightage.getTextField().setHorizontalAlignment(SwingConstants.LEFT);
 
         JButton save = new JButton("Save");
-        save.addActionListener(new saveEvent(Course_ID, forTitle.getText(), (int) forMaxMarks.getValue(), (int) forWeightage.getValue(), Timestamp.valueOf(forStartDate.getText()), new Timestamp((Date) forEndDate.getValue())));
+        save.addActionListener(new saveEvent(Course_ID, forTitle, forMaxMarks, forWeightage, forStartDate, forEndDate));
         JButton close = new JButton("Close");
         close.addActionListener(new closeEvent());
 
@@ -119,13 +119,13 @@ public class CreateAssessment extends JDialog{
 
     private class saveEvent implements ActionListener{
         String Course_ID;
-        String title;
-        int maxMarks;
-        int weightage;
-        Timestamp start;
-        Timestamp end;
+        JTextField title;
+        JSpinner maxMarks;
+        JSpinner weightage;
+        JFormattedTextField start;
+        JSpinner end;
 
-        public saveEvent(String Course_ID, String title, int maxMarks, int weightage, Timestamp start, Timestamp end){
+        public saveEvent(String Course_ID, JTextField title, JSpinner maxMarks, JSpinner weightage, JFormattedTextField start, JSpinner end){
             this.Course_ID = Course_ID;
             this.title = title;
             this.maxMarks = maxMarks;
@@ -135,7 +135,14 @@ public class CreateAssessment extends JDialog{
         }
 
         public void actionPerformed(ActionEvent e){
-            NewAssessments.create(Course_ID, title, maxMarks, weightage, start, end);
+            Date forEndDateTimestamp = (Date)end.getValue(); //new Timestamp(forEndDateTimestamp.getTime()))
+
+            DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            LocalDateTime currentTimestamp = LocalDateTime.parse(start.getText(), formatDate);
+            String time = currentTimestamp.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+            NewAssessments.create(Course_ID, title.getText(), (int) maxMarks.getValue() , (int)weightage.getValue(), Timestamp.valueOf(time), new Timestamp(forEndDateTimestamp.getTime()));
+            System.out.println(title);
         }
     }
 }

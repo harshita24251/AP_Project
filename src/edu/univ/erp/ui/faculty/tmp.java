@@ -33,7 +33,7 @@ public class tmp{
 //            dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //            dash.setVisible(true);
 
-            JDialog dash = new CreateAssessment();
+            JDialog dash = new CreateAssessment("CSE101");
             dash.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             dash.setVisible(true);
 
