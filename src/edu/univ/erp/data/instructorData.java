@@ -105,4 +105,18 @@ public class InstructorData{
 
         return tmp;
     }
+
+    public static void addNewAssessment(String Course_ID, String title, int maxMarks, int weightage, Timestamp start, Timestamp end){
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery(String.format("insert into grades select enrollments.enrollment_id, '%s', 0, %d, null, enrollments.section_id, %d, '%s', '%s', 'not found' from enrollments join sections on enrollments.section_id = sections.section_id where sections.instructor_id = '%s' and sections.course_id = '%s'", title, maxMarks, weightage, start, end, Course_ID, Session.getCurrentUser_ID()));
+            )
+        {}
+        catch(SQLException e){
+            System.out.println("Exception occured at data/InstructorData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+    }
 }

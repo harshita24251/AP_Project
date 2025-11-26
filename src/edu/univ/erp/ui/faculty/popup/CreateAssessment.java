@@ -8,6 +8,8 @@ import java.awt.event.*;
 import org.jdatepicker.impl.*;
 import org.jdatepicker.*;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import com.formdev.flatlaf.*;
@@ -15,11 +17,12 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.time.*;
 import java.util.Date;
 import java.util.Calendar;
+import edu.univ.erp.api.instructor.*;
 
 public class CreateAssessment extends JDialog{
     private static int width = 400;
     private static int height = 350;
-    public CreateAssessment(){
+    public CreateAssessment(String Course_ID){
         setTitle("New Assessment");
         FlatLightLaf.setup();
 
@@ -31,6 +34,7 @@ public class CreateAssessment extends JDialog{
         //-----------------------------Inputs-------------------------------
         JTextField forTitle = new JTextField();
         DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
         JTextField forStartDate = new JTextField(LocalDateTime.now().format(formatDate));
         forStartDate.setEditable(false);
 
@@ -53,6 +57,7 @@ public class CreateAssessment extends JDialog{
         weightage.getTextField().setHorizontalAlignment(SwingConstants.LEFT);
 
         JButton save = new JButton("Save");
+        save.addActionListener(new saveEvent(Course_ID, forTitle.getText(), (int) forMaxMarks.getValue(), (int) forWeightage.getValue(), Timestamp.valueOf(forStartDate.getText()), new Timestamp((Date) forEndDate.getValue())));
         JButton close = new JButton("Close");
         close.addActionListener(new closeEvent());
 
@@ -113,8 +118,24 @@ public class CreateAssessment extends JDialog{
     }
 
     private class saveEvent implements ActionListener{
-        public void actionPerformed(ActionEvent e){
+        String Course_ID;
+        String title;
+        int maxMarks;
+        int weightage;
+        Timestamp start;
+        Timestamp end;
 
+        public saveEvent(String Course_ID, String title, int maxMarks, int weightage, Timestamp start, Timestamp end){
+            this.Course_ID = Course_ID;
+            this.title = title;
+            this.maxMarks = maxMarks;
+            this.weightage = weightage;
+            this.start = start;
+            this.end = end;
+        }
+
+        public void actionPerformed(ActionEvent e){
+            NewAssessments.create(Course_ID, title, maxMarks, weightage, start, end);
         }
     }
 }
