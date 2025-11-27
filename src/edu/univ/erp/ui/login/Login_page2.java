@@ -42,7 +42,7 @@ public class Login_page2 extends JFrame{
         FlatLightLaf.setup();
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit krne pe close
-        
+        setBackground(Color.WHITE);
 
 
         // ------full size screen--------------//
@@ -57,7 +57,8 @@ public class Login_page2 extends JFrame{
 
           //-----outer main panel------//
           JPanel outpanel = new JPanel();
-          outpanel.setBackground(new Color(245,245,245));///light grey balc
+//          outpanel.setBackground(new Color(245,245,245));///light grey balc
+            outpanel.setBackground(Color.WHITE);
           outpanel.setBorder(BorderFactory.createEmptyBorder(10,0,0,0));
           
           JPanel mainpanel = new JPanel(new GridLayout(1,2,0,0));
@@ -193,6 +194,12 @@ public class Login_page2 extends JFrame{
                     }
                     else if (role.equals("faculty")){
                         JFrame dash = new edu.univ.erp.ui.faculty.Dashboard();
+                        dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        dash.setVisible(true);
+                    }
+
+                    else{
+                        JFrame dash = new edu.univ.erp.ui.admin.Dashboard();
                         dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         dash.setVisible(true);
                     }

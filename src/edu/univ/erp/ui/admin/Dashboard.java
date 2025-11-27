@@ -82,7 +82,6 @@ public class Dashboard extends JFrame{
 
         String[] academic = {"Students", "Faculty", "Courses", "Sections"};
 
-        LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
 
         //-------------------------------------------------------------------
 
@@ -105,15 +104,17 @@ public class Dashboard extends JFrame{
         rightBottomPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth), Math.round(rightPanelHeight * 0.5f)));
 
         //--------------------------Sub Panels-------------------------------
-        JPanel studentsPanel = new StudentsPanel(rightPanelWidth, rightPanelHeight);
+        JPanel studentsPanel = new edu.univ.erp.ui.admin.StudentsPanel(rightPanelWidth, rightPanelHeight);
         JPanel facultyPanel = new FacultyPanel(rightPanelWidth, rightPanelHeight);
         JPanel coursesPanel = new CoursesPanel(rightPanelWidth, rightPanelHeight);
         JPanel sectionsPanel = new SectionsPanel(rightPanelWidth, rightPanelHeight);
 
-        registerListener.put("Students", new goToStudents(studentsPanel));
-        registerListener.put("Faculty", new goToFaculty(facultyPanel));
-        registerListener.put("Courses", new goToCourses(coursesPanel));
-        registerListener.put("Sections", new goToSections(sectionsPanel));
+        registerListener.put("Students", new goToStudents());
+        registerListener.put("Faculty", new goToFaculty());
+        registerListener.put("Courses", new goToCourses());
+        registerListener.put("Sections", new goToSections());
+
+        LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
         //-------------------------event handling-----------------------------
 
         //-------------------------adding to frame----------------------------
@@ -156,40 +157,24 @@ public class Dashboard extends JFrame{
     }
 
     private class goToStudents extends MouseAdapter{
-        JPanel toGo;
-        public goToStudents(JPanel toGo){
-            this.toGo = toGo;
-        }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "studentsPanel");
         }
     }
 
     private class goToFaculty extends MouseAdapter{
-        JPanel toGo;
-        public goToFaculty(JPanel toGo){
-            this.toGo = toGo;
-        }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "facultyPanel");
         }
     }
 
     private class goToCourses extends MouseAdapter{
-        JPanel toGo;
-        public goToCourses(JPanel toGo){
-            this.toGo = toGo;
-        }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "coursesPanel");
         }
     }
 
     private class goToSections extends MouseAdapter{
-        JPanel toGo;
-        public goToSections(JPanel toGo){
-            this.toGo = toGo;
-        }
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "sectionsPanel");
         }
