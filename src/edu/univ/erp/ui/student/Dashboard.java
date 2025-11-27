@@ -19,12 +19,14 @@ import org.knowm.xchart.style.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import erp.timetable.TimeTable;
 
 public class Dashboard extends JFrame{
     private JPanel changerPanel; //Panel which changes when button is clicked
     private CardLayout changingLayout;
     public Dashboard(){
         FlatLightLaf.setup();
+        setBackground(Color.WHITE);
         //-----------------------getting dimensions------------------------
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension size = kit.getScreenSize();
@@ -104,10 +106,14 @@ public class Dashboard extends JFrame{
         float rightTopPanelWidth = rightPanelWidth;
         float rightTopPanelHeight = rightPanelHeight * 0.3f;
 
+        float rightBottomPanelWidth = rightPanelWidth;
+        float rightBottomPanelHeight = rightPanelHeight * 0.7f;
+
         JPanel rightTopPanel = new JPanel(new BorderLayout());
         rightTopPanel.setPreferredSize(new Dimension(Math.round(rightTopPanelWidth), Math.round(rightTopPanelHeight)));
         JPanel rightBottomPanel = new JPanel(new BorderLayout());
-        rightBottomPanel.setPreferredSize(new Dimension(Math.round(rightPanelWidth), Math.round(rightPanelHeight * 0.5f)));
+        rightBottomPanel.setPreferredSize(new Dimension(Math.round(rightBottomPanelWidth), Math.round(rightBottomPanelHeight)));
+        rightBottomPanel.setBackground(Color.WHITE);
 
         //------------------------Sub Panels of Right Top Panel--------------
         float rightTopLeftPanelWidth = rightTopPanelWidth * 0.72f; //
@@ -174,6 +180,15 @@ public class Dashboard extends JFrame{
 
         JPanel chart = new XChartPanel<XYChart>(converted);
 
+        //------------------------------Time table--------------------------------
+        TimeTable studentTT = new TimeTable(rightBottomPanelWidth, rightBottomPanelHeight);
+        rightBottomPanel.add(studentTT);
+
+        ArrayList<TimeTable.TimeTableEntry> entries = new ArrayList<>();
+        entries.add(new TimeTable.TimeTableEntry("Mon", "8:30", "10:00", "BIO102", "Dr. Jaspreet Kaur", Color.ORANGE));
+        entries.add(new TimeTable.TimeTableEntry("Tue", "9:00", "10:30", "CSE101", "Dr. Poonam Bansal", new Color(135, 206, 250)));
+        entries.add(new TimeTable.TimeTableEntry("Wed", "11:30", "13:00", "MTH100", "Dr. Richa Singh", new Color(255, 182, 193)));
+        studentTT.fillData(entries);
         //-------------------------event handling-----------------------------
 
         //-------------------------adding to frame----------------------------

@@ -206,7 +206,7 @@ public class StudentData{
             (
                 Connection connect = HikariConnectionPool.getDataSource().getConnection();
                 Statement statement = connect.createStatement();
-                ResultSet result = statement.executeQuery(String.format("select distinct grades.component, grades.score, grades.total_score, grades.weightage from grades join enrollments on grades.enrollment_id = enrollments.enrollment_id and grades.section_id = enrollments.section_id join sections on sections.section_id = grades.section_id where enrollments.student_id = '%s' and sections.course_id = '%s';\n", Student_ID, Course_ID)); //changed here
+                ResultSet result = statement.executeQuery(String.format("select distinct grades.component, grades.score, grades.total_score, grades.weightage from grades join enrollments on grades.enrollment_id = enrollments.enrollment_id join sections on sections.section_id = grades.section_id where enrollments.student_id = '%s' and sections.course_id = '%s';\n", Student_ID, Course_ID)); //changed here
             )
         {
             while (result.next() != false){
