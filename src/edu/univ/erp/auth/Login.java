@@ -3,7 +3,7 @@ package edu.univ.erp.auth;
 import edu.univ.erp.exceptions.*;
 import java.sql.*;
 import edu.univ.erp.auth.hash.*;
-import edu.univ.erp.auth.*;
+import edu.univ.erp.util.Role;
 
 /**
 This is the Login class, which handles login.

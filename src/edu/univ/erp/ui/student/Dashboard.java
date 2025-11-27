@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import erp.timetable.TimeTable;
+import edu.univ.erp.ui.login.*;
 
 public class Dashboard extends JFrame{
     private JPanel changerPanel; //Panel which changes when button is clicked
@@ -36,7 +37,7 @@ public class Dashboard extends JFrame{
         //-----------------------setting header----------------------------
         float headerHeight = height * 0.08f;
         float headerWidth = width;
-        Header header = new Header(headerWidth, headerHeight);
+        JPanel header = new Header(headerWidth, headerHeight, new logoutEvent(this));
 
         //--------------------------Right Panel-----------------------------
         float rightPanelWidth = width * 0.85f;
@@ -54,8 +55,6 @@ public class Dashboard extends JFrame{
         //------------------------Left Panel-------------------------------
         float navHeight = height * 0.225f;
         float navWidth = width * 0.15f;
-
-        
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -251,6 +250,19 @@ public class Dashboard extends JFrame{
     private class goToMangeCourses extends MouseAdapter{
         public void mouseClicked(MouseEvent e){
             changingLayout.show(changerPanel, "manageCoursesPanel");
+        }
+    }
+
+    public class logoutEvent extends MouseAdapter{
+        JFrame toClose;
+
+        public logoutEvent(JFrame toClose){
+            this.toClose = toClose;
+        }
+
+        public void mouseClicked(MouseEvent e){
+            toClose.dispose();
+            new Login_page2();
         }
     }
 }

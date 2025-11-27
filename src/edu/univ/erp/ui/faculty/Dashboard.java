@@ -14,6 +14,8 @@ import java.lang.Exception;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.border.EmptyBorder;
+
+import edu.univ.erp.ui.login.Login_page2;
 import org.knowm.xchart.*;
 import org.knowm.xchart.style.*;
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class Dashboard extends JFrame{
         //-----------------------setting header----------------------------
         float headerHeight = height * 0.08f;
         float headerWidth = width;
-        Header header = new Header(headerWidth, headerHeight);
+        Header header = new Header(headerWidth, headerHeight, new logoutEvent(this));
 
         //--------------------------Right Panel-----------------------------
         float rightPanelWidth = width * 0.85f;
@@ -94,7 +96,7 @@ public class Dashboard extends JFrame{
 
         String[] academic = {"My Sections", "Assessments"};
 
-        LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
+        JPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
 
         //-------------------------------------------------------------------
 
@@ -198,4 +200,16 @@ public class Dashboard extends JFrame{
     //         changingLayout.show(changerPanel, "manageCoursesPanel");
     //     }
     // }
+    public class logoutEvent extends MouseAdapter{
+        JFrame toClose;
+
+        public logoutEvent(JFrame toClose){
+            this.toClose = toClose;
+        }
+
+        public void mouseClicked(MouseEvent e){
+            toClose.dispose();
+            new Login_page2();
+        }
+    }
 }

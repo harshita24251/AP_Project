@@ -31,6 +31,8 @@ import javax.swing.border.Border;
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.api.auth.*;
+import edu.univ.erp.ui.common.popup.Alert;
+import edu.univ.erp.ui.student.Dashboard;
 
 public class Login_page2 extends JFrame{
     JTextField usernameTextField;
@@ -112,7 +114,7 @@ public class Login_page2 extends JFrame{
         loginbuttton.setBorder(BorderFactory.createEmptyBorder(10, 10,10,10));
         loginbuttton.setMaximumSize(new Dimension(400,45));
         loginbuttton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        loginbuttton.addActionListener(new loginButtonAction());
+        loginbuttton.addActionListener(new loginButtonAction(this));
        
         JLabel forgot = new JLabel("Forgot password?");
         // forgot.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -160,6 +162,11 @@ public class Login_page2 extends JFrame{
     }
 
     class loginButtonAction implements ActionListener{
+        JFrame toClose;
+        public loginButtonAction(JFrame toClose){
+            this.toClose = toClose;
+        }
+
         public void actionPerformed(ActionEvent e){
             String Username = usernameTextField.getText();
             char[] Password = passwordTextField.getPassword();
@@ -169,12 +176,26 @@ public class Login_page2 extends JFrame{
 
             String role = " ";
 
-            if (!IsUsernamePresent.check(Username) || !IsPasswordValid.check(Username, Password)){
-                System.out.println("something went wrong with credentials");
+            if (!IsUsernamePresent.check(Username)){
+                new Alert("This User ID doesn't exist", "Close");
             }
             else{
-                System.out.println("Login Successful");
-                role = Role.fetch(Username);
+                if (IsPasswordValid.check(Username, Password)){
+                    System.out.println("Login Successful");
+                    role = Role.fetch(Username);
+                    SetUserID.set(GetUserID.fetch(Username), role);
+
+                    if (role.equals("student")){
+                        toClose.dispose();
+                        Dashboard dash = new edu.univ.erp.ui.student.Dashboard();
+                        dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        dash.setVisible(true);
+                        System.out.println("Done");
+                    }
+                }
+                else{
+                    new Alert("Wrong Password", "Close");
+                }
             }
         }
     }

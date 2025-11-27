@@ -67,4 +67,23 @@ public class Auth{
         }
         return role;
     }
+
+    public static String getID(String Username) {
+        String role = "";
+        try
+            (
+                Connection connect = edu.univ.erp.auth.HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery(String.format("select user_id from users_auth where username = '%s'", Username));
+            )
+        {
+            result.next();
+            role = result.getString(1);
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/Auth\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+        return role;
+    }
 }

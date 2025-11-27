@@ -2,13 +2,8 @@ package edu.univ.erp.ui.login;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.Exception;
-import java.io.IOException;
-import java.io.File;
-import edu.univ.erp.ui.common.events.*;
-import java.sql.*;
 
-public class tmp{
+public class tmp {
     public static void main(String[] args){
         // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         // try{

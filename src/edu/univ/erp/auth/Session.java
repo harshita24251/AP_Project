@@ -1,8 +1,10 @@
 package edu.univ.erp.auth;
 
+import edu.univ.erp.util.Role;
+
 public class Session{
     private static String user_id = "A1"; // hardcoded for testing
-    private static Role role = Role.STUDENT; // hardcoded for testing
+    private static Role role = Role.student; // hardcoded for testing
 
     public static void setCurrentSession(String user_id_){
         user_id = user_id_;
