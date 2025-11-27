@@ -1,6 +1,8 @@
 package edu.univ.erp.ui.faculty;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -8,15 +10,19 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import edu.univ.erp.ui.common.events.*;
+import edu.univ.erp.api.student.*;
 
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.api.instructor.StudentsEnrolled;
+import edu.univ.erp.ui.faculty.popup.EditGrades;
 
 public class StudentsListPanel extends JPanel{
     private ArrayList<ArrayList<Object>> listOfStudents;
+    private String Course_ID;
 
     public StudentsListPanel(float width, float height_, String Course_ID){
+        this.Course_ID = Course_ID;
         FlatLightLaf.setup();
 
         //--------------------------------styles----------------------------------
@@ -56,7 +62,7 @@ public class StudentsListPanel extends JPanel{
             JLabel programLabel = createLabel("Program");
             JLabel semesterLabel = createLabel("Semester");
             JLabel emailLabel = createLabel("Email");
-            JLabel viewLabel = createLabel("View Grades");
+            JLabel viewLabel = createLabel("View/Edit Grades");
 
             no.add(noLabel, BorderLayout.CENTER);
             roll.add(rollLabel, BorderLayout.CENTER);
@@ -118,6 +124,8 @@ public class StudentsListPanel extends JPanel{
             viewButton.setBorderPainted(false);
             viewButton.setContentAreaFilled(false);
             viewButton.addMouseListener(new ButtonHover(viewButton, eyeLight));
+            viewButton.addActionListener(new OpenSavePopup((String) arr.get(1)));
+            System.out.println((String) arr.get(1));
 
             no.add(noLabel, BorderLayout.CENTER);
             roll.add(rollLabel, BorderLayout.CENTER);
@@ -139,9 +147,6 @@ public class StudentsListPanel extends JPanel{
             main.addMouseListener(new HoverEffect(forHoverEffect));
             add(main);
         }
-
-
-
     }
 
     public static JPanel createList(int width, int height){
@@ -155,5 +160,17 @@ public class StudentsListPanel extends JPanel{
     public static JLabel createLabel(Object content){
         JLabel label = new JLabel((String) content);
         return label;
+    }
+
+    public class OpenSavePopup implements ActionListener{
+        String Student_ID;
+        public OpenSavePopup(String Student_ID){
+            this.Student_ID = Student_ID;
+        }
+
+        public void actionPerformed(ActionEvent e){
+            JDialog editGrades = new EditGrades(Course_ID, Student_ID);
+            setVisible(true);
+        }
     }
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.File;
 import edu.univ.erp.ui.common.events.*;
 import edu.univ.erp.ui.faculty.popup.CreateAssessment;
+import edu.univ.erp.ui.faculty.popup.EditGrades;
 
 import java.sql.*;
 
@@ -34,6 +35,10 @@ public class tmp{
             dash.setVisible(true);
 
 //            JDialog dash = new CreateAssessment("CSE101");
+//            dash.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//            dash.setVisible(true);
+
+//            JDialog dash = new EditGrades("CSE101", "A1");
 //            dash.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 //            dash.setVisible(true);
 

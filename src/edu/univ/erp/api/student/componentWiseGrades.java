@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.sql.*;
 
 public class componentWiseGrades{
-    public static HashMap<String, Double> fetch(String Course_ID){
+    public static HashMap<String, Double> fetch(String Course_ID, String Student_ID){
         HashMap<String, Double> tmp = null;
         
         try{
-            tmp = StudentData.getCourseComponentGrades(Course_ID);
+            tmp = StudentData.getCourseComponentGrades(Course_ID, Student_ID);
         }
         catch (SQLException e){
             e.printStackTrace();

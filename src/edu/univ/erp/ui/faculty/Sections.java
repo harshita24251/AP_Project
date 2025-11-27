@@ -18,27 +18,29 @@ public class Sections extends JPanel{
         UIManager.put("TabbedPane.underlineColor", new Color(78, 178, 165));
         UIManager.put("TabbedPane.inactiveUnderlineColor", new Color(78, 178, 165));
 
-        JPanel widgets = new JPanel(new BorderLayout());
-        widgets.setPreferredSize(new Dimension(Math.round(width), Math.round(height * 0.05f)));
-        widgets.setBorder(new EmptyBorder(10, 20, 0, 20));
-        widgets.setBackground(Color.WHITE);
+//        JPanel widgets = new JPanel(new BorderLayout());
+//        widgets.setPreferredSize(new Dimension(Math.round(width), Math.round(height * 0.05f)));
+//        widgets.setBorder(new EmptyBorder(10, 20, 0, 20));
+//        widgets.setBackground(Color.WHITE);
 
         //---------------------------------------widgets------------------------------------------
 
         //----------------------------------------------------------------------------------------
 
-        JPanel MainPanel = new JPanel();
-        MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
-        MainPanel.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
+
 //        widgets.setBackground(Color.GRAY);
 
         ArrayList<ArrayList<String>> sections = SectionDetails.fetch();
 
         JTabbedPane mainPane = new JTabbedPane();
-        MainPanel.add(widgets);
+//        MainPanel.add(widgets);
 
         for (ArrayList<String> arr: sections){
-            MainPanel.add(new StudentsListPanel(width, height, "CSE101"));
+            JPanel MainPanel = new JPanel();
+            MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
+            MainPanel.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
+
+            MainPanel.add(new StudentsListPanel(width, height, arr.get(1)));
             mainPane.add(arr.get(1), MainPanel);
         }
 
