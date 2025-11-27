@@ -19,7 +19,7 @@ import org.knowm.xchart.style.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
-import erp.timetable.TimeTable;
+import org.timetable.TimeTable;
 import edu.univ.erp.ui.login.*;
 
 public class Dashboard extends JFrame{

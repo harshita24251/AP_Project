@@ -11,6 +11,7 @@ import javax.swing.border.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
 import java.util.HashMap;
+import pdf.singleCourse.GradeReportGenerator;
 
 public class GradePanel extends JPanel{
     public GradePanel(float width, float height){
@@ -32,7 +33,8 @@ public class GradePanel extends JPanel{
             JPanel masterPanel = new JPanel(new BorderLayout()); //parent panel to accomodate coursePane and bottomBar
             
             //---------------------------------Course Pane----------------------------------
-            JScrollPane coursePane = new JScrollPane(new CourseGradePanel(i, width, height));
+            CourseGradePanel tmp = new CourseGradePanel(i, width, height);
+            JScrollPane coursePane = new JScrollPane(tmp);
             coursePane.setBorder(null);
             coursePane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -51,6 +53,7 @@ public class GradePanel extends JPanel{
                 //------------------------------PDF Icon------------------------------------
                 Icon pdfIcon = new FlatSVGIcon("pdf-document.svg", 0.45f);
                 JButton download = new JButton("Download Transcript", pdfIcon);
+                download.addActionListener(new downloadEvent(tmp));
 
                 //-------------------------CGPA and SGPA Label-----------------------------
                 JLabel cgsgLabel = new JLabel("  CGPA : 9.00 | SGPA : 9.00  ");
@@ -76,5 +79,15 @@ public class GradePanel extends JPanel{
         
         setBackground(Color.WHITE);
         add(pane);
+    }
+
+    private class downloadEvent implements ActionListener{
+        CourseGradePanel tmp;
+        public downloadEvent(CourseGradePanel tmp){
+            this.tmp = tmp;
+        }
+        public void actionPerformed(ActionEvent e){
+            GradeReportGenerator.generateReport("", "", "", "", tmp.getContent());
+        }
     }
 } //#4eb2a5

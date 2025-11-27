@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.util.HashMap;
 
 public class ComponentGradeCard extends JPanel{
+    HashMap<String, Double> gradesToPdf = new HashMap<>();
+
     public ComponentGradeCard(String Course_ID){
         setLayout(new BorderLayout());
 
@@ -28,8 +30,9 @@ public class ComponentGradeCard extends JPanel{
 //            System.out.println(key);
             rowData[index][1] = grade.get(key);
 //            System.out.println(rowData[index][1]);
+            gradesToPdf.put(key, (Double) rowData[index][1]);
             total_marks_scored += grade.get(key); //problem here
-//            System.out.println("OK");
+//            System.out.println(total_marks_scored);
             rowData[index][2] = components.get(key);
 //            System.out.println("OK");
             index++;
@@ -38,6 +41,7 @@ public class ComponentGradeCard extends JPanel{
         rowData[index][0] = "Total";
         rowData[index][1] = total_marks_scored;
         rowData[index][2] = 100;
+        gradesToPdf.put("Total", (double)total_marks_scored);
 
         JTable courseComponents = new JTable(rowData, columns);
         courseComponents.setEnabled(false);
@@ -47,5 +51,9 @@ public class ComponentGradeCard extends JPanel{
         JScrollPane master = new JScrollPane(courseComponents);
         master.setEnabled(false);
         add(master, BorderLayout.CENTER);
+    }
+
+    public HashMap<String, Double> getComponentContent(){
+        return gradesToPdf;
     }
 }

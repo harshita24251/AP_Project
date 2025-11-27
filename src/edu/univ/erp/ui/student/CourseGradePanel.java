@@ -3,19 +3,19 @@ package edu.univ.erp.ui.student;
 import edu.univ.erp.api.catalog.*;
 import edu.univ.erp.api.student.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.Map;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
 import edu.univ.erp.ui.common.events.*;
-import javax.swing.border.EmptyBorder;
+
 /**
  * for getting components of courses as a JPanel
  */
 
 public class CourseGradePanel extends JPanel{
+    private Map<String, Map<String, Double>> semsterGrades = new HashMap<>();
+
     public CourseGradePanel(int semesterNo, float width, float height){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //------------------------------------Loading Icon--------------------------------------------
@@ -31,6 +31,12 @@ public class CourseGradePanel extends JPanel{
             courseTitle.setPreferredSize(new Dimension(Math.round(width), 30));
 
             JLabel semesterLabels = new JLabel(s + " : " + courseName.fetch(s), right_Arrow, JLabel.LEFT);
+
+            //-----------------------just to extract data-------------------------------
+            ComponentGradeCard tmp = new ComponentGradeCard(s);
+            semsterGrades.put(courseName.fetch(s), tmp.gradesToPdf);
+            //--------------------------------------------------------------------------
+
             semesterLabels.addMouseListener(new changeForegroundCourse(semesterLabels, highlighter, coursePanel, s));
             semesterLabels.setFont(new Font("Roboto Mono", Font.PLAIN, 16));
             semesterLabels.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -46,5 +52,9 @@ public class CourseGradePanel extends JPanel{
         }
 
         setBackground(Color.WHITE);
+    }
+
+    public Map<String, Map<String, Double>> getContent(){
+        return semsterGrades;
     }
 }

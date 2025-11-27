@@ -185,12 +185,16 @@ public class Login_page2 extends JFrame{
                     role = Role.fetch(Username);
                     SetUserID.set(GetUserID.fetch(Username), role);
 
+                    toClose.dispose();
                     if (role.equals("student")){
-                        toClose.dispose();
                         Dashboard dash = new edu.univ.erp.ui.student.Dashboard();
                         dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         dash.setVisible(true);
-                        System.out.println("Done");
+                    }
+                    else if (role.equals("faculty")){
+                        JFrame dash = new edu.univ.erp.ui.faculty.Dashboard();
+                        dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        dash.setVisible(true);
                     }
                 }
                 else{
@@ -203,5 +207,15 @@ public class Login_page2 extends JFrame{
     /**
      * username : c@iiitd.ac.in
      * password : student
+     */
+
+    /**
+     * username : s@iiitd.ac.in
+     * password : faculty
+     */
+
+    /**
+     * username : a@iiitd.ac.in
+     * password : admin
      */
 }

@@ -1,5 +1,6 @@
 package edu.univ.erp.ui.student;
 
+import edu.univ.erp.auth.Session;
 import edu.univ.erp.ui.common.events.*;
 import edu.univ.erp.ui.common.*;
 import edu.univ.erp.api.catalog.*;
@@ -150,7 +151,8 @@ public class ManageCoursesPanel extends JPanel{
         masterBrowseCourses.add(coursePalettePanel, BorderLayout.CENTER);
 
         pane.addTab("Browse Courses", masterBrowseCourses);
-        
+        pane.addTab("Register Courses", new RegisterCoursePanel(width, height, Session.getCurrentUser_ID()));
+
         setBackground(Color.WHITE);
         add(pane, BorderLayout.CENTER);
     }
