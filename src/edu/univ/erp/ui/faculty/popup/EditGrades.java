@@ -6,6 +6,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import edu.univ.erp.data.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import edu.univ.erp.api.student.*;
@@ -13,13 +15,18 @@ import edu.univ.erp.api.student.*;
 public class EditGrades extends JDialog {
     private static int width = 410;
     private static int height = 260;
+    HashMap<String, JTextField> componentScores = new HashMap<>();
     public EditGrades(String Course_ID, String Student_ID){
         setTitle(String.format("Grades : %d", StudentRollNo.fetch(Student_ID)));
         FlatLightLaf.setup();
 
         HashMap<String, ArrayList<Integer>> componentGrades = ComponentWiseScores.fetch(Course_ID, Student_ID);
 
-        height = componentGrades.size() * 130;
+        int size = componentGrades.size();
+        if (size == 1) height = 220;
+        else
+            height = size * 110;
+
         setSize(new Dimension(width, height));
 //
         JPanel mainPanel = new JPanel();
@@ -51,7 +58,7 @@ public class EditGrades extends JDialog {
 
 
         JButton save = new JButton("Save");
-//        save.addActionListener(new CreateAssessment.saveEvent());
+        save.addActionListener(new saveEvent(Course_ID, Student_ID));
         JButton close = new JButton("Close");
         close.addActionListener(e -> dispose());
 
@@ -66,7 +73,9 @@ public class EditGrades extends JDialog {
         mainPanel.setBackground(Color.WHITE);
 
         for (String str : componentGrades.keySet()){
-            mainPanel.add(createList(str, new JTextField(componentGrades.get(str).get(0).toString()), String.format(" /%d", componentGrades.get(str).get(1))));
+            JTextField tmp = new JTextField(componentGrades.get(str).get(0).toString());
+            mainPanel.add(createList(str, tmp, String.format(" /%d", componentGrades.get(str).get(1))));
+            componentScores.put(str, tmp);
         }
         mainPanel.add(button);
         add(mainPanel, BorderLayout.CENTER);
@@ -96,5 +105,25 @@ public class EditGrades extends JDialog {
         panel.add(left, BorderLayout.WEST);
         panel.add(right, BorderLayout.CENTER);
         return panel;
+    }
+
+    private class saveEvent implements ActionListener{
+        String Course_ID;
+        String Student_ID;
+
+        public saveEvent(String Course_ID, String Student_ID){
+            this.Course_ID = Course_ID;
+            this.Student_ID = Student_ID;
+        }
+        public void actionPerformed(ActionEvent e){
+            HashMap<String, Double> grades = new HashMap<>();
+
+            for (String str : componentScores.keySet()){
+                grades.put(str, Double.valueOf(componentScores.get(str).getText()));
+            }
+            UpdatedGrades.upgrade(grades, Course_ID, Student_ID);
+
+            dispose();
+        }
     }
 }

@@ -256,7 +256,7 @@ public class StudentData{
             Connection connect = HikariConnectionPool.getDataSource().getConnection();
             Statement statement = connect.createStatement();
             for (String str : gradesList.keySet()){
-                statement.executeUpdate(String.format("update grades set score = %f where component = '%s' and enrollment_id in (select enrollment_id from enrollments join sections on enrollments.section_id = sections.section_id where enrollments.student_id = '%s' and sections.course_id = '%s');\n", gradesList.get(str), str, Student_ID, Course_ID));
+                statement.executeUpdate(String.format("update grades set score = %f where component = '%s' and section_id in (select enrollments.section_id from enrollments join sections on enrollments.section_id = sections.section_id where enrollments.student_id = '%s' and sections.course_id = '%s') and enrollment_id in (select enrollment_id from enrollments join sections on enrollments.section_id = sections.section_id where enrollments.student_id = '%s' and sections.course_id = '%s');\n", gradesList.get(str), str, Student_ID, Course_ID, Student_ID, Course_ID));
             }
 
         }
