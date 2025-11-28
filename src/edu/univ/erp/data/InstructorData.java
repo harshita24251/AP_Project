@@ -4,6 +4,8 @@ import java.sql.*;
 import edu.univ.erp.auth.*;
 import java.util.ArrayList;
 import edu.univ.erp.domain.*;
+import erp.randomIDGenerator;
+import erp.UUIDGenerator;
 
 import javax.xml.transform.Result;
 
@@ -140,6 +142,19 @@ public class InstructorData{
         }
         catch(SQLException e){
             System.out.println("Exception occured at data/InstructorData\n");
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertDetails(ArrayList<String> arr){
+        try{
+            Connection connect = HikariConnectionPool.getDataSource().getConnection();
+            Statement statement = connect.createStatement();
+            statement.executeUpdate(String.format("insert into instructors values ('%s', '%s', '%s', '%s')", UUIDGenerator.generate(arr.get(0)), arr.get(0), arr.get(1), arr.get(2)));
+
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/InstructorData\n"); //for prototyping may change later
             e.printStackTrace();
         }
     }

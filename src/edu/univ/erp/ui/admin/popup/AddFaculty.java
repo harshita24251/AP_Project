@@ -1,7 +1,7 @@
 package edu.univ.erp.ui.admin.popup;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import edu.univ.erp.api.auth.NewAccount;
+import edu.univ.erp.api.instructor.NewFaculty;
 import edu.univ.erp.api.student.*;
 import edu.univ.erp.events.ListenOnSave;
 import edu.univ.erp.events.RefreshScreen;
@@ -13,15 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import erp.UUIDGenerator;
 
-public class AddStudents extends JDialog {
+public class AddFaculty extends JDialog {
     private static int width = 410;
-    private static int height = 350;
+    private static int height = 260;
     private ListenOnSave listener;
 
-    ArrayList<JComponent> studentData = new ArrayList<>();
-    public AddStudents(ListenOnSave listener){
+    ArrayList<JComponent> facultyData = new ArrayList<>();
+    public AddFaculty(ListenOnSave listener){
         this.listener = listener;
 //        setTitle(String.format("Grades : %d", StudentRollNo.fetch(Student_ID)));
         FlatLightLaf.setup();
@@ -44,7 +43,7 @@ public class AddStudents extends JDialog {
 //        details.setLayout(new BoxLayout(details, BoxLayout.Y_AXIS));
 //        details.setBackground(Color.WHITE);
 //        mainPanel.add(details);
-//
+
 //        JLabel Name = new JLabel("Name");
 //        Name.setFont(new Font("Segoe UI", Font.BOLD, 14));
 //        JLabel Roll = new JLabel("Roll No.");
@@ -84,27 +83,24 @@ public class AddStudents extends JDialog {
 //            componentScores.put(str, tmp);
 //        }
 
-        JTextField roll = new JTextField();
+//        JTextField roll = new JTextField();
         JTextField program = new JTextField();
 //        JTextField semester = new JTextField();
-        JSpinner forSemester = new JSpinner(new SpinnerNumberModel(1, 1, 8, 1));
+//        JSpinner forSemester = new JSpinner(new SpinnerNumberModel(1, 1, 8, 1));
         JTextField email = new JTextField();
         JTextField name = new JTextField();
-        JTextField password = new JTextField();
 
-        studentData.add(roll);
-        studentData.add(program);
-        studentData.add(forSemester);
-        studentData.add(email);
-        studentData.add(name);
-        studentData.add(password);
+//        studentData.add(roll);
+        facultyData.add(name);
+//        studentData.add(forSemester);
+        facultyData.add(program);
+        facultyData.add(email);
 
         mainPanel.add(createList("Name", name));
-        mainPanel.add(createList("Roll No.", roll));
-        mainPanel.add(createList("Program", program));
-        mainPanel.add(createList("Semester", forSemester));
+//        mainPanel.add(createList("Roll No.", roll));
+        mainPanel.add(createList("Department", program));
+//        mainPanel.add(createList("Semester", forSemester));
         mainPanel.add(createList("Email", email));
-        mainPanel.add(createList("Create Password", password));
 
         mainPanel.add(button);
         add(mainPanel, BorderLayout.CENTER);
@@ -146,7 +142,7 @@ public class AddStudents extends JDialog {
         public void actionPerformed(ActionEvent e){
             ArrayList<String> arr = new ArrayList<>();
 
-            for (JComponent text : studentData){
+            for (JComponent text : facultyData){
                 if (text instanceof  JTextField){
                     arr.add(((JTextField) text).getText());
                 }
@@ -155,18 +151,8 @@ public class AddStudents extends JDialog {
                 }
             }
 
-            arr.add(UUIDGenerator.generate(arr.get(4)));
-
-            ArrayList<String> toInsert = new ArrayList<>();
-            toInsert.add(arr.get(6));
-            toInsert.add(arr.get(3));
-            toInsert.add("student");
-            toInsert.add(arr.get(5));
-
-            NewAccount.insert(toInsert);
-
 //            RefreshScreen.broadcast(arr.get(0));
-            NewStudent.add(arr);
+            NewFaculty.add(arr);
             saved(arr.get(0));
 //            dispose();
         }

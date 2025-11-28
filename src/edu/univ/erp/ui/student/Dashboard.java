@@ -1,5 +1,6 @@
 package edu.univ.erp.ui.student;
 
+import edu.univ.erp.api.student.MyCGPA;
 import edu.univ.erp.ui.common.*;
 import edu.univ.erp.ui.common.events.*;
 import java.awt.*;
@@ -12,13 +13,11 @@ import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.lang.Exception;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
+import java.util.List;
 import javax.swing.border.EmptyBorder;
 import org.knowm.xchart.*;
 import org.knowm.xchart.style.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
 import org.timetable.TimeTable;
 import edu.univ.erp.ui.login.*;
 
@@ -156,8 +155,16 @@ public class Dashboard extends JFrame{
         details.add(batch);
 
         //---------------------------JFree CGPA Line graph--------------------
-        double[] xData = {1, 2};
-        double[] yData = {7.8, 7.9};
+        HashMap<Integer, Double> finalGrade = MyCGPA.fetch();
+
+//        double[] xData = {1, 2};
+//        double[] yData = {7.8, 7.9};
+
+        List<Integer> keys = new ArrayList<>(finalGrade.keySet());
+        Collections.sort(keys);
+
+        double[] xData = keys.stream().mapToDouble(Integer::doubleValue).toArray();
+        double[] yData = keys.stream().mapToDouble(k -> finalGrade.get(k)).toArray();
 
         // XYChart cgpaChart = QuickChart.getChart("CGPA vs Semester", "Semester", "CGPA", " ", xData, yData)
         XYChartBuilder cgpaChart = new XYChartBuilder();

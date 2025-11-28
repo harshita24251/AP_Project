@@ -2,6 +2,9 @@ package edu.univ.erp.ui.admin;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.sun.tools.javac.Main;
+import edu.univ.erp.events.ListenOnSave;
+import edu.univ.erp.ui.admin.popup.AddFaculty;
+import edu.univ.erp.ui.admin.popup.AddStudents;
 import edu.univ.erp.ui.faculty.Assessments;
 import edu.univ.erp.ui.faculty.StudentsListPanel;
 
@@ -10,8 +13,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class FacultyPanel extends JPanel{
+public class FacultyPanel extends JPanel implements ListenOnSave {
+    JPanel MainPanel;
+    JPanel facultyListAll;
+    float width;
+    float height;
+
     public FacultyPanel(float width, float height){
+        this.width = width;
+        this.height = height;
         setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -20,6 +30,7 @@ public class FacultyPanel extends JPanel{
         Icon plus = new FlatSVGIcon("plus.svg", 0.25f);
 
         JButton addFaculty = new JButton("Add Faculty", plus);
+        addFaculty.addActionListener(new addEvent());
 //        createAssessment.addActionListener(new Assessments.createAssessmentEvent(arr.get(1)));
 
         JPanel widgets = new JPanel(new BorderLayout());
@@ -28,9 +39,9 @@ public class FacultyPanel extends JPanel{
         widgets.setBackground(Color.WHITE);
         widgets.add(addFaculty, BorderLayout.WEST);
 
-        JPanel facultyListAll = new edu.univ.erp.ui.admin.FacultyListPanel(width, height);
+        facultyListAll = new edu.univ.erp.ui.admin.FacultyListPanel(width, height);
 
-        JPanel MainPanel = new JPanel();
+        MainPanel = new JPanel();
         MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
         MainPanel.setBackground(Color.WHITE);
         MainPanel.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
@@ -40,5 +51,19 @@ public class FacultyPanel extends JPanel{
         add(MainPanel, BorderLayout.CENTER);
 //        add(studentsListAll, BorderLayout.CENTER);
         setVisible(true);
+    }
+
+    private class addEvent implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            new AddFaculty(FacultyPanel.this);
+        }
+    }
+
+    public void saved(String userID){
+        MainPanel.remove(facultyListAll);
+        MainPanel.add(new edu.univ.erp.ui.admin.FacultyListPanel(width, height));
+
+        MainPanel.revalidate();
+        MainPanel.repaint();
     }
 }

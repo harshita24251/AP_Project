@@ -2,8 +2,11 @@ package edu.univ.erp.data;
 
 import edu.univ.erp.auth.hash.*;
 import edu.univ.erp.auth.*;
+import erp.randomIDGenerator;
+
 import java.sql.*;
 import java.lang.String;
+import java.util.ArrayList;
 
 public class Auth{
     public static String stringPassword;
@@ -85,5 +88,17 @@ public class Auth{
             e.printStackTrace();
         }
         return role;
+    }
+
+    public static void insertDetails(ArrayList<String> arr){
+        try{
+            Connection connect = edu.univ.erp.auth.HikariConnectionPool.getDataSource().getConnection();
+            Statement statement = connect.createStatement();
+            statement.executeUpdate(String.format("insert into users_auth values ('%s', '%s', '%s', '%s')", arr.get(0), arr.get(1), arr.get(2), BCrypt.hashpw(arr.get(3), BCrypt.gensalt())));
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/Auth\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
     }
 }

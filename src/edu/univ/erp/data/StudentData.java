@@ -271,13 +271,34 @@ public class StudentData{
         try{
             Connection connect = HikariConnectionPool.getDataSource().getConnection();
             Statement statement = connect.createStatement();
-            statement.executeUpdate(String.format("insert into students values ('%s', %d, '%s', %d, '%s', '%s')", randomIDGenerator.generateID(), Integer.valueOf(arr.get(0)), arr.get(1), Integer.valueOf(arr.get(2)), arr.get(3), arr.get(4)));
+            statement.executeUpdate(String.format("insert into students values ('%s', %d, '%s', %d, '%s', '%s')", arr.get(6), Integer.valueOf(arr.get(0)), arr.get(1), Integer.valueOf(arr.get(2)), arr.get(3), arr.get(4)));
 
         }
         catch(SQLException e){
             System.out.println("Exception occured at data/StudentData\n"); //for prototyping may change later
             e.printStackTrace();
         }
+    }
+
+    public static HashMap<Integer, Double>  getCGPA(){
+        HashMap<Integer, Double> tmp = new HashMap<>();
+
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery(String.format("select sections.semester, avg(case final_grade when 'A' then 10 when 'B' then 9 when 'C' then 8 when 'D' then 7 when 'E' then 6 when 'F' then 0 end) from grades join enrollments on grades.enrollment_id = enrollments.enrollment_id join sections on grades.section_id = sections.section_id where grades.component = 'Endsem' and enrollments.student_id = '%s' group by sections.semester", Session.getCurrentUser_ID())); //changed here
+            )
+        {
+            while (result.next() != false){
+                tmp.put(result.getInt(1), result.getDouble(2));
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/StudentData\n"); //for prototyping may change later
+        }
+
+        return tmp;
     }
 }
 
