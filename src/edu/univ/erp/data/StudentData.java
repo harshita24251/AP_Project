@@ -6,6 +6,7 @@ import org.h2.engine.User;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import erp.randomIDGenerator;
 
 public class StudentData{
     private static Connection connect;
@@ -258,6 +259,19 @@ public class StudentData{
             for (String str : gradesList.keySet()){
                 statement.executeUpdate(String.format("update grades set score = %f where component = '%s' and section_id in (select enrollments.section_id from enrollments join sections on enrollments.section_id = sections.section_id where enrollments.student_id = '%s' and sections.course_id = '%s') and enrollment_id in (select enrollment_id from enrollments join sections on enrollments.section_id = sections.section_id where enrollments.student_id = '%s' and sections.course_id = '%s');\n", gradesList.get(str), str, Student_ID, Course_ID, Student_ID, Course_ID));
             }
+
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/StudentData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertDetails(ArrayList<String> arr){
+        try{
+            Connection connect = HikariConnectionPool.getDataSource().getConnection();
+            Statement statement = connect.createStatement();
+            statement.executeUpdate(String.format("insert into students values ('%s', %d, '%s', %d, '%s', '%s')", randomIDGenerator.generateID(), Integer.valueOf(arr.get(0)), arr.get(1), Integer.valueOf(arr.get(2)), arr.get(3), arr.get(4)));
 
         }
         catch(SQLException e){
