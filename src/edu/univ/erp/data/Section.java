@@ -1,7 +1,10 @@
 package edu.univ.erp.data;
 
 import java.sql.*;
+import java.util.ArrayList;
+
 import edu.univ.erp.auth.*;
+import erp.randomIDGenerator;
 
 public class Section{
     private static Connection connect;
@@ -164,5 +167,18 @@ public class Section{
         }
         
         return tmp;
+    }
+
+    public static void insertDetails(ArrayList<String> arr){
+        try{
+            Connection connect = HikariConnectionPool.getDataSource().getConnection();
+            Statement statement = connect.createStatement();
+            statement.executeUpdate(String.format("insert into sections values ('%s', '%s', '%s', '%s', %d, %d, %d, %f)", randomIDGenerator.generateID(), arr.get(0), arr.get(1), arr.get(2), arr.get(3), Integer.valueOf(arr.get(4)), Integer.valueOf(arr.get(5)), Integer.valueOf(arr.get(6)), Float.valueOf(arr.get(7))));
+
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/Sections\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
     }
 }

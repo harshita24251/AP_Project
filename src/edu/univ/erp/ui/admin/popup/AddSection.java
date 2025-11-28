@@ -1,6 +1,7 @@
 package edu.univ.erp.ui.admin.popup;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import edu.univ.erp.api.admin.AllFacultyData;
 import edu.univ.erp.api.auth.NewAccount;
 import edu.univ.erp.api.student.NewStudent;
 import erp.UUIDGenerator;
@@ -11,9 +12,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import edu.univ.erp.api.catalog.*;
 
 public class AddSection extends JDialog{
-    private static int width = 410;
+    private static int width = 700;
     private static int height = 500;
 
     ArrayList<JComponent> sectionData = new ArrayList<>();
@@ -43,15 +45,69 @@ public class AddSection extends JDialog{
 
         //---------------------------fields--------------------------
 //        JTextField roll = new JTextField();
-        JMenuBar courseID = new JMenuBar();
-        JMenuBar facultyID = new JMenuBar();
-        JMenuBar day = new JMenuBar();
-        JMenuBar time = new JMenuBar();
-        JMenuBar duration = new JMenuBar();
-        JMenuBar room = new JMenuBar();
+        JComboBox<String> courseID = new JComboBox<>();
+        JComboBox<String> facultyID = new JComboBox<>();
+        JComboBox<String> day = new JComboBox<>(new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"});
+        JComboBox<String> time = new JComboBox<>();
+        JComboBox<String> duration = new JComboBox<>();
+        JComboBox<String> room = new JComboBox<>();
         JTextField capacity = new JTextField();
         JSpinner semester = new JSpinner(new SpinnerNumberModel(1, 1, 8, 1));
         JSpinner year = new JSpinner(new SpinnerNumberModel(2024, 2024, 2047, 1));
+
+//        JComboBox<String> dayMenu = new JComboBox<>();
+//        day.putClientProperty("JComponent.roundRect", true);
+//        day.add(dayMenu);
+
+        //------------------------------------------------------------------------
+        ArrayList<ArrayList<String>> allCourses = allCourseDetails.fetch();
+        String[] array = new String[allCourses.size()];
+        int index = 0;
+
+        for (ArrayList<String> a : allCourses){
+            courseID.addItem(a.get(0) + " : " + a.get(3));
+        }
+//        JComboBox<String> courseIDs = new JComboBox<>(array);
+//        courseIDs.putClientProperty("JComponent.roundRect", true);
+//        courseID.addItem(array);
+        //-------------------------------------------------------------------------
+
+        //------------------------------------------------------------------------
+        ArrayList<ArrayList<String>> allFaculty = AllFacultyData.fetch();
+        String[] arrayFaculty = new String[allCourses.size()];
+        index = 0;
+
+        for (ArrayList<String> a : allFaculty){
+            facultyID.addItem(a.get(1) + " : " + a.get(2));
+        }
+//        JComboBox<String> facultyIDs = new JComboBox<>(arrayFaculty);
+//        facultyID.putClientProperty("JComponent.roundRect", true);
+//        facultyID.add(facultyIDs);
+        //-------------------------------------------------------------------------
+        String[] arrayTime = {"08:30 - 10:00", "09:00 - 10:30", "09:30 - 11:00", "10:00 - 11:30", "10:30 - 12:00", "11:00 - 12:30", "11:30 - 01:00", "12:00 - 01:30", "12:30 - 02:00", "01:00 - 02:30", "01:30 - 03:00", "02:00 - 03:30", "02:30 - 04:00", "03:00 - 04:30", "03:30 - 05:00", "04:00 - 05:30", "04:30 - 06:00"};
+//        JComboBox<String> timeArray = new JComboBox<>(arrayTime);
+//        time.putClientProperty("JComponent.roundRect", true);
+        for (String str : arrayTime){
+            time.addItem(str);
+        }
+
+        //-------------------------------------------------------------------------
+        String[] arrayRoom = {"LHC", "Old Acad", "RnD"};
+//        JComboBox<String> roomArray = new JComboBox<>(arrayRoom);
+//        time.putClientProperty("JComponent.roundRect", true);
+//        room.add(roomArray);
+        for (String str : arrayRoom){
+            room.addItem(str);
+        }
+
+        //------------------------------------------------------------------------
+        String[] arrayDur = {"45 Mins", "1.0 Hrs", "1.5 Hrs", "2.0 Hrs"};
+//        JComboBox<String> durArray = new JComboBox<>(arrayDur);
+//        time.putClientProperty("JComponent.roundRect", true);
+//        duration.add(durArray);
+        for (String str : arrayDur){
+            duration.addItem(str);
+        }
 
         sectionData.add(courseID);
         sectionData.add(facultyID);
@@ -106,12 +162,15 @@ public class AddSection extends JDialog{
 //        public void actionPerformed(ActionEvent e){
 //            ArrayList<String> arr = new ArrayList<>();
 //
-//            for (JComponent text : studentData){
+//            for (JComponent text : sectionData){
 //                if (text instanceof  JTextField){
 //                    arr.add(((JTextField) text).getText());
 //                }
 //                else if (text instanceof JSpinner){
 //                    arr.add(((JSpinner) text).getValue().toString());
+//                }
+//                else if (text instanceof JMenuBar){
+//                    add.add()
 //                }
 //            }
 //
