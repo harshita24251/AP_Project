@@ -17,7 +17,7 @@ import erp.UUIDGenerator;
 
 public class AddStudents extends JDialog {
     private static int width = 410;
-    private static int height = 350;
+    private static int height = 380;
     private ListenOnSave listener;
 
     ArrayList<JComponent> studentData = new ArrayList<>();
@@ -34,6 +34,7 @@ public class AddStudents extends JDialog {
 //            height = size * 110;
 //
         setSize(new Dimension(width, height));
+        setTitle("New Student");
 //
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -89,6 +90,7 @@ public class AddStudents extends JDialog {
 //        JTextField semester = new JTextField();
         JSpinner forSemester = new JSpinner(new SpinnerNumberModel(1, 1, 8, 1));
         JTextField email = new JTextField();
+        JTextField contact = new JTextField();
         JTextField name = new JTextField();
         JTextField password = new JTextField();
 
@@ -98,12 +100,14 @@ public class AddStudents extends JDialog {
         studentData.add(email);
         studentData.add(name);
         studentData.add(password);
+        studentData.add(contact);
 
         mainPanel.add(createList("Name", name));
         mainPanel.add(createList("Roll No.", roll));
         mainPanel.add(createList("Program", program));
         mainPanel.add(createList("Semester", forSemester));
         mainPanel.add(createList("Email", email));
+        mainPanel.add(createList("Contact", contact));
         mainPanel.add(createList("Create Password", password));
 
         mainPanel.add(button);
@@ -158,7 +162,7 @@ public class AddStudents extends JDialog {
             arr.add(UUIDGenerator.generate(arr.get(4)));
 
             ArrayList<String> toInsert = new ArrayList<>();
-            toInsert.add(arr.get(6));
+            toInsert.add(arr.get(7));
             toInsert.add(arr.get(3));
             toInsert.add("student");
             toInsert.add(arr.get(5));

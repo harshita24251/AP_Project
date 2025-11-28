@@ -1,6 +1,7 @@
 package edu.univ.erp.ui.student;
 
-import edu.univ.erp.api.student.MyCGPA;
+import edu.univ.erp.api.student.*;
+import edu.univ.erp.auth.Session;
 import edu.univ.erp.ui.common.*;
 import edu.univ.erp.ui.common.events.*;
 import java.awt.*;
@@ -132,7 +133,7 @@ public class Dashboard extends JFrame{
         /**
          * rightTopLeftPanel : Profile card
          */
-        JPanel nameOfStudent = new NameCard("Chaitanya Satsangi", "Student", 20, 15, rightTopRightPanelWidth, rightTopRightPanelHeight * 0.25f);
+        JPanel nameOfStudent = new NameCard(StudentName.fetch(Session.getCurrentUser_ID()), "Student", 20, 15, rightTopRightPanelWidth, rightTopRightPanelHeight * 0.25f);
 
         JPanel details = new JPanel(new GridLayout(2, 2, 0, 0));
         details.setBackground(Color.WHITE);
@@ -142,10 +143,10 @@ public class Dashboard extends JFrame{
          * Details
          */
 
-        DetailCard rollNo = new DetailCard("Roll No.", "2024158", 10, 15, 100, 100);
-        DetailCard contact = new DetailCard("Contact", "9599583800", 10, 15, 100, 100);
-        DetailCard branch = new DetailCard("Branch", "B.Tech CSB", 10, 15, 100, 100);
-        DetailCard batch = new DetailCard("Batch", "2028", 10, 15, 100, 100);
+        DetailCard rollNo = new DetailCard("Roll No.", String.valueOf(StudentRollNo.fetch(Session.getCurrentUser_ID())), 10, 15, 100, 100);
+        DetailCard contact = new DetailCard("Contact", StudentContact.fetch(Session.getCurrentUser_ID()), 10, 15, 100, 100);
+        DetailCard branch = new DetailCard("Branch", StudentProgram.fetch(), 10, 15, 100, 100);
+        DetailCard batch = new DetailCard("Batch", "---", 10, 15, 100, 100);
 
         // details.setBackground(Color.BLACK);
         details.setBorder(new EmptyBorder(30, 0, 0, 30));
@@ -159,12 +160,14 @@ public class Dashboard extends JFrame{
 
 //        double[] xData = {1, 2};
 //        double[] yData = {7.8, 7.9};
+        double[] xData;
+        double[] yData;
 
         List<Integer> keys = new ArrayList<>(finalGrade.keySet());
         Collections.sort(keys);
 
-        double[] xData = keys.stream().mapToDouble(Integer::doubleValue).toArray();
-        double[] yData = keys.stream().mapToDouble(k -> finalGrade.get(k)).toArray();
+        xData = keys.stream().mapToDouble(Integer::doubleValue).toArray();
+        yData = keys.stream().mapToDouble(k -> finalGrade.get(k)).toArray();
 
         // XYChart cgpaChart = QuickChart.getChart("CGPA vs Semester", "Semester", "CGPA", " ", xData, yData)
         XYChartBuilder cgpaChart = new XYChartBuilder();
@@ -182,7 +185,14 @@ public class Dashboard extends JFrame{
         converted.getStyler().setChartBackgroundColor(Color.WHITE);
         converted.getStyler().setBaseFont(new Font("Roboto Mono", Font.PLAIN, 16));
         // converted.getStyler().setPlotBorderVisible(false);
-        converted.addSeries(" ", xData, yData);
+        try{
+            converted.addSeries(" ", xData, yData);
+        }
+        catch(Exception e){
+            xData = new double[]{0};
+            yData = new double[]{0};
+            converted.addSeries(" ", xData, yData);
+        }
 
         JPanel chart = new XChartPanel<XYChart>(converted);
 

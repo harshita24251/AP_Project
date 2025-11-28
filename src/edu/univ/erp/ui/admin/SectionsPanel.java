@@ -2,6 +2,8 @@ package edu.univ.erp.ui.admin;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.sun.tools.javac.Main;
+import edu.univ.erp.ui.admin.popup.AddSection;
+import edu.univ.erp.ui.admin.popup.AddStudents;
 import edu.univ.erp.ui.faculty.Assessments;
 import edu.univ.erp.ui.faculty.StudentsListPanel;
 
@@ -20,6 +22,7 @@ public class SectionsPanel extends JPanel{
         Icon plus = new FlatSVGIcon("plus.svg", 0.25f);
 
         JButton addCourse = new JButton("Add Section", plus);
+        addCourse.addActionListener(new addEvent());
 //        createAssessment.addActionListener(new Assessments.createAssessmentEvent(arr.get(1)));
 
         //-----------------------------column Heading----------------------------------
@@ -119,5 +122,11 @@ public class SectionsPanel extends JPanel{
         panel.setBackground(Color.WHITE);
 
         return panel;
+    }
+
+    private class addEvent implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            new AddSection();
+        }
     }
 }

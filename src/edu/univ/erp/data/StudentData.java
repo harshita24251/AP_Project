@@ -45,6 +45,26 @@ public class StudentData{
         return tmp;
     }
 
+    public static String fetchContact(String User_ID){
+        String tmp = "";
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery(String.format("select contact from students where user_id = '%s'", User_ID));
+            )
+        {
+            while (result.next()){
+                tmp = result.getString(1);
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            System.out.println("Exception occured at data/StudentData\n"); //for prototyping may change later
+        }
+        return tmp;
+    }
+
     public static String fetchName(String User_ID){
         String tmp = "";
         try
@@ -112,7 +132,7 @@ public class StudentData{
                 Statement statement = connect.createStatement();
                 ResultSet result = statement.executeQuery(String.format("select email_id from students where user_id = '%s'", User_ID));
             )
-        {
+            {
             while (result.next()){
                 tmp = result.getString(1);
             }
@@ -271,7 +291,7 @@ public class StudentData{
         try{
             Connection connect = HikariConnectionPool.getDataSource().getConnection();
             Statement statement = connect.createStatement();
-            statement.executeUpdate(String.format("insert into students values ('%s', %d, '%s', %d, '%s', '%s')", arr.get(6), Integer.valueOf(arr.get(0)), arr.get(1), Integer.valueOf(arr.get(2)), arr.get(3), arr.get(4)));
+            statement.executeUpdate(String.format("insert into students values ('%s', %d, '%s', %d, '%s', '%s', '%s')", arr.get(7), Integer.valueOf(arr.get(0)), arr.get(1), Integer.valueOf(arr.get(2)), arr.get(3), arr.get(4), arr.get(6)));
 
         }
         catch(SQLException e){

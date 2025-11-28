@@ -25,6 +25,8 @@ public class AddFaculty extends JDialog {
 //        setTitle(String.format("Grades : %d", StudentRollNo.fetch(Student_ID)));
         FlatLightLaf.setup();
 
+        setTitle("New Faculty");
+
 //        HashMap<String, ArrayList<Integer>> componentGrades = ComponentWiseScores.fetch(Course_ID, Student_ID);
 
 //        int size = componentGrades.size();
