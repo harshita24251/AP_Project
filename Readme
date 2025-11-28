@@ -10,15 +10,12 @@ Database Management System Used : H2 (made in Java)
 
 to keep the compiled classes separate from non-compiled ones, the bin directory contains all the compiled classes
 
-Timeline:
-Week1 : 29 Sep-5 Oct : Drew layouts & learned databases
-Week2 : 6 Oct-12 Oct : 
-Week3 : 13 Oct-19 Oct : 
-Week4 : 20 Oct-26 Oct : 
-Week5 : 27 Oct-2 Nov : 
-Week6 : 3 Nov-9 Nov : 
-Week7 : 10 Nov-16 Nov : 
-Week8 : 17 Nov-23 Nov : Final testing
+How to run?
+1. on Windows : Double click on RunWindows.bat file.
+
+on Mac:
+1. In terminal(AP_Project directory) type : chmod +x run.sh
+2. Double click on RunMac.sh file.
 
 Made by:
 Chaitanya & Harshita
