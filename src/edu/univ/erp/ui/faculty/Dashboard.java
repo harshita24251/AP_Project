@@ -85,8 +85,8 @@ public class Dashboard extends JFrame{
         JPanel studentsPanel = new StudentsPanel(rightPanelWidth, rightPanelHeight);
         registerListener.put("Students", new goToStudents());
 
-        JPanel coursesPanel = new CoursesPanel(rightPanelWidth, rightPanelHeight);
-        registerListener.put("Courses", new goToCourses());
+//        JPanel coursesPanel = new CoursesPanel(rightPanelWidth, rightPanelHeight);
+//        registerListener.put("Courses", new goToCourses());
 
         JPanel assessmentsPanel = new Assessments(rightPanelWidth, rightPanelHeight);
         registerListener.put("Assessments", new goToAssessments());
@@ -144,7 +144,7 @@ public class Dashboard extends JFrame{
         changerPanel.add(assessmentsPanel, BorderLayout.CENTER);
         changerPanel.add(sectionsPanel, BorderLayout.CENTER);
 
-        changerPanel.add(coursesPanel, BorderLayout.CENTER);
+//        changerPanel.add(coursesPanel, BorderLayout.CENTER);
         // changerPanel.add(manageCoursesPanel, BorderLayout.CENTER);
 
         changingLayout.addLayoutComponent(rightPanel, "rightPanel");
@@ -153,7 +153,7 @@ public class Dashboard extends JFrame{
         changingLayout.addLayoutComponent(assessmentsPanel, "assessmentsPanel");
         changingLayout.addLayoutComponent(sectionsPanel, "sectionsPanel");
 
-        changingLayout.addLayoutComponent(coursesPanel, "coursesPanel");
+//        changingLayout.addLayoutComponent(coursesPanel, "coursesPanel");
         // changingLayout.addLayoutComponent(manageCoursesPanel, "manageCoursesPanel");
         //---------------------------------------------------------------------------
 
@@ -173,11 +173,11 @@ public class Dashboard extends JFrame{
         }
     }
 
-    private class goToCourses extends MouseAdapter{
-        public void mouseClicked(MouseEvent e){
-            changingLayout.show(changerPanel, "coursesPanel");
-        }
-    }
+//    private class goToCourses extends MouseAdapter{
+//        public void mouseClicked(MouseEvent e){
+//            changingLayout.show(changerPanel, "coursesPanel");
+//        }
+//    }
 
     private class goToAssessments extends MouseAdapter{
         public void mouseClicked(MouseEvent e){

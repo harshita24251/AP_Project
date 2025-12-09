@@ -14,7 +14,7 @@ How to run?
 1. on Windows : Double click on RunWindows.bat file.
 
 on Mac:
-1. In terminal(AP_Project directory) type : chmod +x run.sh
+1. In terminal(AP_Project directory) type : chmod +x RunMac.sh
 2. Double click on RunMac.sh file.
 
 Made by:

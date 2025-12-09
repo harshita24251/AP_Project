@@ -13,8 +13,11 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.events.ListenOnSave;
 import edu.univ.erp.events.RefreshScreen;
 import edu.univ.erp.ui.faculty.popup.CreateAssessment;
+import edu.univ.erp.ui.common.popup.*;
+import edu.univ.erp.ui.faculty.popup.RemoveAssessmentDialog;
 
 public class Assessments extends JPanel implements ListenOnSave {
+
     private HashMap<String, JPanel> revalidations;
     private HashMap<String, HashMap<JCheckBox, JPanel>> checkBoxes = new HashMap<>();
     private ArrayList<JButton> showHideButton = new ArrayList<>();
@@ -26,6 +29,8 @@ public class Assessments extends JPanel implements ListenOnSave {
 
     private float width;
     private float height;
+
+    RemoveAssessmentDialog rm;
 
     public Assessments(float width, float height){
         this.width = width;
@@ -72,7 +77,8 @@ public class Assessments extends JPanel implements ListenOnSave {
             createAssessment.addActionListener(new createAssessmentEvent(arr.get(1)));
 
             JButton deleteAssessment = new JButton("Remove", cross);
-            deleteAssessment.addActionListener(new removeAssessmentEvent(arr.get(1), widgetMap.get(arr.get(1)), createAssessment, deleteAssessment));
+//            deleteAssessment.addActionListener(new removeAssessmentEvent(arr.get(1), widgetMap.get(arr.get(1)), createAssessment, deleteAssessment));
+            deleteAssessment.addActionListener(new removeDone(new removeAssessmentEvent(arr.get(1), widgetMap.get(arr.get(1)), createAssessment, deleteAssessment)));
 
             addButton.put(arr.get(1), createAssessment);
             removeButton.put(arr.get(1), deleteAssessment);
@@ -190,8 +196,10 @@ public class Assessments extends JPanel implements ListenOnSave {
         }
 
         public void actionPerformed(ActionEvent e){
-            for (JCheckBox chk : checkBoxes.get(Course_ID).keySet()){
-                if (chk.isSelected()){
+
+
+            for (JCheckBox chk : checkBoxes.get(Course_ID).keySet()) {
+                if (chk.isSelected()) {
                     RemoveAssessment.remove(Course_ID, removeByTitles.get(Course_ID).get(checkBoxes.get(Course_ID).get(chk)));
                     checkBoxes.get(Course_ID).get(chk).setVisible(false);
                 }
@@ -202,6 +210,18 @@ public class Assessments extends JPanel implements ListenOnSave {
 
             widget.revalidate();
             widget.repaint();
+        }
+    }
+
+    private class removeDone implements ActionListener{
+        ActionListener ae;
+        public removeDone(ActionListener ae){
+            this.ae = ae;
+        }
+
+        public void actionPerformed(ActionEvent e){
+            rm = new RemoveAssessmentDialog();
+            rm.setAction(ae);
         }
     }
 }

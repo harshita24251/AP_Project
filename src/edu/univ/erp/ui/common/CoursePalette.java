@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import edu.univ.erp.ui.common.events.HoverEffect;
+
 import javax.swing.border.*;
 import java.util.ArrayList;
 
@@ -110,6 +112,9 @@ public class CoursePalette extends JPanel{
 
         setBorder(lineBorder);
         add(leftRight, BorderLayout.CENTER);
+
+        applyHoverEffect.add(this);
+        addMouseListener(new HoverEffect(applyHoverEffect));
     }
 
     private class hoverEffect extends MouseAdapter{

@@ -29,7 +29,7 @@ public class Login{
         return false;
       }
       else{
-        Session.setCurrentUser_ID(User_id.getString(1));
+        Session.setCurrentSession(User_id.getString(1));
         Session.setCurrentRole(Role.valueOf(role.getString(1)));
         return true;
       }

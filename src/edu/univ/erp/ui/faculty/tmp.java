@@ -30,7 +30,7 @@ public class tmp{
         // }
 
         EventQueue.invokeLater(() -> {
-            JFrame dash = new Dashboard();
+            JFrame dash = new edu.univ.erp.ui.faculty.Dashboard();
             dash.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             dash.setVisible(true);
 

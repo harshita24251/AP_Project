@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Alert extends JDialog {
+    JPanel btnPane = new JPanel();
+    JButton ok;
+    JLabel msg;
+
     public Alert(String Message, String Button){
         setSize(new Dimension(400, 150));
         setBackground(Color.WHITE);
@@ -16,12 +20,12 @@ public class Alert extends JDialog {
         JPanel mainMainPanel = new JPanel();
         mainMainPanel.setLayout(new BoxLayout(mainMainPanel, BoxLayout.Y_AXIS));
         JPanel mainPane = new JPanel();
-        JPanel btnPane = new JPanel();
+//        JPanel btnPane = new JPanel();
 
-        JLabel msg = new JLabel(Message);
+        msg = new JLabel(Message);
         msg.setFont(new Font("Segoe UI", Font.BOLD, 20));
 
-        JButton ok = new JButton(Button);
+        ok = new JButton(Button);
         ok.addActionListener(new closeEvent());
 
         mainPane.add(msg);
@@ -41,5 +45,25 @@ public class Alert extends JDialog {
         public void actionPerformed(ActionEvent e){
             dispose();
         }
+    }
+
+    public JPanel getBtnPane(){
+        return btnPane;
+    }
+
+    public JButton getButton(){
+        return ok;
+    }
+
+    public void disposeIt(){
+        dispose();
+    }
+
+    public void setfont(Font f){
+        msg.setFont(f);
+    }
+
+    public void setAction(ActionListener ae){
+        ok.addActionListener(ae);
     }
 }

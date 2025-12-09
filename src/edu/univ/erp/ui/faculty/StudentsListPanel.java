@@ -31,7 +31,6 @@ public class StudentsListPanel extends JPanel{
         setBackground(Color.WHITE);
 
         listOfStudents = StudentsEnrolled.fetch(Course_ID);
-        System.out.println(listOfStudents.size());
 
         float height = height_ * 0.04f;
 
