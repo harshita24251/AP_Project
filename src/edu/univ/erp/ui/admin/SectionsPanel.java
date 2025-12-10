@@ -2,6 +2,7 @@ package edu.univ.erp.ui.admin;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.sun.tools.javac.Main;
+import edu.univ.erp.events.ListenOnSave;
 import edu.univ.erp.ui.admin.popup.AddSection;
 import edu.univ.erp.ui.admin.popup.AddStudents;
 import edu.univ.erp.ui.faculty.Assessments;
@@ -12,9 +13,16 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class SectionsPanel extends JPanel{
+public class SectionsPanel extends JPanel implements ListenOnSave {
+    private JPanel MainPanel;
+    private JPanel sectionListAll;
+    private float width;
+    private float height;
+
     public SectionsPanel(float width, float height){
 //        setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
+        this.width = width;
+        this.height = height;
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
@@ -50,7 +58,7 @@ public class SectionsPanel extends JPanel{
         JLabel courseLabel = createLabel("Course ID");
         JLabel instructorLabel = createLabel("Instructor ID");
         JLabel daytimeLabel = createLabel("Day Time");
-        JLabel durationLabel = createLabel("Duration");
+        JLabel durationLabel = createLabel("Duration (Mins)");
         JLabel roomLabel = createLabel("Room");
         JLabel capacityLabel = createLabel("Capacity");
         JLabel semesterLabel = createLabel("Semester");
@@ -89,7 +97,7 @@ public class SectionsPanel extends JPanel{
         JPanel belowWidget = new JPanel(new BorderLayout());
 //        belowWidget.setPreferredSize(new Dimension(Math.round(width), Math.round(height * 0.95f)));
 
-        JPanel sectionListAll = new edu.univ.erp.ui.admin.SectionsListPanel(width, height);
+        sectionListAll = new edu.univ.erp.ui.admin.SectionsListPanel(width, height);
 
         JScrollPane courseScroll = new JScrollPane(sectionListAll);
         courseScroll.setBorder(null);
@@ -99,13 +107,14 @@ public class SectionsPanel extends JPanel{
         belowWidget.add(main, BorderLayout.NORTH);
         belowWidget.add(courseScroll, BorderLayout.CENTER);
 
-        JPanel MainPanel = new JPanel();
+        MainPanel = new JPanel();
 //        MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
         MainPanel.setLayout(new BorderLayout());
         MainPanel.setBackground(Color.WHITE);
 //        MainPanel.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
         MainPanel.add(widgets, BorderLayout.NORTH);
         MainPanel.add(belowWidget, BorderLayout.CENTER);
+        MainPanel.add(sectionListAll);
 
         add(MainPanel, BorderLayout.CENTER);
         setVisible(true);
@@ -126,7 +135,15 @@ public class SectionsPanel extends JPanel{
 
     private class addEvent implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            new AddSection();
+            new AddSection(SectionsPanel.this);
         }
+    }
+
+    public void saved(String sectionID){
+        MainPanel.remove(sectionListAll);
+        MainPanel.add(new edu.univ.erp.ui.admin.SectionsListPanel(width, height));
+
+        MainPanel.revalidate();
+        MainPanel.repaint();
     }
 }

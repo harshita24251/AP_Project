@@ -2,8 +2,10 @@ package edu.univ.erp.ui.admin.popup;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.univ.erp.api.admin.AllFacultyData;
+import edu.univ.erp.api.admin.NewSection;
 import edu.univ.erp.api.auth.NewAccount;
 import edu.univ.erp.api.student.NewStudent;
+import edu.univ.erp.events.ListenOnSave;
 import erp.UUIDGenerator;
 
 import javax.swing.*;
@@ -17,11 +19,15 @@ import edu.univ.erp.api.catalog.*;
 public class AddSection extends JDialog{
     private static int width = 700;
     private static int height = 500;
+    private ListenOnSave listener;
 
     ArrayList<JComponent> sectionData = new ArrayList<>();
+    ArrayList<ArrayList<String>> allCourses = allCourseDetails.fetch();
+    ArrayList<ArrayList<String>> allFaculty = AllFacultyData.fetch();
 
-    public AddSection(){
+    public AddSection(ListenOnSave listener){
         FlatLightLaf.setup();
+        this.listener = listener;
         setSize(new Dimension(width, height));
         setTitle("New Section");
         JPanel mainPanel = new JPanel();
@@ -30,7 +36,7 @@ public class AddSection extends JDialog{
 
         //-----------------------------button--------------------------------
         JButton save = new JButton("Save");
-//        save.addActionListener(new AddStudents.saveEvent());
+        save.addActionListener(new saveEvent());
         JButton close = new JButton("Close");
         close.addActionListener(e -> dispose());
 
@@ -60,7 +66,7 @@ public class AddSection extends JDialog{
 //        day.add(dayMenu);
 
         //------------------------------------------------------------------------
-        ArrayList<ArrayList<String>> allCourses = allCourseDetails.fetch();
+//        ArrayList<ArrayList<String>> allCourses = allCourseDetails.fetch();
         String[] array = new String[allCourses.size()];
         int index = 0;
 
@@ -73,7 +79,7 @@ public class AddSection extends JDialog{
         //-------------------------------------------------------------------------
 
         //------------------------------------------------------------------------
-        ArrayList<ArrayList<String>> allFaculty = AllFacultyData.fetch();
+//        ArrayList<ArrayList<String>> allFaculty = AllFacultyData.fetch();
         String[] arrayFaculty = new String[allCourses.size()];
         index = 0;
 
@@ -101,7 +107,7 @@ public class AddSection extends JDialog{
         }
 
         //------------------------------------------------------------------------
-        String[] arrayDur = {"45 Mins", "1.0 Hrs", "1.5 Hrs", "2.0 Hrs"};
+        String[] arrayDur = {"45.0", "60.0", "90.0", "120.0"};
 //        JComboBox<String> durArray = new JComboBox<>(arrayDur);
 //        time.putClientProperty("JComponent.roundRect", true);
 //        duration.add(durArray);
@@ -123,7 +129,7 @@ public class AddSection extends JDialog{
         mainPanel.add(createList("Faculty ID", facultyID));
         mainPanel.add(createList("Day", day));
         mainPanel.add(createList("Time", time));
-        mainPanel.add(createList("Duration", duration));
+        mainPanel.add(createList("Duration (Mins)", duration));
         mainPanel.add(createList("Room", room));
         mainPanel.add(createList("Capacity", capacity));
         mainPanel.add(createList("Semester", semester));
@@ -158,23 +164,31 @@ public class AddSection extends JDialog{
         return panel;
     }
 
-//    private class saveEvent implements ActionListener {
-//        public void actionPerformed(ActionEvent e){
-//            ArrayList<String> arr = new ArrayList<>();
-//
-//            for (JComponent text : sectionData){
-//                if (text instanceof  JTextField){
-//                    arr.add(((JTextField) text).getText());
-//                }
-//                else if (text instanceof JSpinner){
-//                    arr.add(((JSpinner) text).getValue().toString());
-//                }
-//                else if (text instanceof JMenuBar){
-//                    add.add()
-//                }
-//            }
-//
-//            arr.add(UUIDGenerator.generate(arr.get(4)));
+    private void saved(String sectionID) {
+        if (listener != null) {
+            listener.saved(sectionID);
+        }
+        dispose();
+    }
+
+
+    private class saveEvent implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+            ArrayList<String> arr = new ArrayList<>();
+
+            for (JComponent text : sectionData){
+                if (text instanceof  JTextField){
+                    arr.add(((JTextField) text).getText());
+                }
+                else if (text instanceof JSpinner){
+                    arr.add(((JSpinner) text).getValue().toString());
+                }
+                else if (text instanceof JComboBox){
+                    arr.add((String) ((JComboBox<?>) text).getSelectedItem());
+                }
+            }
+
+            arr.add(UUIDGenerator.generate(arr.get(0)));
 //
 //            ArrayList<String> toInsert = new ArrayList<>();
 //            toInsert.add(arr.get(7));
@@ -183,11 +197,14 @@ public class AddSection extends JDialog{
 //            toInsert.add(arr.get(5));
 //
 //            NewAccount.insert(toInsert);
-//
-////            RefreshScreen.broadcast(arr.get(0));
+
+            NewSection.add(arr);
+
+//            RefreshScreen.broadcast(arr.get(0));
 //            NewStudent.add(arr);
-//            saved(arr.get(0));
-////            dispose();
-//        }
-//    }
+            saved(arr.get(9)); //check here
+//            saved("sectionPanel");
+//            dispose();
+        }
+    }
 }

@@ -134,4 +134,18 @@ public class AdminData{
 
         return tmp;
     }
+
+    public static void insertSectionData(ArrayList<String> arr){
+        try
+        {
+            Connection connect = HikariConnectionPool.getDataSource().getConnection();
+            Statement statement = connect.createStatement();
+            statement.executeUpdate(String.format("insert into sections values ('%s', '%s', '%s', '%s', '%s', %d, %d, %d, %f, '%s')", arr.get(9), arr.get(0).split(" : ")[0], arr.get(1).split(" : ")[0], arr.get(3).split(" - ")[0], arr.get(5), Integer.valueOf(arr.get(6)), Integer.valueOf(arr.get(7)), Integer.valueOf(arr.get(8)), Float.valueOf(arr.get(4)), arr.get(2)));
+            // add here
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/AdminData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+    }
 }

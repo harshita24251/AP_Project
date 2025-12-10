@@ -3,7 +3,7 @@ package edu.univ.erp.auth;
 import edu.univ.erp.util.Role;
 
 public class Session{
-    private static String user_id = "Shad101"; // hardcoded for testing
+    private static String user_id = "Ada"; // hardcoded for testing
     private static Role role = Role.student; // hardcoded for testing
 
     public static void setCurrentSession(String user_id_){
