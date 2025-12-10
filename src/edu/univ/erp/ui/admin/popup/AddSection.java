@@ -6,6 +6,7 @@ import edu.univ.erp.api.admin.NewSection;
 import edu.univ.erp.api.auth.NewAccount;
 import edu.univ.erp.api.student.NewStudent;
 import edu.univ.erp.events.ListenOnSave;
+import edu.univ.erp.ui.common.popup.Alert;
 import erp.UUIDGenerator;
 
 import javax.swing.*;
@@ -178,6 +179,15 @@ public class AddSection extends JDialog{
 
             for (JComponent text : sectionData){
                 if (text instanceof  JTextField){
+                    String inp = ((JTextField) text).getText();
+
+                    if (Integer.valueOf(inp) <= 0){
+                        Alert negValue = new Alert("Capacity cannot less than or equal to 0.", "Close");
+                        negValue.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+                        arr.add("");
+                        dispose();
+                    }
+
                     arr.add(((JTextField) text).getText());
                 }
                 else if (text instanceof JSpinner){

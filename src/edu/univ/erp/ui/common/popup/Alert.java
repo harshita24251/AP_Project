@@ -29,9 +29,12 @@ public class Alert extends JDialog {
         ok.addActionListener(new closeEvent());
 
         mainPane.add(msg);
+        mainPane.setBackground(Color.WHITE);
         btnPane.add(ok);
+        btnPane.setBackground(Color.WHITE);
 
         mainMainPanel.add(mainPane);
+        mainMainPanel.setBackground(Color.WHITE);
 //        mainMainPanel.add(Box.createRigidArea(new Dimension(10, )));
         mainMainPanel.add(btnPane);
 //        add(mainPane);
