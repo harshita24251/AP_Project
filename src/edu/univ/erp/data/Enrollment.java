@@ -81,4 +81,17 @@ public class Enrollment{
 
         return tmp;
     }
+
+    public static void newEnrollment(){
+        try{
+            Connection connect = HikariConnectionPool.getDataSource().getConnection();
+            Statement statement = connect.createStatement();
+            statement.executeUpdate(String.format("insert into enrollments values ('%s', '%s', '%s', '%s')", arr.get(7), Integer.valueOf(arr.get(0)), arr.get(1), Integer.valueOf(arr.get(2)), arr.get(3), arr.get(4), arr.get(6)));
+
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/StudentData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+    }
 }

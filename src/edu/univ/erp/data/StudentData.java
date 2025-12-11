@@ -338,7 +338,7 @@ public class StudentData{
             (
                     Connection connect = HikariConnectionPool.getDataSource().getConnection();
                     Statement statement = connect.createStatement();
-                    ResultSet result = statement.executeQuery(String.format("select distinct sections.course_id from sections, students where sections.year_ = %d and sections.semester = students.semester and students.user_id = '%s' and sections.section_id not in (select section_id from enrollments where student_id = '%s');\n", year_, Session.getCurrentUser_ID(), Session.getCurrentUser_ID())); //changed here
+                    ResultSet result = statement.executeQuery(String.format("select distinct sections.section_id, sections.course_id, sections.start_date, sections.end_date, sections.instructor_id from sections, students where sections.year_ = %d and sections.semester = students.semester and students.user_id = '%s' and sections.section_id not in (select section_id from enrollments where student_id = '%s');\n", year_, Session.getCurrentUser_ID(), Session.getCurrentUser_ID())); //changed here
             )
         {
 //            System.out.println(Math.round(Math.floor((double) fetchRollNo(Session.getCurrentUser_ID()) / 1000)) + Math.floor((double)fetchSemester()  / 2));
@@ -346,11 +346,11 @@ public class StudentData{
             while (result.next() != false){
                 HashMap<String, String> temp = new HashMap<>();
                 temp.put(" ", String.valueOf(count++)); //serial number
-//                temp.put("Section ID", result.getString(1)); //section_id
-                temp.put("Course ID", result.getString(1)); // course_id
-//                temp.put("Instructor ID", result.getString(3)); // instructor_id
-//                temp.put("Day Time", result.getString(4)); // day_time
-//                temp.put("Room", result.getString(5)); // room
+                temp.put("Section ID", result.getString(1)); //section_id
+                temp.put("Course ID", result.getString(2)); // course_id
+                temp.put("start_date", result.getString(3)); // instructor_id
+                temp.put("end_date", result.getString(4)); // day_time
+                temp.put("instructor_id", result.getString(5)); // room
 //                temp.put("Capacity", String.valueOf(result.getInt(6))); // capacity
 //                temp.put("Semester", String.valueOf(result.getInt(7))); // semester
 //                temp.put("Year", String.valueOf(result.getInt(8))); // year

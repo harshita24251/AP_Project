@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 import edu.univ.erp.api.admin.SectionDate;
+import edu.univ.erp.ui.common.popup.Alert;
 import org.jdatepicker.impl.*;
 import org.jdatepicker.*;
 
@@ -134,6 +135,12 @@ public class SetDeadline extends JDialog{
 //            arr.add(Course_ID);
 
 //            NewAssessments.create(Course_ID, title.getText(), (int) maxMarks.getValue() , (int)weightage.getValue(), Timestamp.valueOf(time), new Timestamp(forEndDateTimestamp.getTime()));
+
+            if (forEndDateTimestamp.before(forStartDateTimestamp)) {
+                Alert alert = new Alert("End Date cannot be earlier than Start Data!\n Please try again", "Close");
+                alert.setfont(new Font("Segoe UI", Font.PLAIN, 13));
+                dispose();
+            }
 
             SectionDate.update(Course_ID, new Timestamp(forStartDateTimestamp.getTime()), new Timestamp(forEndDateTimestamp.getTime()));
 //            System.out.println(title);

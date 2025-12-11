@@ -6,9 +6,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.api.student.*;
 import edu.univ.erp.api.catalog.*;
 import edu.univ.erp.ui.common.CoursePalette;
+
+import edu.univ.erp.ui.student.popup.*;
 
 public class RegisterCoursePanel extends JPanel {
     private float width;
@@ -105,10 +108,19 @@ public class RegisterCoursePanel extends JPanel {
                 }
             });
 
+
+            Icon icon = new FlatSVGIcon("info.svg", 0.36f);
+            JLabel iconLabel = new JLabel(icon, JLabel.LEFT);
+            iconLabel.addMouseListener(new seeInfo(course.get("instructor_id"), course.get("start_date"), course.get("end_date")));
+
+            iconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            iconLabel.setBorder(new EmptyBorder(0, 0, 0, 10));
+
             JPanel rightPanel = new JPanel(new BorderLayout());
             rightPanel.setOpaque(false);
             rightPanel.setBorder(new EmptyBorder(0,10,0,10));
             rightPanel.add(select, BorderLayout.CENTER);
+            rightPanel.add(iconLabel, BorderLayout.WEST);
 
             outerPanel.add(palette, BorderLayout.CENTER);
             outerPanel.add(rightPanel, BorderLayout.EAST);
@@ -132,6 +144,10 @@ public class RegisterCoursePanel extends JPanel {
             c1.put("course_acronym",courseDetails.get(1));
             c1.put("course_code", hs.get("Course ID"));
             c1.put("course_credits", courseDetails.get(2));
+            c1.put("section_id", hs.get("Section ID"));
+            c1.put("start_date", hs.get("start_date"));
+            c1.put("end_date", hs.get("end_date"));
+            c1.put("instructor_id", hs.get("instructor_id"));
             list.add(c1);
         }
 //
@@ -159,5 +175,21 @@ public class RegisterCoursePanel extends JPanel {
         for (String id : courses) sb.append(id).append(", ");
         if (sb.length() > 2) sb.setLength(sb.length() - 2);
         JOptionPane.showMessageDialog(null,"Registered successfully for: "+sb.toString());
+    }
+
+    private class seeInfo extends MouseAdapter{
+        String instructor;
+        String start;
+        String end;
+
+        public seeInfo(String instructor, String start, String end){
+            this.instructor = instructor;
+            this.start = start;
+            this.end = end;
+        }
+
+        public void mouseClicked(MouseEvent e){
+            new RegisterableCourseInfo(instructor, start, end);
+        }
     }
 }
