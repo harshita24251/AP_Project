@@ -148,4 +148,18 @@ public class AdminData{
             e.printStackTrace();
         }
     }
+
+    public static void updateSectionDate(String Section_id, Timestamp start, Timestamp end){
+        try
+        {
+            Connection connect = HikariConnectionPool.getDataSource().getConnection();
+            Statement statement = connect.createStatement();
+            statement.executeUpdate(String.format("update sections set start_date = '%s', end_date = '%s' where section_id = '%s'", start, end, Section_id));
+            // add here
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/AdminData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+    }
 }

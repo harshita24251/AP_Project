@@ -4,12 +4,15 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.api.admin.AllSectionDetails;
 import edu.univ.erp.api.admin.AllStudentsDetails;
+import edu.univ.erp.api.admin.SectionDate;
 import edu.univ.erp.api.instructor.StudentsEnrolled;
+import edu.univ.erp.ui.admin.popup.SetDeadline;
 import edu.univ.erp.ui.common.events.ButtonHover;
 import edu.univ.erp.ui.common.events.HoverEffect;
 import edu.univ.erp.ui.faculty.popup.EditGrades;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,60 +40,64 @@ public class SectionsListPanel extends JPanel{
 
         //-----------------------------column Heading----------------------------------
         {
-//            JPanel main = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-//            main.setMaximumSize(new Dimension(Math.round(width), Math.round(height)));
-//            main.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
-//            main.setBackground(Color.WHITE);
-//
-//            JPanel leftMargin = createList(Math.round(0.02f * width), Math.round(height));
-//            leftMargin.setBackground(Color.WHITE);
-//            JPanel no = createList(Math.round(0.04f * width), Math.round(height));
-//            JPanel sectionid = createList(Math.round(0.08f * width), Math.round(height));
-//            JPanel courseid = createList(Math.round(0.18f * width), Math.round(height));
-//            JPanel insid = createList(Math.round(0.10f * width), Math.round(height));
-//            JPanel daytime = createList(Math.round(0.08f * width), Math.round(height));
-//            JPanel duration = createList(Math.round(0.22f * width), Math.round(height));
-//            JPanel room = createList(Math.round(0.07f * width), Math.round(height));
-//            JPanel capacity = createList(Math.round(0.07f * width), Math.round(height));
-//            JPanel semester = createList(Math.round(0.07f * width), Math.round(height));
-//            JPanel year = createList(Math.round(0.07f * width), Math.round(height));
-//
-//            JLabel noLabel = createLabel("");
-//            JLabel sectionLabel = createLabel("Section ID");
-//            JLabel courseLabel = createLabel("Course ID");
-//            JLabel instructorLabel = createLabel("Instructor ID");
-//            JLabel daytimeLabel = createLabel("Day Time");
-//            JLabel durationLabel = createLabel("Duration");
-//            JLabel roomLabel = createLabel("Room");
-//            JLabel capacityLabel = createLabel("Capacity");
-//            JLabel semesterLabel = createLabel("Semester");
-//            JLabel yearLabel = createLabel("Year");
-//
-//
-//            no.add(noLabel, BorderLayout.CENTER);
-//            sectionid.add(sectionLabel, BorderLayout.CENTER);
-//            courseid.add(courseLabel, BorderLayout.CENTER);
-//            insid.add(instructorLabel, BorderLayout.CENTER);
-//            semester.add(semesterLabel, BorderLayout.CENTER);
-//            daytime.add(daytimeLabel, BorderLayout.CENTER);
-//            duration.add(durationLabel, BorderLayout.CENTER);
-//            room.add(roomLabel, BorderLayout.CENTER);
-//            capacity.add(capacityLabel, BorderLayout.CENTER);
-//            yearLabel.add(yearLabel, BorderLayout.CENTER);
-//
-//            main.add(leftMargin);
-//            main.add(no);
-//            main.add(sectionid);
-//            main.add(courseid);
-//            main.add(insid);
-//            main.add(daytime);
-//            main.add(duration);
-//            main.add(room);
-//            main.add(capacity);
-//            main.add(semester);
-//            main.add(year);
-//
-//            add(main);
+            JPanel main = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            main.setMaximumSize(new Dimension(Math.round(width), Math.round(height)));
+            main.setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
+            main.setBackground(Color.WHITE);
+
+            JPanel leftMargin = createList(Math.round(0.02f * width), Math.round(height));
+            leftMargin.setBackground(Color.WHITE);
+            JPanel no = createList(Math.round(0.04f * width), Math.round(height));
+            JPanel sectionid = createList(Math.round(0.08f * width), Math.round(height));
+            JPanel courseid = createList(Math.round(0.10f * width), Math.round(height));
+            JPanel insid = createList(Math.round(0.18f * width), Math.round(height));
+            JPanel daytime = createList(Math.round(0.08f * width), Math.round(height));
+            JPanel duration = createList(Math.round(0.08f * width), Math.round(height));
+            JPanel room = createList(Math.round(0.07f * width), Math.round(height));
+            JPanel capacity = createList(Math.round(0.07f * width), Math.round(height));
+            JPanel semester = createList(Math.round(0.07f * width), Math.round(height));
+            JPanel year = createList(Math.round(0.07f * width), Math.round(height));
+            JPanel deadline = createList(Math.round(0.07f * width), Math.round(height));
+
+            JLabel noLabel = createLabel("");
+            JLabel sectionLabel = createLabel("Section ID");
+            JLabel courseLabel = createLabel("Course ID");
+            JLabel instructorLabel = createLabel("Instructor ID");
+            JLabel daytimeLabel = createLabel("Start Time");
+            JLabel durationLabel = createLabel("Duration (Mins)");
+            JLabel roomLabel = createLabel("Room");
+            JLabel capacityLabel = createLabel("Capacity");
+            JLabel semesterLabel = createLabel("Semester");
+            JLabel yearLabel = createLabel("Year");
+            JLabel deadlineLabel = createLabel("Deadline");
+
+
+            no.add(noLabel, BorderLayout.CENTER);
+            sectionid.add(sectionLabel, BorderLayout.CENTER);
+            courseid.add(courseLabel, BorderLayout.CENTER);
+            insid.add(instructorLabel, BorderLayout.CENTER);
+            semester.add(semesterLabel, BorderLayout.CENTER);
+            daytime.add(daytimeLabel, BorderLayout.CENTER);
+            duration.add(durationLabel, BorderLayout.CENTER);
+            room.add(roomLabel, BorderLayout.CENTER);
+            capacity.add(capacityLabel, BorderLayout.CENTER);
+            year.add(yearLabel, BorderLayout.CENTER);
+            deadline.add(deadlineLabel);
+
+            main.add(leftMargin);
+            main.add(no);
+            main.add(sectionid);
+            main.add(courseid);
+            main.add(insid);
+            main.add(daytime);
+            main.add(duration);
+            main.add(room);
+            main.add(capacity);
+            main.add(semester);
+            main.add(year);
+            main.add(deadline);
+
+            add(main);
         }
 
         for (ArrayList<String> arr : listOfSections) {
@@ -123,6 +130,8 @@ public class SectionsListPanel extends JPanel{
             forHoverEffect.add(semester);
             JPanel year = createList(Math.round(0.07f * width), Math.round(height));
             forHoverEffect.add(year);
+            JPanel deadline = createList(Math.round(0.07f * width), Math.round(height));
+            forHoverEffect.add(deadline);
 
             JLabel noLabel = createLabel(arr.get(0));
             JLabel sectionLabel = createLabel(arr.get(1));
@@ -134,6 +143,9 @@ public class SectionsListPanel extends JPanel{
             JLabel capacityLabel = createLabel(arr.get(6));
             JLabel semesterLabel = createLabel(arr.get(7));
             JLabel yearLabel = createLabel(arr.get(8));
+            JButton deadlineBtn = new JButton("Deadline");
+            deadlineBtn.addActionListener(new deadlineSetEvent(arr.get(1)));
+//            deadlineBtn.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 
             no.add(noLabel, BorderLayout.CENTER);
@@ -146,6 +158,7 @@ public class SectionsListPanel extends JPanel{
             room.add(roomLabel, BorderLayout.CENTER);
             capacity.add(capacityLabel, BorderLayout.CENTER);
             year.add(yearLabel, BorderLayout.CENTER);
+            deadline.add(deadlineBtn);
 
             main.add(leftMargin);
             main.add(no);
@@ -158,6 +171,7 @@ public class SectionsListPanel extends JPanel{
             main.add(capacity);
             main.add(semester);
             main.add(year);
+            main.add(deadline);
             forHoverEffect.add(main);
 
             main.addMouseListener(new HoverEffect(forHoverEffect));
@@ -191,4 +205,15 @@ public class SectionsListPanel extends JPanel{
 //            setVisible(true);
 //        }
 //    }
+
+    private class deadlineSetEvent implements ActionListener{
+        String Section_ID;
+
+        public deadlineSetEvent(String s){
+            Section_ID = s;
+        }
+        public void actionPerformed(ActionEvent e){
+            new SetDeadline(Section_ID);
+        }
+    }
 }
