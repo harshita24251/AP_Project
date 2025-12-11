@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -19,7 +21,7 @@ public class RegisterCoursePanel extends JPanel {
     private String studentId;
     private JPanel coursesPanel;
     private JButton registerButton;
-    private HashMap<JCheckBox, String> selectedCourses = new HashMap<>();
+    private HashMap<JCheckBox, ArrayList<String>> selectedCourses = new HashMap<>();
 
     public RegisterCoursePanel(float width, float height, String studentId){
         this.width = width;
@@ -47,13 +49,22 @@ public class RegisterCoursePanel extends JPanel {
         registerButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 ArrayList<String> courses = new ArrayList<>();
+                ArrayList<String> sections = new ArrayList<>();
                 for (JCheckBox box : selectedCourses.keySet()){
-                    if (box.isSelected()) courses.add(selectedCourses.get(box));
+                    if (box.isSelected()) {
+                        courses.add(selectedCourses.get(box).get(0));
+                        sections.add(selectedCourses.get(box).get(1));
+                    }
                 }
                 if (courses.size() == 0){
                     JOptionPane.showMessageDialog(null,"No courses selected.");
                     return;
                 }
+
+                for (String section : sections){
+                    RegisterTheCourse.register(section);
+                }
+
                 registerCourses(studentId, courses);
                 reloadCourses();
             }
@@ -71,6 +82,7 @@ public class RegisterCoursePanel extends JPanel {
         add(scroll, BorderLayout.CENTER);
 
         reloadCourses();
+//        registerButton.addActionListener(new saveEvent());
     }
 
     private void reloadCourses(){
@@ -97,7 +109,11 @@ public class RegisterCoursePanel extends JPanel {
             JCheckBox select = new JCheckBox();
             select.setOpaque(false);
             select.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            selectedCourses.put(select, course.get("course_id"));
+            ArrayList<String> courseSection = new ArrayList<>();
+            courseSection.add(course.get("course_id"));
+            courseSection.add(course.get("section_id"));
+
+            selectedCourses.put(select, courseSection);
             select.addItemListener(new ItemListener(){
                 public void itemStateChanged(ItemEvent e){
                     boolean any = false;
@@ -191,5 +207,26 @@ public class RegisterCoursePanel extends JPanel {
         public void mouseClicked(MouseEvent e){
             new RegisterableCourseInfo(instructor, start, end);
         }
+    }
+
+//    private class saveEvent implements ActionListener{
+//        String section_id;
+//        String status = "studying";
+//
+//        public saveEvent(String section_id){
+//            this.section_id = section_id;
+//        }
+//
+//        public void actionPerformed(ActionEvent e){
+//            //student_id
+//            //section_id
+//            //status -> studying
+//            RegisterTheCourse.register(section_id);
+//        }
+//    }
+
+    public static Timestamp getCurrentSqlTimestamp() {
+        Instant now = Instant.now();
+        return Timestamp.from(now);
     }
 }

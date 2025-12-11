@@ -2,6 +2,7 @@ package edu.univ.erp.data;
 
 import java.sql.*;
 import edu.univ.erp.auth.*;
+import erp.UUIDGenerator;
 
 public class Enrollment{
     private static Connection connect;
@@ -82,11 +83,12 @@ public class Enrollment{
         return tmp;
     }
 
-    public static void newEnrollment(){
+    public static void newEnrollment(String Section_id){
         try{
             Connection connect = HikariConnectionPool.getDataSource().getConnection();
             Statement statement = connect.createStatement();
-            statement.executeUpdate(String.format("insert into enrollments values ('%s', '%s', '%s', '%s')", arr.get(7), Integer.valueOf(arr.get(0)), arr.get(1), Integer.valueOf(arr.get(2)), arr.get(3), arr.get(4), arr.get(6)));
+//            UUIDGenerator.generate(arr.get(4))
+            statement.executeUpdate(String.format("insert into enrollments values ('%s', '%s', '%s', '%s')", UUIDGenerator.generate(Section_id + "012"), Session.getCurrentUser_ID(), Section_id, "studying"));
 
         }
         catch(SQLException e){

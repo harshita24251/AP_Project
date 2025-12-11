@@ -74,11 +74,11 @@ public class AdminData{
         ArrayList<ArrayList<String>> tmp = new ArrayList<>();
 
         try
-                (
-                        Connection connect = HikariConnectionPool.getDataSource().getConnection();
-                        Statement statement = connect.createStatement();
-                        ResultSet result = statement.executeQuery("select * from Courses");
-                )
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery("select * from Courses");
+            )
         {
             int count = 1;
             while (result.next()){
@@ -104,11 +104,11 @@ public class AdminData{
         ArrayList<ArrayList<String>> tmp = new ArrayList<>();
 
         try
-                (
-                        Connection connect = HikariConnectionPool.getDataSource().getConnection();
-                        Statement statement = connect.createStatement();
-                        ResultSet result = statement.executeQuery("select * from sections");
-                )
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery("select * from sections");
+            )
         {
             int count = 1;
             while (result.next()){
