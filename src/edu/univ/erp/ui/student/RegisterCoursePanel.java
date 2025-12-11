@@ -5,6 +5,9 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+
+import edu.univ.erp.api.student.*;
+import edu.univ.erp.api.catalog.*;
 import edu.univ.erp.ui.common.CoursePalette;
 
 public class RegisterCoursePanel extends JPanel {
@@ -83,7 +86,7 @@ public class RegisterCoursePanel extends JPanel {
                     width-100, 40,
                     course.get("course_name"),
                     course.get("course_acronym"),
-                    course.get("course_code"),
+                    course.get("course_id"),
                     course.get("course_credits"),
                     16, false
             );
@@ -119,29 +122,34 @@ public class RegisterCoursePanel extends JPanel {
 
     private ArrayList<HashMap<String, String>> fetchCourses(String studentId){
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
-        HashMap<String, String> c1 = new HashMap<>();
-        c1.put("course_id","CSE101");
-        c1.put("course_name","Introduction to Programming");
-        c1.put("course_acronym","IOP");
-        c1.put("course_code","CSE101");
-        c1.put("course_credits","4");
-        list.add(c1);
+//        ArrayList<HashMap<String, String>> list = AvailableCourses.fetch();
 
-        HashMap<String, String> c2 = new HashMap<>();
-        c2.put("course_id","BIO102");
-        c2.put("course_name","Foundations of Biology");
-        c2.put("course_acronym","FOB");
-        c2.put("course_code","BIO102");
-        c2.put("course_credits","4");
-        list.add(c2);
-
-        HashMap<String, String> c3 = new HashMap<>();
-        c3.put("course_id","MTH100");
-        c3.put("course_name","Linear Algebra");
-        c3.put("course_acronym","LA");
-        c3.put("course_code","MTH100");
-        c3.put("course_credits","3");
-        list.add(c3);
+        for (HashMap<String, String> hs : AvailableCourses.fetch()){
+            ArrayList<String> courseDetails = allCourseDetails.fetch(hs.get("Course ID"));
+            HashMap<String, String> c1 = new HashMap<>();
+            c1.put("course_id", hs.get("Course ID"));
+            c1.put("course_name", courseDetails.get(3));
+            c1.put("course_acronym",courseDetails.get(1));
+            c1.put("course_code", hs.get("Course ID"));
+            c1.put("course_credits", courseDetails.get(2));
+            list.add(c1);
+        }
+//
+//        HashMap<String, String> c2 = new HashMap<>();
+//        c2.put("course_id","BIO102");
+//        c2.put("course_name","Foundations of Biology");
+//        c2.put("course_acronym","FOB");
+//        c2.put("course_code","BIO102");
+//        c2.put("course_credits","4");
+//        list.add(c2);
+//
+//        HashMap<String, String> c3 = new HashMap<>();
+//        c3.put("course_id","MTH100");
+//        c3.put("course_name","Linear Algebra");
+//        c3.put("course_acronym","LA");
+//        c3.put("course_code","MTH100");
+//        c3.put("course_credits","3");
+//        list.add(c3);
 
         return list;
     }

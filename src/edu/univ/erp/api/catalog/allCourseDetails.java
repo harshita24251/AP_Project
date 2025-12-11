@@ -17,4 +17,17 @@ public class allCourseDetails{
 
         return tmp;
     }
+
+    public static ArrayList<String> fetch(String Course_ID){
+        ArrayList<String> tmp = null;
+
+        try{
+            tmp = Course.getAllCourseDetails(Course_ID);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return tmp;
+    }
 }

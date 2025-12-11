@@ -104,14 +104,14 @@ public class StudentData{
         return tmp;
     }
 
-    public static int fetchYear() {
+    public static int fetchSemester() {
         int tmp = 0;
 
         try
             (
                 Connection connect = HikariConnectionPool.getDataSource().getConnection();
                 Statement statement = connect.createStatement();
-                ResultSet result = statement.executeQuery(String.format("select year_ from students where user_id = '%s'", Session.getCurrentUser_ID()));
+                ResultSet result = statement.executeQuery(String.format("select semester from students where user_id = '%s'", Session.getCurrentUser_ID()));
             )
         {
             while (result.next()){
@@ -151,7 +151,7 @@ public class StudentData{
             (
                 Connection connect = HikariConnectionPool.getDataSource().getConnection();
                 Statement statement = connect.createStatement();
-                ResultSet result = statement.executeQuery("select MAX(semester) from sections");
+                ResultSet result = statement.executeQuery(String.format("select semester from students where user_id = '%s'", Session.getCurrentUser_ID()));
             )
         {
             while (result.next()){
@@ -202,7 +202,7 @@ public class StudentData{
             (
                 Connection connect = HikariConnectionPool.getDataSource().getConnection();
                 Statement statement = connect.createStatement();
-                ResultSet result = statement.executeQuery(String.format("select distinct sections.course_id from enrollments, grades join students on students.user_id = enrollments.student_id join sections on sections.section_id = grades.section_id where grades.component = 'Endsem' and students.user_id = '%s' and sections.semester = %d;", Session.getCurrentUser_ID(), semester));
+                ResultSet result = statement.executeQuery(String.format("select distinct sections.course_id from enrollments join students on students.user_id = enrollments.student_id join sections on sections.section_id = enrollments.section_id join courses on courses.course_id = sections.course_id left join grades on grades.section_id = sections.section_id and grades.component = 'endsem' where students.user_id = '%s' and sections.semester = %d;", Session.getCurrentUser_ID(), semester));
             )
         {
             while (result.next() != false){
@@ -316,6 +316,52 @@ public class StudentData{
         }
         catch(SQLException e){
             System.out.println("Exception occured at data/StudentData\n"); //for prototyping may change later
+        }
+
+        return tmp;
+    }
+
+    public static ArrayList<HashMap<String, String>> getAvailableCourses(){
+        ArrayList<HashMap<String, String>> tmp = new ArrayList<>();
+
+        long year_ = 0;
+        if (fetchSemester() % 2 == 1){
+            year_ = Math.round(Math.floor((double) fetchRollNo(Session.getCurrentUser_ID()) / 1000)) + Math.round(Math.floor((double)fetchSemester()  - 1));
+        }
+        else{
+            year_ = Math.round(Math.floor((double) fetchRollNo(Session.getCurrentUser_ID()) / 1000)) + Math.round(Math.floor((double)fetchSemester()  - 2));
+        }
+
+        System.out.println(year_);
+
+        try
+            (
+                    Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                    Statement statement = connect.createStatement();
+                    ResultSet result = statement.executeQuery(String.format("select distinct sections.course_id from sections, students where sections.year_ = %d and sections.semester = students.semester and students.user_id = '%s' and sections.section_id not in (select section_id from enrollments where student_id = '%s');\n", year_, Session.getCurrentUser_ID(), Session.getCurrentUser_ID())); //changed here
+            )
+        {
+//            System.out.println(Math.round(Math.floor((double) fetchRollNo(Session.getCurrentUser_ID()) / 1000)) + Math.floor((double)fetchSemester()  / 2));
+            int count = 0;
+            while (result.next() != false){
+                HashMap<String, String> temp = new HashMap<>();
+                temp.put(" ", String.valueOf(count++)); //serial number
+//                temp.put("Section ID", result.getString(1)); //section_id
+                temp.put("Course ID", result.getString(1)); // course_id
+//                temp.put("Instructor ID", result.getString(3)); // instructor_id
+//                temp.put("Day Time", result.getString(4)); // day_time
+//                temp.put("Room", result.getString(5)); // room
+//                temp.put("Capacity", String.valueOf(result.getInt(6))); // capacity
+//                temp.put("Semester", String.valueOf(result.getInt(7))); // semester
+//                temp.put("Year", String.valueOf(result.getInt(8))); // year
+//                temp.put("Duration", String.valueOf(result.getDouble(9))); // duration
+
+                tmp.add(temp);
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/StudentData\n"); //for prototyping may change later
+            e.printStackTrace();
         }
 
         return tmp;

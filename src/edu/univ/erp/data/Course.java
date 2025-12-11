@@ -100,4 +100,30 @@ public class Course{
 
         return tmp;
     }
+
+    public static ArrayList<String> getAllCourseDetails(String Course_ID) throws SQLException{
+
+        ArrayList<String> tmp = new ArrayList<>();
+
+        try
+                (
+                        Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                        Statement statement = connect.createStatement();
+                        ResultSet result = statement.executeQuery(String.format("select * from courses where course_id = '%s'", Course_ID));
+                )
+        {
+            while (result.next() != false){
+                tmp.add(result.getString(1)); //course_id
+                tmp.add(result.getString(2)); //acronym
+                tmp.add(String.format("%d", result.getInt(3))); //credits
+                tmp.add(result.getString(4)); //title
+
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/Course\n"); //for prototyping may change later
+        }
+
+        return tmp;
+    }
 }
