@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import edu.univ.erp.api.catalog.*;
 
@@ -59,6 +61,7 @@ public class AddSection extends JDialog{
         JComboBox<String> duration = new JComboBox<>();
         JComboBox<String> room = new JComboBox<>();
         JTextField capacity = new JTextField();
+        capacity.addKeyListener(new restrictNumerical());
         JSpinner semester = new JSpinner(new SpinnerNumberModel(1, 1, 8, 1));
         JSpinner year = new JSpinner(new SpinnerNumberModel(2024, 2024, 2047, 1));
 
@@ -215,6 +218,15 @@ public class AddSection extends JDialog{
             saved(arr.get(9)); //check here
 //            saved("sectionPanel");
 //            dispose();
+        }
+    }
+
+    private class restrictNumerical extends KeyAdapter {
+        public void keyTyped(KeyEvent e){
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c) && c != '\b') {
+                e.consume(); // ignore non-numeric input
+            }
         }
     }
 }

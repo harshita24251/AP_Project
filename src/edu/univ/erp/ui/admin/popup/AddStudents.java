@@ -9,8 +9,7 @@ import edu.univ.erp.events.RefreshScreen;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import erp.UUIDGenerator;
@@ -91,6 +90,7 @@ public class AddStudents extends JDialog {
         JSpinner forSemester = new JSpinner(new SpinnerNumberModel(1, 1, 8, 1));
         JTextField email = new JTextField();
         JTextField contact = new JTextField();
+        contact.addKeyListener(new restrictNumerical());
         JTextField name = new JTextField();
         JTextField password = new JTextField();
 
@@ -173,6 +173,15 @@ public class AddStudents extends JDialog {
             NewStudent.add(arr);
             saved(arr.get(0));
 //            dispose();
+        }
+    }
+
+    private class restrictNumerical extends KeyAdapter {
+        public void keyTyped(KeyEvent e){
+            char c = e.getKeyChar();
+            if (!Character.isDigit(c) && c != '\b') {
+                e.consume(); // ignore non-numeric input
+            }
         }
     }
 }

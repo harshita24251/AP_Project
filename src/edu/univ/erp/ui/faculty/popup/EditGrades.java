@@ -11,10 +11,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import edu.univ.erp.api.student.*;
+import edu.univ.erp.ui.common.popup.Alert;
 
 public class EditGrades extends JDialog {
     private static int width = 410;
-    private static int height = 260;
+    private static int height = 300;
     HashMap<String, JTextField> componentScores = new HashMap<>();
     public EditGrades(String Course_ID, String Student_ID){
         setTitle(String.format("Grades : %d", StudentRollNo.fetch(Student_ID)));
@@ -119,7 +120,12 @@ public class EditGrades extends JDialog {
             HashMap<String, Double> grades = new HashMap<>();
 
             for (String str : componentScores.keySet()){
-                grades.put(str, Double.valueOf(componentScores.get(str).getText()));
+                String gradesIs = componentScores.get(str).getText();
+                if (Integer.valueOf(gradesIs) < 0){
+                    new Alert("Grades cannot be Negative", "Close");
+                }
+
+                grades.put(str, Double.valueOf(gradesIs));
             }
             UpdatedGrades.upgrade(grades, Course_ID, Student_ID);
 
