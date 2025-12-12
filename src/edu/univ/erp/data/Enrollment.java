@@ -96,4 +96,40 @@ public class Enrollment{
             e.printStackTrace();
         }
     }
+
+    public static void deleteEnrollment(String sectionId) {
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+            )
+        {
+            statement.executeUpdate(String.format("delete from enrollments where student_id = '%s' and section_id = '%s';", Session.getCurrentUser_ID(), sectionId));
+        }
+        catch (SQLException e) {
+            System.out.println("Exception occurred while deleting enrollment\n");
+        }
+    }
+
+    public static boolean isEnrolled(String sectionId) {
+        boolean registered = false;
+
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery(String.format("select 1 from enrollments where student_id = '%s' and section_id = '%s';", Session.getCurrentUser_ID(), sectionId));
+            )
+        {
+            if (result.next()) {
+                registered = true;
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("Exception occurred while checking registration status\n");
+        }
+
+        return registered;
+    }
+
 }

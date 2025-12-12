@@ -16,6 +16,7 @@ import edu.univ.erp.ui.common.popup.Alert;
 public class EditGrades extends JDialog {
     private static int width = 410;
     private static int height = 300;
+    HashMap<String, Integer> maxScore = new HashMap<>();
     HashMap<String, JTextField> componentScores = new HashMap<>();
     public EditGrades(String Course_ID, String Student_ID){
         setTitle(String.format("Grades : %d", StudentRollNo.fetch(Student_ID)));
@@ -75,8 +76,9 @@ public class EditGrades extends JDialog {
 
         for (String str : componentGrades.keySet()){
             JTextField tmp = new JTextField(componentGrades.get(str).get(0).toString());
-            mainPanel.add(createList(str, tmp, String.format(" /%d", componentGrades.get(str).get(1))));
+            mainPanel.add(createList(str, tmp, String.format(" /%d", componentGrades.get(str).get(1)))); // 3
             componentScores.put(str, tmp);
+            maxScore.put(str, componentGrades.get(str).get(1));
         }
         mainPanel.add(button);
         add(mainPanel, BorderLayout.CENTER);
@@ -119,15 +121,24 @@ public class EditGrades extends JDialog {
         public void actionPerformed(ActionEvent e){
             HashMap<String, Double> grades = new HashMap<>();
 
+            boolean cont = true;
+
             for (String str : componentScores.keySet()){
                 String gradesIs = componentScores.get(str).getText();
-                if (Integer.valueOf(gradesIs) < 0){
-                    new Alert("Grades cannot be Negative", "Close");
+                Integer maxGrade = maxScore.get(str);
+                if ((Integer.parseInt(gradesIs) < 0) || (Integer.parseInt(gradesIs) > maxGrade)){
+                    Alert A = new Alert("Grades cannot be Negative Or Greater than Max", "Close");
+                    A.setfont(new Font("Segoe UI", Font.PLAIN, 14));
+                    dispose();
+                    cont = false;
+                    break;
                 }
-
                 grades.put(str, Double.valueOf(gradesIs));
             }
-            UpdatedGrades.upgrade(grades, Course_ID, Student_ID);
+
+            if (cont){
+                UpdatedGrades.upgrade(grades, Course_ID, Student_ID);
+            }
 
             dispose();
         }

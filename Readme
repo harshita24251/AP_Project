@@ -34,15 +34,15 @@ Database: H2 Database for data storage and persistence.
 
 
 
-SETUP AND INSTALLATION Prerequisites: Ensure that you have a compatible Java Development Kit (JDK 8 or newer) installed on your system. Running the Application: The project is packaged for easy execution:
+SETUP AND INSTALLATION Prerequisites: Ensure that you have a compatible Java Development Kit (JDK 21 or newer) installed on your system. Running the Application: The project is packaged for easy execution:
 
 Source Retrieval: Clone the project repository (harshita24251/ap_project).
 
 
 INITIAL LOGIN CREDENTIALS For initial testing, you can use the following default credentials:
-Administrator (Admin): Username: admin, Password: admin123
-Faculty (Instructor): Username: faculty, Password: pass123
-Student: Username: student, Password: pass123
+Administrator (Admin): Username: a@iiitd.ac.in, Password: admin
+Faculty (Instructor): Username: s@iiitd.ac.in, Password: faculty
+Student: Username: c@iiitd.ac.in, Password: student
 
 UML : https://miro.com/app/board/uXjVJ_5_GwM=/
 

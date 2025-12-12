@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import edu.univ.erp.ui.common.popup.Alert;
 import erp.UUIDGenerator;
 
 public class AddStudents extends JDialog {
@@ -167,11 +169,17 @@ public class AddStudents extends JDialog {
             toInsert.add("student");
             toInsert.add(arr.get(5));
 
-            NewAccount.insert(toInsert);
+            if (RollNo.present(Integer.parseInt(arr.get(0)))){
+                Alert A = new Alert(String.format("Roll No. '%s' already exists", arr.get(0)), "Close");
+                A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+                dispose();
+            }else{
+                NewAccount.insert(toInsert);
+    //            RefreshScreen.broadcast(arr.get(0));
+                NewStudent.add(arr);
+                saved(arr.get(0));
+            }
 
-//            RefreshScreen.broadcast(arr.get(0));
-            NewStudent.add(arr);
-            saved(arr.get(0));
 //            dispose();
         }
     }

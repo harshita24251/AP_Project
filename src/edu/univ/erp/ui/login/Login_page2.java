@@ -172,8 +172,8 @@ public class Login_page2 extends JFrame{
             String Username = usernameTextField.getText();
             char[] Password = passwordTextField.getPassword();
 
-            System.out.println(Username);
-            System.out.println(Password);
+//            System.out.println(Username);
+//            System.out.println(Password);
 
             String role = " ";
 
@@ -182,7 +182,7 @@ public class Login_page2 extends JFrame{
             }
             else{
                 if (IsPasswordValid.check(Username, Password)){
-                    System.out.println("Login Successful");
+//                    System.out.println("Login Successful");
                     role = Role.fetch(Username);
                     SetUserID.set(GetUserID.fetch(Username), role);
 

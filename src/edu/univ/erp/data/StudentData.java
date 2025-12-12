@@ -366,6 +366,28 @@ public class StudentData{
 
         return tmp;
     }
+
+    public static boolean isPresent(int roll){
+        boolean check = false;
+
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery(String.format("select exists (select 1 from students where roll_no = %d)", roll)); //changed here
+            )
+        {
+            result.next();
+            check = result.getBoolean(1);
+
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/StudentData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+
+        return check;
+    }
 }
 
 /**

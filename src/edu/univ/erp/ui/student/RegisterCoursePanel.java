@@ -6,14 +6,17 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.api.student.*;
 import edu.univ.erp.api.catalog.*;
 import edu.univ.erp.ui.common.CoursePalette;
-
+import edu.univ.erp.ui.common.popup.Alert;
 import edu.univ.erp.ui.student.popup.*;
+import edu.univ.erp.api.enrollment.*;
 
 public class RegisterCoursePanel extends JPanel {
     private float width;
@@ -21,12 +24,18 @@ public class RegisterCoursePanel extends JPanel {
     private String studentId;
     private JPanel coursesPanel;
     private JButton registerButton;
+    private JButton dropButton;
     private HashMap<JCheckBox, ArrayList<String>> selectedCourses = new HashMap<>();
+    private HashMap<String, JLabel> sectionStatusLabels = new HashMap<>();
 
-    public RegisterCoursePanel(float width, float height, String studentId){
+    // assume you’ll pass semester later dynamically
+    private int currentSemester = 1; // or pass from constructor if needed
+
+    public RegisterCoursePanel(float width, float height, String studentId) {
         this.width = width;
         this.height = height;
         this.studentId = studentId;
+
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
@@ -34,42 +43,119 @@ public class RegisterCoursePanel extends JPanel {
         topPanel.setBorder(new EmptyBorder(15, 20, 10, 20));
         topPanel.setBackground(Color.WHITE);
 
-        JLabel msg = new JLabel("You may register for courses before the registration deadline.");
+        JLabel msg = new JLabel("You may register for or drop courses before the registration deadline.");
         msg.setFont(new Font("Roboto Mono", Font.PLAIN, 16));
         topPanel.add(msg, BorderLayout.WEST);
 
+        // ---------- Register Button ----------
         registerButton = new JButton("Register");
         registerButton.setEnabled(false);
         registerButton.setFocusPainted(false);
-        registerButton.setBackground(new Color(78,178,165));
+        registerButton.setBackground(new Color(78, 178, 165));
         registerButton.setForeground(Color.WHITE);
         registerButton.setFont(new Font("Roboto Mono", Font.PLAIN, 16));
         registerButton.setBorder(new EmptyBorder(8, 20, 8, 20));
         registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        registerButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                ArrayList<String> courses = new ArrayList<>();
-                ArrayList<String> sections = new ArrayList<>();
-                for (JCheckBox box : selectedCourses.keySet()){
-                    if (box.isSelected()) {
-                        courses.add(selectedCourses.get(box).get(0));
-                        sections.add(selectedCourses.get(box).get(1));
-                    }
-                }
-                if (courses.size() == 0){
-                    JOptionPane.showMessageDialog(null,"No courses selected.");
-                    return;
-                }
 
-                for (String section : sections){
-                    RegisterTheCourse.register(section);
-                }
+        registerButton.addActionListener(e -> {
+            ArrayList<String> sections = new ArrayList<>();
+            HashMap<String, String> deadlines = new HashMap<>();
+            HashMap<String, String> whichCourse = new HashMap<>();
 
-                registerCourses(studentId, courses);
-                reloadCourses();
+            for (JCheckBox box : selectedCourses.keySet()) {
+                if (box.isSelected()) {
+                    sections.add(selectedCourses.get(box).get(1));
+                    deadlines.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(2));
+                    whichCourse.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(0));
+                }
+            }
+            if (sections.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No courses selected.");
+                return;
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String nowStr = LocalDateTime.now().format(formatter);
+            boolean didRegister = true;
+
+            for (String section : sections) {
+                if (Timestamp.valueOf(deadlines.get(section)).before(Timestamp.valueOf(nowStr))) {
+                    Alert A = new Alert(String.format("Deadline passed for course '%s', cannot register!", whichCourse.get(section)), "Close");
+                    A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+                    didRegister = false;
+                    break;
+                }
+                RegisterTheCourse.register(section);
+
+                JLabel label = sectionStatusLabels.get(section);
+                if (label != null) {
+                    label.setText("Registered");
+                    label.setForeground(new Color(0,128,0));
+                }
+            }
+
+            if (didRegister) {
+                JOptionPane.showMessageDialog(null, "Registered successfully!");
             }
         });
-        topPanel.add(registerButton, BorderLayout.EAST);
+
+        // ---------- Drop Button ----------
+        dropButton = new JButton("Drop");
+        dropButton.setEnabled(false);
+        dropButton.setFocusPainted(false);
+        dropButton.setBackground(new Color(200,70,70));
+        dropButton.setForeground(Color.WHITE);
+        dropButton.setFont(new Font("Roboto Mono", Font.PLAIN, 16));
+        dropButton.setBorder(new EmptyBorder(8, 20, 8, 20));
+        dropButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        dropButton.addActionListener(e -> {
+            ArrayList<String> sections = new ArrayList<>();
+            HashMap<String, String> deadlines = new HashMap<>();
+            HashMap<String, String> whichCourse = new HashMap<>();
+
+            for (JCheckBox box : selectedCourses.keySet()) {
+                if (box.isSelected()) {
+                    sections.add(selectedCourses.get(box).get(1));
+                    deadlines.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(2));
+                    whichCourse.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(0));
+                }
+            }
+            if (sections.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No courses selected.");
+                return;
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String nowStr = LocalDateTime.now().format(formatter);
+            boolean didDrop = true;
+
+            for (String section : sections) {
+                if (Timestamp.valueOf(deadlines.get(section)).before(Timestamp.valueOf(nowStr))) {
+                    Alert A = new Alert(String.format("Deadline passed for course '%s', cannot drop!", whichCourse.get(section)), "Close");
+                    A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+                    didDrop = false;
+                    break;
+                }
+
+                thisEnrollment.remove(section);
+                JLabel label = sectionStatusLabels.get(section);
+                if (label != null) {
+                    label.setText("Not Registered");
+                    label.setForeground(new Color(80,80,80));
+                }
+            }
+
+            if (didDrop) {
+                JOptionPane.showMessageDialog(null, "Dropped successfully!");
+            }
+        });
+
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        btnPanel.setOpaque(false);
+        btnPanel.add(registerButton);
+        btnPanel.add(dropButton);
+        topPanel.add(btnPanel, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
 
         coursesPanel = new JPanel();
@@ -81,66 +167,103 @@ public class RegisterCoursePanel extends JPanel {
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         add(scroll, BorderLayout.CENTER);
 
-        reloadCourses();
-//        registerButton.addActionListener(new saveEvent());
+        loadCoursesOnce();
     }
 
-    private void reloadCourses(){
+    private void loadCoursesOnce() {
         coursesPanel.removeAll();
         selectedCourses.clear();
+        sectionStatusLabels.clear();
         registerButton.setEnabled(false);
+        dropButton.setEnabled(false);
 
-        ArrayList<HashMap<String, String>> data = fetchCourses(studentId);
-        for (HashMap<String, String> course : data){
-            JPanel outerPanel = new JPanel(new BorderLayout());
+        ArrayList<HashMap<String, String>> available = AvailableCourses.fetch();
+        ArrayList<String> registeredIDs = registeredCourses.fetch(currentSemester);
+
+        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        for (HashMap<String, String> course : available) {
+            JPanel outerPanel = new JPanel();
+            outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
             outerPanel.setBackground(Color.WHITE);
-            outerPanel.setBorder(new EmptyBorder(0,20,0,20));
-            outerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+            outerPanel.setBorder(new EmptyBorder(5, 20, 5, 20));
+            outerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
 
+            ArrayList<String> details = allCourseDetails.fetch(course.get("Course ID"));
             CoursePalette palette = new CoursePalette(
-                    width-100, 40,
-                    course.get("course_name"),
-                    course.get("course_acronym"),
-                    course.get("course_id"),
-                    course.get("course_credits"),
+                    width - 100, 40,
+                    details.get(3),
+                    details.get(1),
+                    course.get("Course ID"),
+                    details.get(2),
                     16, false
             );
+
+            JLabel statusLabel = new JLabel();
+            statusLabel.setFont(new Font("Roboto Mono", Font.BOLD, 13));
+
+            String sectionId = course.get("Section ID");
+            String endDate = course.get("end_date");
+
+            boolean isRegistered = registeredIDs.contains(course.get("Course ID"));
+            boolean deadlinePassed = Timestamp.valueOf(endDate).before(Timestamp.valueOf(currentTime));
+
+            if (isRegistered)
+                statusLabel.setText("Registered");
+            else if (deadlinePassed)
+                statusLabel.setText("Deadline Passed");
+            else
+                statusLabel.setText("Not Registered");
+
+            if (statusLabel.getText().equals("Registered"))
+                statusLabel.setForeground(new Color(0, 128, 0));
+            else if (statusLabel.getText().equals("Deadline Passed"))
+                statusLabel.setForeground(Color.RED);
+            else
+                statusLabel.setForeground(new Color(80, 80, 80));
+
+            sectionStatusLabels.put(sectionId, statusLabel);
 
             JCheckBox select = new JCheckBox();
             select.setOpaque(false);
             select.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            select.setEnabled(!isRegistered); // disable checkbox for already registered
+
             ArrayList<String> courseSection = new ArrayList<>();
-            courseSection.add(course.get("course_id"));
-            courseSection.add(course.get("section_id"));
+            courseSection.add(course.get("Course ID"));
+            courseSection.add(sectionId);
+            courseSection.add(endDate);
 
             selectedCourses.put(select, courseSection);
-            select.addItemListener(new ItemListener(){
-                public void itemStateChanged(ItemEvent e){
-                    boolean any = false;
-                    for (JCheckBox chk : selectedCourses.keySet()){
-                        if (chk.isSelected()){any=true;break;}
-                    }
-                    registerButton.setEnabled(any);
-                }
+            select.addItemListener(e -> {
+                boolean any = selectedCourses.keySet().stream().anyMatch(JCheckBox::isSelected);
+                registerButton.setEnabled(any);
+                dropButton.setEnabled(any);
             });
-
 
             Icon icon = new FlatSVGIcon("info.svg", 0.36f);
             JLabel iconLabel = new JLabel(icon, JLabel.LEFT);
             iconLabel.addMouseListener(new seeInfo(course.get("instructor_id"), course.get("start_date"), course.get("end_date")));
-
             iconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
             iconLabel.setBorder(new EmptyBorder(0, 0, 0, 10));
 
-            JPanel rightPanel = new JPanel(new BorderLayout());
+            JPanel topRow = new JPanel(new BorderLayout());
+            topRow.setOpaque(false);
+            topRow.add(palette, BorderLayout.CENTER);
+
+            JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
             rightPanel.setOpaque(false);
-            rightPanel.setBorder(new EmptyBorder(0,10,0,10));
-            rightPanel.add(select, BorderLayout.CENTER);
-            rightPanel.add(iconLabel, BorderLayout.WEST);
+            rightPanel.add(iconLabel);
+            rightPanel.add(select);
+            topRow.add(rightPanel, BorderLayout.EAST);
 
-            outerPanel.add(palette, BorderLayout.CENTER);
-            outerPanel.add(rightPanel, BorderLayout.EAST);
+            JPanel statusPanel = new JPanel(new BorderLayout());
+            statusPanel.setOpaque(false);
+            statusPanel.setBorder(new EmptyBorder(2, 5, 0, 0));
+            statusPanel.add(statusLabel, BorderLayout.WEST);
 
+            outerPanel.add(topRow);
+            outerPanel.add(statusPanel);
             coursesPanel.add(outerPanel);
         }
 
@@ -148,82 +271,21 @@ public class RegisterCoursePanel extends JPanel {
         coursesPanel.repaint();
     }
 
-    private ArrayList<HashMap<String, String>> fetchCourses(String studentId){
-        ArrayList<HashMap<String, String>> list = new ArrayList<>();
-//        ArrayList<HashMap<String, String>> list = AvailableCourses.fetch();
-
-        for (HashMap<String, String> hs : AvailableCourses.fetch()){
-            ArrayList<String> courseDetails = allCourseDetails.fetch(hs.get("Course ID"));
-            HashMap<String, String> c1 = new HashMap<>();
-            c1.put("course_id", hs.get("Course ID"));
-            c1.put("course_name", courseDetails.get(3));
-            c1.put("course_acronym",courseDetails.get(1));
-            c1.put("course_code", hs.get("Course ID"));
-            c1.put("course_credits", courseDetails.get(2));
-            c1.put("section_id", hs.get("Section ID"));
-            c1.put("start_date", hs.get("start_date"));
-            c1.put("end_date", hs.get("end_date"));
-            c1.put("instructor_id", hs.get("instructor_id"));
-            list.add(c1);
-        }
-//
-//        HashMap<String, String> c2 = new HashMap<>();
-//        c2.put("course_id","BIO102");
-//        c2.put("course_name","Foundations of Biology");
-//        c2.put("course_acronym","FOB");
-//        c2.put("course_code","BIO102");
-//        c2.put("course_credits","4");
-//        list.add(c2);
-//
-//        HashMap<String, String> c3 = new HashMap<>();
-//        c3.put("course_id","MTH100");
-//        c3.put("course_name","Linear Algebra");
-//        c3.put("course_acronym","LA");
-//        c3.put("course_code","MTH100");
-//        c3.put("course_credits","3");
-//        list.add(c3);
-
-        return list;
-    }
-
-    private void registerCourses(String studentId, ArrayList<String> courses){
-        StringBuilder sb = new StringBuilder();
-        for (String id : courses) sb.append(id).append(", ");
-        if (sb.length() > 2) sb.setLength(sb.length() - 2);
-        JOptionPane.showMessageDialog(null,"Registered successfully for: "+sb.toString());
-    }
-
-    private class seeInfo extends MouseAdapter{
+    private class seeInfo extends MouseAdapter {
         String instructor;
         String start;
         String end;
 
-        public seeInfo(String instructor, String start, String end){
+        public seeInfo(String instructor, String start, String end) {
             this.instructor = instructor;
             this.start = start;
             this.end = end;
         }
 
-        public void mouseClicked(MouseEvent e){
+        public void mouseClicked(MouseEvent e) {
             new RegisterableCourseInfo(instructor, start, end);
         }
     }
-
-//    private class saveEvent implements ActionListener{
-//        String section_id;
-//        String status = "studying";
-//
-//        public saveEvent(String section_id){
-//            this.section_id = section_id;
-//        }
-//
-//        public void actionPerformed(ActionEvent e){
-//            //student_id
-//            //section_id
-//            //status -> studying
-//            RegisterTheCourse.register(section_id);
-//        }
-//    }
 
     public static Timestamp getCurrentSqlTimestamp() {
         Instant now = Instant.now();

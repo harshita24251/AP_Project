@@ -124,7 +124,7 @@ public class StudentsListPanel extends JPanel{
             viewButton.setContentAreaFilled(false);
             viewButton.addMouseListener(new ButtonHover(viewButton, eyeLight));
             viewButton.addActionListener(new OpenSavePopup((String) arr.get(1)));
-            System.out.println((String) arr.get(1));
+//            System.out.println((String) arr.get(1));
 
             no.add(noLabel, BorderLayout.CENTER);
             roll.add(rollLabel, BorderLayout.CENTER);

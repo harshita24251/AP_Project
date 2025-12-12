@@ -141,13 +141,14 @@ public class SetDeadline extends JDialog{
                 alert.setfont(new Font("Segoe UI", Font.PLAIN, 13));
                 dispose();
             }
+            else{
+                SectionDate.update(Course_ID, new Timestamp(forStartDateTimestamp.getTime()), new Timestamp(forEndDateTimestamp.getTime()));
+    //            System.out.println(title);
 
-            SectionDate.update(Course_ID, new Timestamp(forStartDateTimestamp.getTime()), new Timestamp(forEndDateTimestamp.getTime()));
-//            System.out.println(title);
+    //            RefreshScreen.broadcast(Course_ID);
 
-//            RefreshScreen.broadcast(Course_ID);
-
-            dispose();
+                dispose();
+            }
         }
     }
 }

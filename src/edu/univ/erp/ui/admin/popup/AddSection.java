@@ -201,7 +201,7 @@ public class AddSection extends JDialog{
                 }
             }
 
-            arr.add(UUIDGenerator.generate(arr.get(0)));
+            arr.add(SectionIdGenerator.generateSectionId()); //randomly generated section ID
 //
 //            ArrayList<String> toInsert = new ArrayList<>();
 //            toInsert.add(arr.get(7));
@@ -212,6 +212,8 @@ public class AddSection extends JDialog{
 //            NewAccount.insert(toInsert);
 
             NewSection.add(arr);
+            Alert A = new Alert("You need to set deadline so that students can register", "Close");
+            A.setfont(new Font("Segoe UI", Font.PLAIN, 12));
 
 //            RefreshScreen.broadcast(arr.get(0));
 //            NewStudent.add(arr);
