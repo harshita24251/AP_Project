@@ -40,9 +40,9 @@ Source Retrieval: Clone the project repository (harshita24251/ap_project).
 
 
 INITIAL LOGIN CREDENTIALS For initial testing, you can use the following default credentials:
-Administrator (Admin): Username: admin, Password: admin123
-Faculty (Instructor): Username: faculty, Password: pass123
-Student: Username: student, Password: pass123
+Administrator (Admin): a@iiitd.ac.in, Password: admin
+Faculty (Instructor): s@iiitd.ac.in, Password: faculty
+Student: Username: c@iiitd.ac.in, Password: student
 
 UML : https://miro.com/app/board/uXjVJ_5_GwM=/
 
