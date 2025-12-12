@@ -161,7 +161,7 @@ public class AddStudents extends JDialog {
                 }
             }
 
-            arr.add(UUIDGenerator.generate(arr.get(4)));
+            arr.add(StudentIdGenerator.generateStudentId());
 
             ArrayList<String> toInsert = new ArrayList<>();
             toInsert.add(arr.get(7));

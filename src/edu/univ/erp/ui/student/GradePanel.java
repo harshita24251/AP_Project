@@ -1,5 +1,6 @@
 package edu.univ.erp.ui.student;
 
+import edu.univ.erp.auth.Session;
 import edu.univ.erp.ui.common.events.*;
 import edu.univ.erp.api.catalog.*;
 import edu.univ.erp.api.student.*;
@@ -11,6 +12,8 @@ import javax.swing.border.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.*;
 import java.util.HashMap;
+
+import edu.univ.erp.ui.common.popup.Alert;
 import pdf.singleCourse.GradeReportGenerator;
 
 public class GradePanel extends JPanel{
@@ -87,7 +90,9 @@ public class GradePanel extends JPanel{
             this.tmp = tmp;
         }
         public void actionPerformed(ActionEvent e){
-            GradeReportGenerator.generateReport("", "", "", "", tmp.getContent());
+            GradeReportGenerator.generateReport(StudentName.fetch(Session.getCurrentUser_ID()), String.valueOf(StudentRollNo.fetch(Session.getCurrentUser_ID())), StudentEmail.fetch(Session.getCurrentUser_ID()), StudentContact.fetch(Session.getCurrentUser_ID()), tmp.getContent());
+            Alert A = new Alert("Transcript saved at Desktop", "Close");
+            A.setfont(new Font("Segoe UI", Font.PLAIN, 16));
         }
     }
 } //#4eb2a5

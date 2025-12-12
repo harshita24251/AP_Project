@@ -10,7 +10,7 @@ import edu.univ.erp.ui.admin.popup.SetDeadline;
 import edu.univ.erp.ui.common.events.ButtonHover;
 import edu.univ.erp.ui.common.events.HoverEffect;
 import edu.univ.erp.ui.faculty.popup.EditGrades;
-
+import edu.univ.erp.api.admin.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -66,7 +66,7 @@ public class SectionsListPanel extends JPanel{
             JLabel daytimeLabel = createLabel("Start Time");
             JLabel durationLabel = createLabel("Duration (Mins)");
             JLabel roomLabel = createLabel("Room");
-            JLabel capacityLabel = createLabel("Capacity");
+            JLabel capacityLabel = createLabel("Capacity"); // 7
             JLabel semesterLabel = createLabel("Semester");
             JLabel yearLabel = createLabel("Year");
             JLabel deadlineLabel = createLabel("Deadline");
@@ -140,7 +140,7 @@ public class SectionsListPanel extends JPanel{
             JLabel daytimeLabel = createLabel(arr.get(4));
             JLabel durationLabel = createLabel(arr.get(9));
             JLabel roomLabel = createLabel(arr.get(5));
-            JLabel capacityLabel = createLabel(arr.get(6));
+            JLabel capacityLabel = createLabel(totalStudentsInSection.count(arr.get(1)) + "/" + arr.get(6));
             JLabel semesterLabel = createLabel(arr.get(7));
             JLabel yearLabel = createLabel(arr.get(8));
             JButton deadlineBtn = new JButton("Deadline");

@@ -144,7 +144,7 @@ public class StudentData{
         return tmp;
     }
 
-    public static int getTotalSemesters() throws  SQLException{
+    public static int getTotalSemesters(){
         int tmp = 0;
 
         try
@@ -336,9 +336,10 @@ public class StudentData{
 
         try
             (
-                    Connection connect = HikariConnectionPool.getDataSource().getConnection();
-                    Statement statement = connect.createStatement();
-                    ResultSet result = statement.executeQuery(String.format("select distinct sections.section_id, sections.course_id, sections.start_date, sections.end_date, sections.instructor_id from sections, students where sections.year_ = %d and sections.semester = students.semester and students.user_id = '%s' and sections.section_id not in (select section_id from enrollments where student_id = '%s');\n", year_, Session.getCurrentUser_ID(), Session.getCurrentUser_ID())); //changed here
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                // and sections.section_id not in (select section_id from enrollments where student_id = '%s'
+                ResultSet result = statement.executeQuery(String.format("select distinct sections.section_id, sections.course_id, sections.start_date, sections.end_date, sections.instructor_id, sections.capacity from sections, students where sections.year_ = %d and sections.semester = students.semester and students.user_id = '%s';\n", year_, Session.getCurrentUser_ID(), Session.getCurrentUser_ID())); //changed here
             )
         {
 //            System.out.println(Math.round(Math.floor((double) fetchRollNo(Session.getCurrentUser_ID()) / 1000)) + Math.floor((double)fetchSemester()  / 2));
@@ -351,7 +352,7 @@ public class StudentData{
                 temp.put("start_date", result.getString(3)); // instructor_id
                 temp.put("end_date", result.getString(4)); // day_time
                 temp.put("instructor_id", result.getString(5)); // room
-//                temp.put("Capacity", String.valueOf(result.getInt(6))); // capacity
+                temp.put("Capacity", String.valueOf(result.getInt(6))); // capacity
 //                temp.put("Semester", String.valueOf(result.getInt(7))); // semester
 //                temp.put("Year", String.valueOf(result.getInt(8))); // year
 //                temp.put("Duration", String.valueOf(result.getDouble(9))); // duration

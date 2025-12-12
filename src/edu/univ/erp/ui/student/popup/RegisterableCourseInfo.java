@@ -2,6 +2,7 @@ package edu.univ.erp.ui.student.popup;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import edu.univ.erp.api.student.*;
+import edu.univ.erp.api.admin.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -9,12 +10,12 @@ import java.util.ArrayList;
 
 public class RegisterableCourseInfo extends JDialog {
     private static int width = 410;
-    private static int height = 200;
+    private static int height = 250;
 
     ArrayList<JComponent> studentData = new ArrayList<>();
-    public RegisterableCourseInfo(String instructor, String start_date, String end_date){
+    public RegisterableCourseInfo(String instructor, String start_date, String end_date, String capacity, String registered){
 //        setTitle(String.format("Grades : %d", StudentRollNo.fetch(Student_ID)));
-        System.out.println("runnning");
+//        System.out.println("runnning");
         FlatLightLaf.setup();
 
 //        HashMap<String, ArrayList<Integer>> componentGrades = ComponentWiseScores.fetch(Course_ID, Student_ID);
@@ -79,6 +80,8 @@ public class RegisterableCourseInfo extends JDialog {
         mainPanel.add(createList("Instructor", name));
         mainPanel.add(createList("Start Date", start));
         mainPanel.add(createList("Deadline to Register", end));
+        mainPanel.add(createList("Capacity", new JLabel( registered+ "/" + capacity)));
+//        mainPanel.add(createList("Students Registered", end));
 
         mainPanel.add(button);
         add(mainPanel, BorderLayout.CENTER);

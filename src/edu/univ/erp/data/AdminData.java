@@ -162,4 +162,26 @@ public class AdminData{
             e.printStackTrace();
         }
     }
+
+    public static int studentEnrolled(String section_id){
+        int count = 0;
+
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery(String.format("select count(*) from enrollments where section_id = '%s';\n", section_id));
+            )
+        {
+            result.next();
+            count = result.getInt(1);
+
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/AdminData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }

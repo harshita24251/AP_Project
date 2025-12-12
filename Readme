@@ -1,9 +1,9 @@
 University ERP
 
-PROJECT OVERVIEW The University ERP (Enterprise Resource Planning) 
-System is a comprehensive, cross-platform desktop application developed to manage and streamline the core administrative, 
-academic, and student-related functions of an educational institution. This project is built using the Java programming 
-language and leverages the Swing GUI framework with a modern look and feel provided by FlatLaf. The system provides distinct, 
+PROJECT OVERVIEW The University ERP (Enterprise Resource Planning)
+System is a comprehensive, cross-platform desktop application developed to manage and streamline the core administrative,
+academic, and student-related functions of an educational institution. This project is built using the Java programming
+language and leverages the Swing GUI framework with a modern look and feel provided by FlatLaf. The system provides distinct,
 role-based modules for Administrators, Faculty, and Students, ensuring a centralized and efficient platform for all academic operations.
 
 KEY FEATURES BY USER ROLE The system is designed with a multi-role structure, providing customized functionality for each type of user:
@@ -34,14 +34,14 @@ Database: H2 Database for data storage and persistence.
 
 
 
-SETUP AND INSTALLATION Prerequisites: Ensure that you have a compatible Java Development Kit (JDK 21 or newer) installed on your system. Running the Application: The project is packaged for easy execution:
+SETUP AND INSTALLATION Prerequisites: Ensure that you have a compatible Java Development Kit (JDK 8 or newer) installed on your system. Running the Application: The project is packaged for easy execution:
 
 Source Retrieval: Clone the project repository (harshita24251/ap_project).
 
 
 INITIAL LOGIN CREDENTIALS For initial testing, you can use the following default credentials:
-Administrator (Admin): Username: a@iiitd.ac.in, Password: admin
-Faculty (Instructor): Username: s@iiitd.ac.in, Password: faculty
+Administrator (Admin): a@iiitd.ac.in, Password: admin
+Faculty (Instructor): s@iiitd.ac.in, Password: faculty
 Student: Username: c@iiitd.ac.in, Password: student
 
 UML : https://miro.com/app/board/uXjVJ_5_GwM=/

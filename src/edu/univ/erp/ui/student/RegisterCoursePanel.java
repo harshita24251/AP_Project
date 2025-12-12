@@ -12,6 +12,7 @@ import java.util.*;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.api.student.*;
+import edu.univ.erp.api.admin.*;
 import edu.univ.erp.api.catalog.*;
 import edu.univ.erp.ui.common.CoursePalette;
 import edu.univ.erp.ui.common.popup.Alert;
@@ -27,9 +28,10 @@ public class RegisterCoursePanel extends JPanel {
     private JButton dropButton;
     private HashMap<JCheckBox, ArrayList<String>> selectedCourses = new HashMap<>();
     private HashMap<String, JLabel> sectionStatusLabels = new HashMap<>();
+    private HashMap<String, Integer> sectionCapacity = new HashMap<>();
 
     // assume you’ll pass semester later dynamically
-    private int currentSemester = 1; // or pass from constructor if needed
+    private int currentSemester = Semesters.current(); // or pass from constructor if needed
 
     public RegisterCoursePanel(float width, float height, String studentId) {
         this.width = width;
@@ -99,7 +101,6 @@ public class RegisterCoursePanel extends JPanel {
             }
         });
 
-        // ---------- Drop Button ----------
         dropButton = new JButton("Drop");
         dropButton.setEnabled(false);
         dropButton.setFocusPainted(false);
@@ -227,7 +228,7 @@ public class RegisterCoursePanel extends JPanel {
             JCheckBox select = new JCheckBox();
             select.setOpaque(false);
             select.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            select.setEnabled(!isRegistered); // disable checkbox for already registered
+//            select.setEnabled(!isRegistered); // disable checkbox for already registered
 
             ArrayList<String> courseSection = new ArrayList<>();
             courseSection.add(course.get("Course ID"));
@@ -243,7 +244,7 @@ public class RegisterCoursePanel extends JPanel {
 
             Icon icon = new FlatSVGIcon("info.svg", 0.36f);
             JLabel iconLabel = new JLabel(icon, JLabel.LEFT);
-            iconLabel.addMouseListener(new seeInfo(course.get("instructor_id"), course.get("start_date"), course.get("end_date")));
+            iconLabel.addMouseListener(new seeInfo(course.get("instructor_id"), course.get("start_date"), course.get("end_date"), course.get("Capacity"), course.get("Section ID")));
             iconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
             iconLabel.setBorder(new EmptyBorder(0, 0, 0, 10));
 
@@ -275,15 +276,19 @@ public class RegisterCoursePanel extends JPanel {
         String instructor;
         String start;
         String end;
+        String section_id;
+        String capacity;
 
-        public seeInfo(String instructor, String start, String end) {
+        public seeInfo(String instructor, String start, String end, String capacity,String section_id) {
             this.instructor = instructor;
             this.start = start;
             this.end = end;
+            this.section_id = section_id;
+            this.capacity = capacity;
         }
 
         public void mouseClicked(MouseEvent e) {
-            new RegisterableCourseInfo(instructor, start, end);
+            new RegisterableCourseInfo(instructor, start, end, capacity, String.valueOf(totalStudentsInSection.count(section_id)));
         }
     }
 

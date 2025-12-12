@@ -8,14 +8,6 @@ import java.sql.*;// for catching the exception and not talking to db
  */
 public class totalSemesters{
     public static int fetch(){
-        int tmp = 0;
-        try{
-            tmp = StudentData.getTotalSemesters();
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return tmp;
+        return StudentData.getTotalSemesters();
     }
 }
