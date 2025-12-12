@@ -34,7 +34,7 @@ Database: H2 Database for data storage and persistence.
 
 
 
-SETUP AND INSTALLATION Prerequisites: Ensure that you have a compatible Java Development Kit (JDK 8 or newer) installed on your system. Running the Application: The project is packaged for easy execution:
+SETUP AND INSTALLATION Prerequisites: Ensure that you have a compatible Java Development Kit (JDK 21 or newer) installed on your system. Running the Application: The project is packaged for easy execution:
 
 Source Retrieval: Clone the project repository (harshita24251/ap_project).
 
