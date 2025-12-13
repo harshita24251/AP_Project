@@ -9,7 +9,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.api.student.*;
 import edu.univ.erp.api.admin.*;
@@ -18,6 +17,7 @@ import edu.univ.erp.ui.common.CoursePalette;
 import edu.univ.erp.ui.common.popup.Alert;
 import edu.univ.erp.ui.student.popup.*;
 import edu.univ.erp.api.enrollment.*;
+import edu.univ.erp.access.*;
 
 public class RegisterCoursePanel extends JPanel {
     private float width;
@@ -60,45 +60,52 @@ public class RegisterCoursePanel extends JPanel {
         registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         registerButton.addActionListener(e -> {
-            ArrayList<String> sections = new ArrayList<>();
-            HashMap<String, String> deadlines = new HashMap<>();
-            HashMap<String, String> whichCourse = new HashMap<>();
+            if (!isMaintenance.on()){
+                ArrayList<String> sections = new ArrayList<>();
+                HashMap<String, String> deadlines = new HashMap<>();
+                HashMap<String, String> whichCourse = new HashMap<>();
 
-            for (JCheckBox box : selectedCourses.keySet()) {
-                if (box.isSelected()) {
-                    sections.add(selectedCourses.get(box).get(1));
-                    deadlines.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(2));
-                    whichCourse.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(0));
+                for (JCheckBox box : selectedCourses.keySet()) {
+                    if (box.isSelected()) {
+                        sections.add(selectedCourses.get(box).get(1));
+                        deadlines.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(2));
+                        whichCourse.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(0));
+                    }
+                }
+                if (sections.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No courses selected.");
+                    return;
+                }
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String nowStr = LocalDateTime.now().format(formatter);
+                boolean didRegister = true;
+
+                for (String section : sections) {
+                    if (Timestamp.valueOf(deadlines.get(section)).before(Timestamp.valueOf(nowStr))) {
+                        Alert A = new Alert(String.format("Deadline passed for course '%s', cannot register!", whichCourse.get(section)), "Close");
+                        A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+                        didRegister = false;
+                        break;
+                    }
+                    RegisterTheCourse.register(section);
+
+                    JLabel label = sectionStatusLabels.get(section);
+                    if (label != null) {
+                        label.setText("Registered");
+                        label.setForeground(new Color(0,128,0));
+                    }
+                }
+
+                if (didRegister) {
+                    JOptionPane.showMessageDialog(null, "Registered successfully!");
                 }
             }
-            if (sections.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No courses selected.");
-                return;
+            else{
+                Alert A = new Alert("Maintenance Undergoing, Can't Register", "Close");
+                A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
             }
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String nowStr = LocalDateTime.now().format(formatter);
-            boolean didRegister = true;
-
-            for (String section : sections) {
-                if (Timestamp.valueOf(deadlines.get(section)).before(Timestamp.valueOf(nowStr))) {
-                    Alert A = new Alert(String.format("Deadline passed for course '%s', cannot register!", whichCourse.get(section)), "Close");
-                    A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
-                    didRegister = false;
-                    break;
-                }
-                RegisterTheCourse.register(section);
-
-                JLabel label = sectionStatusLabels.get(section);
-                if (label != null) {
-                    label.setText("Registered");
-                    label.setForeground(new Color(0,128,0));
-                }
-            }
-
-            if (didRegister) {
-                JOptionPane.showMessageDialog(null, "Registered successfully!");
-            }
         });
 
         dropButton = new JButton("Drop");
@@ -111,44 +118,51 @@ public class RegisterCoursePanel extends JPanel {
         dropButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         dropButton.addActionListener(e -> {
-            ArrayList<String> sections = new ArrayList<>();
-            HashMap<String, String> deadlines = new HashMap<>();
-            HashMap<String, String> whichCourse = new HashMap<>();
+            if (!isMaintenance.on()){
 
-            for (JCheckBox box : selectedCourses.keySet()) {
-                if (box.isSelected()) {
-                    sections.add(selectedCourses.get(box).get(1));
-                    deadlines.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(2));
-                    whichCourse.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(0));
+                ArrayList<String> sections = new ArrayList<>();
+                HashMap<String, String> deadlines = new HashMap<>();
+                HashMap<String, String> whichCourse = new HashMap<>();
+
+                for (JCheckBox box : selectedCourses.keySet()) {
+                    if (box.isSelected()) {
+                        sections.add(selectedCourses.get(box).get(1));
+                        deadlines.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(2));
+                        whichCourse.put(selectedCourses.get(box).get(1), selectedCourses.get(box).get(0));
+                    }
                 }
-            }
-            if (sections.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No courses selected.");
-                return;
-            }
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String nowStr = LocalDateTime.now().format(formatter);
-            boolean didDrop = true;
-
-            for (String section : sections) {
-                if (Timestamp.valueOf(deadlines.get(section)).before(Timestamp.valueOf(nowStr))) {
-                    Alert A = new Alert(String.format("Deadline passed for course '%s', cannot drop!", whichCourse.get(section)), "Close");
-                    A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
-                    didDrop = false;
-                    break;
+                if (sections.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No courses selected.");
+                    return;
                 }
 
-                thisEnrollment.remove(section);
-                JLabel label = sectionStatusLabels.get(section);
-                if (label != null) {
-                    label.setText("Not Registered");
-                    label.setForeground(new Color(80,80,80));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String nowStr = LocalDateTime.now().format(formatter);
+                boolean didDrop = true;
+
+                for (String section : sections) {
+                    if (Timestamp.valueOf(deadlines.get(section)).before(Timestamp.valueOf(nowStr))) {
+                        Alert A = new Alert(String.format("Deadline passed for course '%s', cannot drop!", whichCourse.get(section)), "Close");
+                        A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+                        didDrop = false;
+                        break;
+                    }
+
+                    thisEnrollment.remove(section);
+                    JLabel label = sectionStatusLabels.get(section);
+                    if (label != null) {
+                        label.setText("Not Registered");
+                        label.setForeground(new Color(80,80,80));
+                    }
+                }
+
+                if (didDrop) {
+                    JOptionPane.showMessageDialog(null, "Dropped successfully!");
                 }
             }
-
-            if (didDrop) {
-                JOptionPane.showMessageDialog(null, "Dropped successfully!");
+            else{
+                Alert A = new Alert("Maintenance Undergoing, Can't Drop", "Close");
+                A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
             }
         });
 

@@ -1,5 +1,6 @@
 package edu.univ.erp.ui.faculty;
 
+import edu.univ.erp.access.isMaintenance;
 import edu.univ.erp.ui.common.*;
 import edu.univ.erp.ui.common.events.*;
 import java.awt.*;
@@ -98,6 +99,22 @@ public class Dashboard extends JFrame{
 
         JPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
 
+        JPanel maintenancePanel = new JPanel();
+        maintenancePanel.setBackground(Color.WHITE);
+//
+        JLabel maintenanceLabel = new JLabel("Maintenance Mode : OFF");
+        maintenanceLabel.setFont(new Font("Roboto Mono", Font.PLAIN, 15));
+        maintenancePanel.add(maintenanceLabel);
+
+        if (isMaintenance.on()){
+            maintenanceLabel.setText("Maintenance Mode : ON");
+            maintenanceLabel.setForeground(Color.RED);
+        }
+        else{
+            maintenancePanel.remove(maintenanceLabel);
+        }
+//        maintenanceLabel.setForeground(Color.GREEN);
+
         //-------------------------------------------------------------------
 
         changingLayout = new CardLayout();
@@ -127,6 +144,7 @@ public class Dashboard extends JFrame{
         // leftPanel.add(Box.createRigidArea(new Dimension(10, 3)));
         leftPanel.add(dashboardLabel);
         leftPanel.add(academicSection);
+        leftPanel.add(maintenancePanel);
 
         // rightTopPanel.add(rightTopLeftPanel, BorderLayout.WEST);
         // rightTopPanel.add(rightTopRightPanel, BorderLayout.CENTER);

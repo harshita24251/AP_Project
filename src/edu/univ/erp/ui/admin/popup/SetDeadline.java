@@ -5,24 +5,20 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-
 import edu.univ.erp.api.admin.SectionDate;
 import edu.univ.erp.ui.common.popup.Alert;
 import org.jdatepicker.impl.*;
 import org.jdatepicker.*;
-
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-
 import java.time.*;
-
 import edu.univ.erp.api.instructor.*;
 import edu.univ.erp.events.*;
+import edu.univ.erp.access.*;
 
 public class SetDeadline extends JDialog{
     private static int width = 400;
@@ -123,31 +119,38 @@ public class SetDeadline extends JDialog{
         }
 
         public void actionPerformed(ActionEvent e){
-            Date forEndDateTimestamp = (Date)end.getValue(); //new Timestamp(forEndDateTimestamp.getTime()))
-            Date forStartDateTimestamp = (Date)start.getValue(); //new Timestamp(forEndDateTimestamp.getTime()))
+            if (!isMaintenance.on()){
 
-//            DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-//            LocalDateTime currentTimestamp = LocalDateTime.parse(start.getTime(), formatDate);
-//            String time = currentTimestamp.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                Date forEndDateTimestamp = (Date)end.getValue(); //new Timestamp(forEndDateTimestamp.getTime()))
+                Date forStartDateTimestamp = (Date)start.getValue(); //new Timestamp(forEndDateTimestamp.getTime()))
 
-//            arr.add(Timestamp.valueOf(time));
-//            arr.add(end);
-//            arr.add(Course_ID);
+    //            DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    //            LocalDateTime currentTimestamp = LocalDateTime.parse(start.getTime(), formatDate);
+    //            String time = currentTimestamp.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-//            NewAssessments.create(Course_ID, title.getText(), (int) maxMarks.getValue() , (int)weightage.getValue(), Timestamp.valueOf(time), new Timestamp(forEndDateTimestamp.getTime()));
+    //            arr.add(Timestamp.valueOf(time));
+    //            arr.add(end);
+    //            arr.add(Course_ID);
 
-            if (forEndDateTimestamp.before(forStartDateTimestamp)) {
-                Alert alert = new Alert("End Date cannot be earlier than Start Data!\n Please try again", "Close");
-                alert.setfont(new Font("Segoe UI", Font.PLAIN, 13));
-                dispose();
+    //            NewAssessments.create(Course_ID, title.getText(), (int) maxMarks.getValue() , (int)weightage.getValue(), Timestamp.valueOf(time), new Timestamp(forEndDateTimestamp.getTime()));
+
+                if (forEndDateTimestamp.before(forStartDateTimestamp)) {
+                    Alert alert = new Alert("End Date cannot be earlier than Start Data!\n Please try again", "Close");
+                    alert.setfont(new Font("Segoe UI", Font.PLAIN, 13));
+                    dispose();
+                }
+                else{
+                    SectionDate.update(Course_ID, new Timestamp(forStartDateTimestamp.getTime()), new Timestamp(forEndDateTimestamp.getTime()));
+        //            System.out.println(title);
+
+        //            RefreshScreen.broadcast(Course_ID);
+
+                    dispose();
+                }
             }
             else{
-                SectionDate.update(Course_ID, new Timestamp(forStartDateTimestamp.getTime()), new Timestamp(forEndDateTimestamp.getTime()));
-    //            System.out.println(title);
-
-    //            RefreshScreen.broadcast(Course_ID);
-
-                dispose();
+                Alert A = new Alert("Maintenance Undergoing, Can't Save", "Close");
+                A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
             }
         }
     }

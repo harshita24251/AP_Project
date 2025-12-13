@@ -5,13 +5,14 @@ import com.sun.tools.javac.Main;
 import edu.univ.erp.events.ListenOnSave;
 import edu.univ.erp.ui.admin.popup.AddSection;
 import edu.univ.erp.ui.admin.popup.AddStudents;
+import edu.univ.erp.ui.common.popup.Alert;
 import edu.univ.erp.ui.faculty.Assessments;
 import edu.univ.erp.ui.faculty.StudentsListPanel;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import edu.univ.erp.access.*;
 
 public class SectionsPanel extends JPanel implements ListenOnSave {
     private JPanel MainPanel;
@@ -135,7 +136,13 @@ public class SectionsPanel extends JPanel implements ListenOnSave {
 
     private class addEvent implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            new AddSection(SectionsPanel.this);
+            if (!isMaintenance.on()){
+                new AddSection(SectionsPanel.this);
+            }
+            else{
+                Alert A = new Alert("Maintenance Undergoing, Can't Add", "Close");
+                A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+            }
         }
     }
 

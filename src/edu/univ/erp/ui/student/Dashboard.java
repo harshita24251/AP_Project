@@ -21,6 +21,7 @@ import org.knowm.xchart.*;
 import org.knowm.xchart.style.*;
 import org.timetable.TimeTable;
 import edu.univ.erp.ui.login.*;
+import edu.univ.erp.access.*;
 
 public class Dashboard extends JFrame{
     private JPanel changerPanel; //Panel which changes when button is clicked
@@ -89,6 +90,22 @@ public class Dashboard extends JFrame{
         LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
         LeftNavPanel administrationSection = new LeftNavPanel("Administration", administration, navWidth-30, navHeight, 16, registerListener, highlighter);
         LeftNavPanel specialSection = new LeftNavPanel("Special", special, navWidth-30, navHeight, 16, registerListener, highlighter);
+
+        JPanel maintenancePanel = new JPanel();
+        maintenancePanel.setBackground(Color.WHITE);
+//
+        JLabel maintenanceLabel = new JLabel("Maintenance Mode : OFF");
+        maintenanceLabel.setFont(new Font("Roboto Mono", Font.PLAIN, 15));
+        maintenancePanel.add(maintenanceLabel);
+
+        if (isMaintenance.on()){
+            maintenanceLabel.setText("Maintenance Mode : ON");
+            maintenanceLabel.setForeground(Color.RED);
+        }
+        else{
+            maintenancePanel.remove(maintenanceLabel);
+        }
+//        maintenanceLabel.setForeground(Color.GREEN);
 
         //-------------------------------------------------------------------
 
@@ -228,6 +245,7 @@ public class Dashboard extends JFrame{
         leftPanel.add(academicSection);
         leftPanel.add(administrationSection);
         leftPanel.add(specialSection);
+        leftPanel.add(maintenancePanel);
 
         // rightTopPanel.add(rightTopLeftPanel, BorderLayout.WEST);
         // rightTopPanel.add(rightTopRightPanel, BorderLayout.CENTER);

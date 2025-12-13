@@ -21,6 +21,7 @@ import org.knowm.xchart.style.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import edu.univ.erp.access.*;
 
 public class Dashboard extends JFrame{
     private JPanel changerPanel; //Panel which changes when button is clicked
@@ -115,6 +116,22 @@ public class Dashboard extends JFrame{
         registerListener.put("Sections", new goToSections());
 
         LeftNavPanel academicSection = new LeftNavPanel("Academics", academic, navWidth-30, navHeight, 16, registerListener, highlighter);
+
+        JPanel maintenancePanel = new JPanel();
+        maintenancePanel.setBackground(Color.WHITE);
+//
+        JLabel maintenanceLabel = new JLabel("Maintenance Mode : OFF");
+        maintenanceLabel.setForeground(Color.GREEN);
+        maintenanceLabel.setFont(new Font("Roboto Mono", Font.PLAIN, 15));
+        maintenanceLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        maintenanceLabel.addMouseListener(new maintenance(maintenanceLabel));
+
+        maintenancePanel.add(maintenanceLabel);
+//        LeftNavPanel Maintenance = new LeftNavPanel("", )
+//        JPanel forMaintenanceMode = academicSection.getButtonSpace();
+
+//        forMaintenanceMode.add(new JButton("Maintenance Mode : OFF"));
+//        forMaintenanceMode.setVisible(true);
         //-------------------------event handling-----------------------------
 
         //-------------------------adding to frame----------------------------
@@ -122,6 +139,7 @@ public class Dashboard extends JFrame{
         // leftPanel.add(Box.createRigidArea(new Dimension(10, 3)));
         leftPanel.add(dashboardLabel);
         leftPanel.add(academicSection);
+        leftPanel.add(maintenancePanel);
 
         // rightTopPanel.add(rightTopLeftPanel, BorderLayout.WEST);
         // rightTopPanel.add(rightTopRightPanel, BorderLayout.CENTER);
@@ -190,6 +208,29 @@ public class Dashboard extends JFrame{
         public void mouseClicked(MouseEvent e){
             toClose.dispose();
             new Login_page2();
+        }
+    }
+
+    private class maintenance extends MouseAdapter{
+        Color red = Color.RED;
+        Color green = Color.GREEN;
+        JLabel maintain;
+
+        public maintenance(JLabel maintain){
+            this.maintain = maintain;
+        }
+
+        public void mouseClicked(MouseEvent e){
+            if (maintain.getForeground() == green){
+                maintain.setText("Maintenance Mode : ON");
+                maintain.setForeground(red);
+                isMaintenance.setMaintenance();
+            }
+            else{
+                maintain.setText("Maintenance Mode : OFF");
+                maintain.setForeground(green);
+                isMaintenance.removeMaintenance();
+            }
         }
     }
 }

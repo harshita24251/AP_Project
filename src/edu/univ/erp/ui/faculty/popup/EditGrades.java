@@ -5,13 +5,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import edu.univ.erp.data.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import edu.univ.erp.api.student.*;
 import edu.univ.erp.ui.common.popup.Alert;
+import edu.univ.erp.access.*;
 
 public class EditGrades extends JDialog {
     private static int width = 410;
@@ -119,28 +119,34 @@ public class EditGrades extends JDialog {
             this.Student_ID = Student_ID;
         }
         public void actionPerformed(ActionEvent e){
-            HashMap<String, Double> grades = new HashMap<>();
+            if (!isMaintenance.on()){
+                HashMap<String, Double> grades = new HashMap<>();
 
-            boolean cont = true;
+                boolean cont = true;
 
-            for (String str : componentScores.keySet()){
-                String gradesIs = componentScores.get(str).getText();
-                Integer maxGrade = maxScore.get(str);
-                if ((Integer.parseInt(gradesIs) < 0) || (Integer.parseInt(gradesIs) > maxGrade)){
-                    Alert A = new Alert("Grades cannot be Negative Or Greater than Max", "Close");
-                    A.setfont(new Font("Segoe UI", Font.PLAIN, 14));
-                    dispose();
-                    cont = false;
-                    break;
+                for (String str : componentScores.keySet()){
+                    String gradesIs = componentScores.get(str).getText();
+                    Integer maxGrade = maxScore.get(str);
+                    if ((Integer.parseInt(gradesIs) < 0) || (Integer.parseInt(gradesIs) > maxGrade)){
+                        Alert A = new Alert("Grades cannot be Negative Or Greater than Max", "Close");
+                        A.setfont(new Font("Segoe UI", Font.PLAIN, 14));
+                        dispose();
+                        cont = false;
+                        break;
+                    }
+                    grades.put(str, Double.valueOf(gradesIs));
                 }
-                grades.put(str, Double.valueOf(gradesIs));
-            }
 
-            if (cont){
-                UpdatedGrades.upgrade(grades, Course_ID, Student_ID);
-            }
+                if (cont){
+                    UpdatedGrades.upgrade(grades, Course_ID, Student_ID);
+                }
 
-            dispose();
+                dispose();
+            }
+            else{
+                Alert A = new Alert("Maintenance Undergoing, Can't Save", "Close");
+                A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+            }
         }
     }
 }

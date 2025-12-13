@@ -15,6 +15,8 @@ import edu.univ.erp.ui.common.events.*;
 import java.util.HashMap;
 
 public class LeftNavPanel extends JPanel{
+    JPanel maintenancePanel;
+
     public LeftNavPanel(String panelTitle, String[] selectables, float width, float height, int fontSize, HashMap<String, MouseAdapter> registerMouseClicked,HashMap<JLabel, Boolean> highlighter){
 
         setPreferredSize(new Dimension(Math.round(width), Math.round(height)));
@@ -53,13 +55,23 @@ public class LeftNavPanel extends JPanel{
             btnPanel.add(Box.createRigidArea(new Dimension(30, 10)));
         }
 
+        maintenancePanel = new JPanel();
+        maintenancePanel.setVisible(false);
+        maintenancePanel.setBackground(Color.WHITE);
+        btnPanel.add(maintenancePanel);
+
         titlePanel.setBackground(Color.WHITE);
         btnPanel.setBackground(Color.WHITE);
 
         this.add(titlePanel);
         this.add(btnPanel);
+//        this.add(maintenancePanel);
         this.setBackground(Color.WHITE);
         setMaximumSize(new Dimension(700, 200));
         // System.out.println(getMaximumSize().getHeight());
+    }
+
+    public JPanel getButtonSpace(){
+        return maintenancePanel;
     }
 }

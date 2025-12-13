@@ -7,7 +7,6 @@ import java.awt.event.*;
 import edu.univ.erp.api.instructor.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import edu.univ.erp.events.ListenOnSave;
@@ -15,6 +14,7 @@ import edu.univ.erp.events.RefreshScreen;
 import edu.univ.erp.ui.faculty.popup.CreateAssessment;
 import edu.univ.erp.ui.common.popup.*;
 import edu.univ.erp.ui.faculty.popup.RemoveAssessmentDialog;
+import edu.univ.erp.access.*;
 
 public class Assessments extends JPanel implements ListenOnSave {
 
@@ -176,8 +176,14 @@ public class Assessments extends JPanel implements ListenOnSave {
         }
 
         public void actionPerformed(ActionEvent e){
-            JDialog openDialog = new CreateAssessment(Course_ID);
-            openDialog.setVisible(true);
+            if (!isMaintenance.on()){
+                JDialog openDialog = new CreateAssessment(Course_ID);
+                openDialog.setVisible(true);
+            }
+            else{
+                Alert A = new Alert("Maintenance Undergoing, Can't Create Assessment", "Close");
+                A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+            }
         }
     }
 
@@ -197,19 +203,24 @@ public class Assessments extends JPanel implements ListenOnSave {
 
         public void actionPerformed(ActionEvent e){
 
-
-            for (JCheckBox chk : checkBoxes.get(Course_ID).keySet()) {
-                if (chk.isSelected()) {
-                    RemoveAssessment.remove(Course_ID, removeByTitles.get(Course_ID).get(checkBoxes.get(Course_ID).get(chk)));
-                    checkBoxes.get(Course_ID).get(chk).setVisible(false);
+            if (!isMaintenance.on()){
+                for (JCheckBox chk : checkBoxes.get(Course_ID).keySet()) {
+                    if (chk.isSelected()) {
+                        RemoveAssessment.remove(Course_ID, removeByTitles.get(Course_ID).get(checkBoxes.get(Course_ID).get(chk)));
+                        checkBoxes.get(Course_ID).get(chk).setVisible(false);
+                    }
                 }
+
+                widget.remove(remover);
+                widget.add(adder, BorderLayout.WEST);
+
+                widget.revalidate();
+                widget.repaint();
             }
-
-            widget.remove(remover);
-            widget.add(adder, BorderLayout.WEST);
-
-            widget.revalidate();
-            widget.repaint();
+            else{
+                Alert A = new Alert("Maintenance Undergoing, Can't Remove Assessment", "Close");
+                A.setfont(new Font("Segoe UI", Font.PLAIN, 15));
+            }
         }
     }
 
