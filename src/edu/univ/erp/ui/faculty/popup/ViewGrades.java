@@ -1,18 +1,19 @@
 package edu.univ.erp.ui.faculty.popup;
 
 import com.formdev.flatlaf.FlatLightLaf;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import edu.univ.erp.api.instructor.*;
 
 public class ViewGrades extends JDialog{
     private static int width = 410;
-    private static int height = 250;
+    private static int height = 200;
 
-    ArrayList<JComponent> studentData = new ArrayList<>();
-    public ViewGrades(String instructor, String start_date, String end_date, String capacity, String registered){
+    public ViewGrades(String Course_ID){
 //        setTitle(String.format("Grades : %d", StudentRollNo.fetch(Student_ID)));
 //        System.out.println("runnning");
         FlatLightLaf.setup();
@@ -25,7 +26,7 @@ public class ViewGrades extends JDialog{
 //            height = size * 110;
 //
         setSize(new Dimension(width, height));
-        setTitle("Course Info");
+        setTitle(String.format("%s Grades Average", Course_ID));
 //
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -72,15 +73,20 @@ public class ViewGrades extends JDialog{
 //            componentScores.put(str, tmp);
 //        }
 
-        JLabel name = new JLabel(instructor);
-        JLabel start = new JLabel(start_date);
-        JLabel end = new JLabel(end_date);
+        JLabel course = new JLabel(Course_ID);
+//        JLabel start = new JLabel(start_date);
+//        JLabel end = new JLabel(end_date);
 
-        mainPanel.add(createList("Course ID : ", name));
-        mainPanel.add(createList("Total Students : ", start));
+        mainPanel.add(createList("Course ID : ", course));
+//        mainPanel.add(createList("Total Students : ", start));
 
-        mainPanel.add(createList("Deadline to Register", end));
-        mainPanel.add(createList("Capacity", new JLabel( registered+ "/" + capacity)));
+        HashMap<String, Double> hs = AvgPerSection.get(Course_ID);
+        for (String component : hs.keySet()){
+            mainPanel.add(createList(component + " (Avg.)", new JLabel(String.valueOf(hs.get(component)))));
+        }
+
+//        mainPanel.add(createList("Deadline to Register", end));
+//        mainPanel.add(createList("Capacity", new JLabel( registered+ "/" + capacity)));
 //        mainPanel.add(createList("Students Registered", end));
 
         mainPanel.add(button);

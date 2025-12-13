@@ -15,6 +15,7 @@ import edu.univ.erp.ui.faculty.popup.CreateAssessment;
 import edu.univ.erp.ui.common.popup.*;
 import edu.univ.erp.ui.faculty.popup.RemoveAssessmentDialog;
 import edu.univ.erp.access.*;
+import edu.univ.erp.ui.faculty.popup.ViewGrades;
 
 public class Assessments extends JPanel implements ListenOnSave {
 
@@ -75,6 +76,7 @@ public class Assessments extends JPanel implements ListenOnSave {
 
             JButton createAssessment = new JButton("New Assessment", plus);
             JButton viewGrades = new JButton("View Grade");
+            viewGrades.addActionListener(new seeGradesPerSection(arr.get(1)));
             createAssessment.addActionListener(new createAssessmentEvent(arr.get(1)));
 
             JButton deleteAssessment = new JButton("Remove", cross);
@@ -235,6 +237,17 @@ public class Assessments extends JPanel implements ListenOnSave {
         public void actionPerformed(ActionEvent e){
             rm = new RemoveAssessmentDialog();
             rm.setAction(ae);
+        }
+    }
+
+    private class seeGradesPerSection implements ActionListener{
+        String Course_ID;
+        public seeGradesPerSection(String Course_ID){
+            this.Course_ID = Course_ID;
+        }
+
+        public void actionPerformed(ActionEvent e){
+            new ViewGrades(Course_ID);
         }
     }
 }
