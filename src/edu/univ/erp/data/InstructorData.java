@@ -3,6 +3,8 @@ package edu.univ.erp.data;
 import java.sql.*;
 import edu.univ.erp.auth.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import edu.univ.erp.domain.*;
 import erp.randomIDGenerator;
 import erp.UUIDGenerator;
@@ -157,5 +159,27 @@ public class InstructorData{
             System.out.println("Exception occured at data/InstructorData\n"); //for prototyping may change later
             e.printStackTrace();
         }
+    }
+
+    public static HashMap<String, Double> getAveragePerSection(String Course_ID){
+        HashMap<String, Double> hs= new HashMap<>();
+
+        try
+            (
+                Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                Statement statement = connect.createStatement();
+                ResultSet result = statement.executeQuery(String.format("select component, avg(score) from grades where section_id = (select section_id from sections where course_id = '%s' and instructor_id = '%s') group by component;\n", Course_ID, Session.getCurrentUser_ID()));
+            )
+        {
+            while (result.next()){
+                hs.put(result.getString(1), result.getDouble(2));
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/InstructorData\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+
+        return hs;
     }
 }

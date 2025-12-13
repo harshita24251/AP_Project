@@ -74,6 +74,7 @@ public class Assessments extends JPanel implements ListenOnSave {
             widgetMap.put(arr.get(1), widgets);
 
             JButton createAssessment = new JButton("New Assessment", plus);
+            JButton viewGrades = new JButton("View Grade");
             createAssessment.addActionListener(new createAssessmentEvent(arr.get(1)));
 
             JButton deleteAssessment = new JButton("Remove", cross);
@@ -84,6 +85,7 @@ public class Assessments extends JPanel implements ListenOnSave {
             removeButton.put(arr.get(1), deleteAssessment);
 
             widgets.add(createAssessment, BorderLayout.WEST);
+            widgets.add(viewGrades, BorderLayout.EAST);
 
             JPanel MainPanel = new JPanel();
             MainPanel.setLayout(new BoxLayout(MainPanel, BoxLayout.Y_AXIS));
