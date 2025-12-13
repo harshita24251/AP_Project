@@ -127,6 +127,28 @@ public class Section{
         return tmp;
     }
 
+    public static int getCapacity(String section_id) {
+        int tmp = 0;
+
+        try
+                (
+                        Connection connect = HikariConnectionPool.getDataSource().getConnection();
+                        Statement statement = connect.createStatement();
+                        ResultSet result = statement.executeQuery(String.format("select capacity from sections where section_id = '%s'", section_id));
+                )
+        {
+            while (result.next()){
+                tmp = result.getInt(1);
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Exception occured at data/Section\n"); //for prototyping may change later
+            e.printStackTrace();
+        }
+
+        return tmp;
+    }
+
     public static int getSemester() throws SQLException{
         int tmp = 0;
 

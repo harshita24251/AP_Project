@@ -88,6 +88,15 @@ public class RegisterCoursePanel extends JPanel {
                         didRegister = false;
                         break;
                     }
+
+                    System.out.println(section + CourseCapacity.get(section));
+                    if (totalStudentsInSection.count(section) == CourseCapacity.get(section)){
+                        Alert A = new Alert("Course Capacity Full, Cannot Register", "Close");
+                        A.setfont(new Font("Segoe UI", Font.PLAIN, 16));
+                        didRegister = false;
+                        break;
+                    }
+
                     RegisterTheCourse.register(section);
 
                     JLabel label = sectionStatusLabels.get(section);
@@ -246,7 +255,7 @@ public class RegisterCoursePanel extends JPanel {
 
             ArrayList<String> courseSection = new ArrayList<>();
             courseSection.add(course.get("Course ID"));
-            courseSection.add(sectionId);
+            courseSection.add(sectionId); // 1 index
             courseSection.add(endDate);
 
             selectedCourses.put(select, courseSection);

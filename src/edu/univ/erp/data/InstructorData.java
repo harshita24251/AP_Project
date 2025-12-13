@@ -118,6 +118,7 @@ public class InstructorData{
                 Statement statement = connect.createStatement();
                 ResultSet isExists = statement.executeQuery(String.format("select * from grades join sections on grades.section_id = sections.section_id join instructors on instructors.user_id = sections.instructor_id where grades.component = '%s' and instructors.user_id = '%s' and sections.course_id = '%s';", title, Session.getCurrentUser_ID(), Course_ID));
                 if (isExists.next() == false){
+                    System.out.println("OK here");
                     statement.executeUpdate(String.format("insert into grades select enrollments.enrollment_id, '%s', 0, %d, null, enrollments.section_id, %d, '%s', '%s', 'not found' from enrollments join sections on enrollments.section_id = sections.section_id where sections.instructor_id = '%s' and sections.course_id = '%s'", title, maxMarks, weightage, start, end, Session.getCurrentUser_ID(), Course_ID));
                 }
                 else{

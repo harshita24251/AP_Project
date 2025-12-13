@@ -87,14 +87,14 @@ public class Enrollment{
         try{
             Connection connect = HikariConnectionPool.getDataSource().getConnection();
             Statement statement = connect.createStatement();
-            ResultSet result = statement.executeQuery(String.format("select * from enrollments where section_id = '%s'", Section_id));
+            ResultSet result = statement.executeQuery(String.format("select * from enrollments where section_id = '%s' and student_id = '%s'", Section_id, Session.getCurrentUser_ID()));
 
 //            result.next();
             if (result.next() == false){ //for handling the case when registered twice
                 statement.executeUpdate(String.format("insert into enrollments values ('%s', '%s', '%s', '%s')", UUIDGenerator.generate(Section_id + "012"), Session.getCurrentUser_ID(), Section_id, "studying"));
             }
             else{
-                System.out.println("user tries to register twice, but can only register once.");
+                System.out.println("user tries to register twice, but can only register once, edited.");
             }
 
         }

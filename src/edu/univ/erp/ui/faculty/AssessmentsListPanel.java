@@ -33,6 +33,7 @@ public class AssessmentsListPanel extends JPanel{
         setBackground(Color.WHITE);
 
         listOfAssessments = getComponents.fetch(Course_ID);
+        System.out.println(listOfAssessments);
 
         //--------------------------------------Icons-----------------------------------------
         Icon clip = new FlatSVGIcon("clip.svg", 0.25f);

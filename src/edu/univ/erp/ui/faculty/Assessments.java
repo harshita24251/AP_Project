@@ -96,6 +96,7 @@ public class Assessments extends JPanel implements ListenOnSave {
             MainPanel.add(widgets);
 
             AssessmentsListPanel tmp = new AssessmentsListPanel(width, height, arr.get(1));
+            System.out.println(tmp);
 
             removeByTitles.put(arr.get(1), tmp.getTitleMap());
 
@@ -104,6 +105,8 @@ public class Assessments extends JPanel implements ListenOnSave {
             for (JCheckBox check : hs.keySet()){
                 check.addItemListener(new listenCheckbox(arr.get(1), widgetMap.get(arr.get(1)), createAssessment, deleteAssessment));
             }
+
+            System.out.println(arr.get(1));
 
             revalidations.put(arr.get(1), tmp);
             MainPanel.add(tmp);
